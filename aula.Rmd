@@ -5,13 +5,6 @@ date: "20/08/2020"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
-df_pensionistas_07_2020 <- readRDS("data/julho2020.rds")
-socio_amostra <- readRDS("~/aula_r/data/socio_amostra.rds")
-
-```
-
 # 1. Introdução
 
 ## 1.1) O que é o R
@@ -571,6 +564,13 @@ Com a execução do bloco de código acima, a tabela já possui a informação d
 Uma das possiblidades interessantes de se trabalhar com linguagem de programação, especialmente o **R ** é a facilidade de se fazer cruzamentos com outras tabelas.
 
 Vamos imaginar por exemplo que quermos identificar fenômenos que relacionem o recibimento de pensões a abertura de empresas. Paa isso vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
+
+socio_amostra <- readRDS("~/aula_r/data/socio_amostra.rds")
+```
 
 
 ```{r}
