@@ -6,9 +6,9 @@
 
 ##### A oficina se propõe a ensinar o básico da linguagem de programação R, que pode ser bastante útil para jornalistas e outros profissionais. Atualmente, o R é usado principalmente por estatísticos, pesquisadores, cientistas de dados, entre outros.
 
-##### A base de dados usada na oficina é a dos pensionistas do governo federal, atualizada pelo Ministerio da Economia no site [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas). Os dados ficaram públicos após uma vitória do ['Fiquem Sabendo'](https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/), iniciativa que luta pela transparência pública. 
+##### A base de dados usada na oficina é a dos pensionistas do governo federal, atualizada pelo Ministerio da Economia no site [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas). Os dados ficaram públicos após uma vitória do ['Fiquem Sabendo'](https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/), iniciativa que luta pela transparência. 
 
-#### Eis algumas das questões que queremos descobrir:
+#### Eis algumas das questões que queremos descobrir durante a oficina:
 ###### Quanto o governo paga para pensionistas do governo federal? 
 ###### Qual é a média e a mediana do valor do benefício dos pensionistas? E quais são os valores mais altos e mais baixos? 
 ###### Como ficam esses dados por órgão? E por tipo de beneficiário? Qual órgão paga os valores mais altos?
