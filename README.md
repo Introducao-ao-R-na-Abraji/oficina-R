@@ -10,6 +10,8 @@
 
 ##### A base de dados usada na oficina é a dos pensionistas do governo federal, atualizada pelo Ministerio da Economia no site [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas). Os dados ficaram públicos após uma vitória do ['Fiquem Sabendo'](https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/), iniciativa que luta pela transparência. 
 
+##### Para baixar este repositório, clique no botão verde ("Code") e, em seguida, em "Download ZIP".
+
 #### Eis algumas das questões que queremos descobrir durante a oficina:
 ###### Quanto o governo paga para pensionistas do governo federal? 
 ###### Qual é a média e a mediana do valor do benefício dos pensionistas? E quais são os valores mais altos e mais baixos? 
