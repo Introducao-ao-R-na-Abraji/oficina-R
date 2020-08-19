@@ -1,7 +1,7 @@
 ---
 title: 'Introdução ao R: oficina na Abraji'
 author: "Gabriela Caesar & Fernando Barbalho"
-date: "05/08/2020"
+date: "20/08/2020"
 output: html_document
 ---
 
@@ -14,37 +14,186 @@ socio_amostra <- readRDS("~/aula_r/data/socio_amostra.rds")
 
 # 1. Introdução
 
-## O que é o R
+## 1.1) O que é o R
 
-Aproveitar o conteúdo do curso do CODA 2019
+A linguagem de programação R é versátil e pode ser usada para manipulação, análise, raspagens, visualização de dados, entre outros.
 
-## A estrututra do curso
+## 1.2) A estrututra do curso
 
-Descrever como o curso será direcionado. Explicar que o foco é em uso prática de consumo e análise de dados com foco na base de dados de pensionistas. Não serão excplicados conteúdos mais comuns de programação mais amplo. O objetivo é o(a) aluno(a) sair do curso já sabendo trabalhar dados disponíveis na internet. Isso inclui desde fazer o download do dado até fazer tratamentos e análises que permitam responder a perguntas típicas de um ambiente de jornalismo.
+Esta oficina foca no uso prática de consumo e análise de dados com foco na base de dados de pensionistas. O objetivo é o(a) aluno(a) sair do curso já sabendo trabalhar dados disponíveis na internet. 
 
-# O caso dos pensionistas
+Isso inclui desde fazer o download do dado até fazer tratamentos e análises que permitam responder a perguntas típicas de um ambiente de jornalismo.
+
+## 1.3) O caso dos pensionistas
 
 Para esta oficina, vamos usar os dados de pensionistas do governo federal.
 A base de dados foi disponibilizada pelo Ministério da Economia após uma vitória do ['Fiquem sabendo'](https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/).
 
-Indicar brevemente os passos dados pela Fiquem Sabendo para conseguir os dados. Explicar brevemente o que os dados contêm.
+## 1.4) Download do arquivo
 
-Mostrar o aplicativo que consome dados já previamento baixados e tratados
-Mostrar conjunto de matérias que ja foram produzidos sobre o tema
+Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. 
+Também há um dicionário de dados em formato PDF.
 
+Para esta análise, vamos usar o arquivo mais recente, de *julho de 2020*. Depois, vamos comparar os dados com *julho de 2019*.
+Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar" e depois em "Ir para recurso".
 
+## 1.5) Instalar os pacotes
 
+É preciso instalar alguns pacotes caso esta seja a primeira vez que você mexa com R no seu computador.
 
+Para isso, nós vamos usar a função `install.packages()`. Dentro dos parêntesis, devemos informar o nome do pacote.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
+
+install.packages("tidyverse")
+install.packages("data.table")
+
+```
+
+## 1.6) Carregar os pacotes
+
+Em todas as análises, precisamos também carregar os pacotes que serão usados.
+Usamos a função `library()` e informarmos o nome do pacote dentro dos parêntesis.
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(data.table)
+
+```
+
+## 1.7) Importar o arquivo manualmente
+
+Há diversas formas de importar um arquivo para o RStudio.
+Uma das formas mais simples é:
+- Clique em "File"
+- Clique em "Import Dataset"
+- Clique em "From text (base)"
+- Selecione o arquivo
+- Cheque se tudo parece correto
+- Clique em "Import"
+
+## 1.8) Importar o arquivo automaticamente
+
+Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome dele.
+Neste caso, optamos por usar a função `fread()` do pacote `data.table`.
+
+```{r setup, include=FALSE}
+
+df_pensionistas_07_2020 <- fread("~/Downloads/PENSIONISTAS_072020 3.csv")
+
+```
+
+Se quisermos, podemos tambem informar ainda:
+- a codificação do arquivo (encoding)
+- o separador das colunas (sep)
+- o número de linhas que queremos ler (nrows)
+- quais colunas queremos ler (colnames)
+- quais colunas não queremos ler (drop)
+- outros
+
+## 1.9) Descobrir a pasta
+
+Uma das dificuldades na importação de arquivo é descobrir a pasta.
+Podemos usar as funções `getwd()`, `setwd()` e `list.files()` para nos ajudar.
+
+```{r setup, include=FALSE}
+
+getwd()
+setwd("~/Downloads")
+list.files()
+
+```
+
+## 1.10) Verificação de o arquivo
+
+O arquivo já foi importado e agora queremos dar uma olhada nele.
+Usaremos as funções `summary()`, `glimpse()` e `View()`.
+
+```{r setup, include=FALSE}
+
+summary(df_pensionistas_07_2020)
+glimpse(df_pensionistas_07_2020)
+View(df_pensionistas_07_2020)
+
+```
+
+## 1.11) Verificação de partes do arquivo 
+
+Outras funções úteis para checar o arquivo estão abaixo.
+São elas: `head()`, `tail()`, `colnames()`, `unique()` e `length()`.
+
+```{r setup, include=FALSE}
+
+head(df_pensionistas_07_2020)
+head(df_pensionistas_07_2020, 15)
+```
+
+```{r setup, include=FALSE}
+tail(df_pensionistas_07_2020)
+tail(df_pensionistas_07_2020, 14)
+```
+
+```{r setup, include=FALSE}
+colnames(df_pensionistas_07_2020)
+```
+
+```{r setup, include=FALSE}
+unique(df_pensionistas_07_2020$`NOME DO ORGAO`)
+```
+
+```{r setup, include=FALSE}
+length(unique(df_pensionistas_07_2020$`NOME DO ORGAO`))
+length(colnames(df_pensionistas_07_2020))
+```
+
+## 1.12) Renomeação de cabeçalho 
+
+A função `rename()` nos permite renomear o cabeçalho.
+Outra função interessante para isso é `clean_names()`, do pacote `janitor`.
+
+```{r setup, include=FALSE}
+
+```
+
+## 1.13) Caixas baixa e alta
+
+As funções `toupper()` e `tolower()` para colocar o texto em letra maiúscula e minúscula.
+
+```{r setup, include=FALSE}
+
+```
+
+## 1.14) Remoção de acentos
+
+A função `rm_accent()` do pacote `abjutils` elimina o acento dos textos.
+
+```{r setup, include=FALSE}
+
+```
+
+## 1.15) Remoção de sujeiras
+
+A função `str_trim()` elimina espaços excedentes antes e depois do texto.
+
+```{r setup, include=FALSE}
+
+```
 
 # 2. Caracterização dos dados
 
-O uso da linguagem de programação R permite uma grande diversidade de análises e descobertas. Muitas delas podem envolver uma elevada complexidade matemática ou de recursos computacionais. É necessário destacar, no entanto, que no começo de tudo há a necessidade de se conhecer o melhor possível o dado que se tem em mão. Aí é comum o uso de operações de estatística descritiva como mínimo valor, máximo valor, média e mediana, por exemplo.
+O uso da linguagem de programação R permite uma grande diversidade de análises e descobertas. Muitas delas podem envolver uma elevada complexidade matemática ou de recursos computacionais. 
+
+É necessário destacar, no entanto, que no começo de tudo há a necessidade de se conhecer o melhor possível o dado que se tem em mão. Aí é comum o uso de operações de estatística descritiva como mínimo valor, máximo valor, média e mediana, por exemplo.
 
 Observa-se ainda que mesmo para essas operações mais simples é muito frequente a necessiddade de se fazer alguns ajustes para que os dados possam ser corretamente utilizados. Nessa seção vamos fazer alguns exercícios básicos de ajuste do dado e em seguida vamos usar alguns roteiros para caracterização básica dos dados de pensionsitas.
 
-## Um primeiro ajuste nos dados
+## 2.1) Um primeiro ajuste nos dados
 
-É importante saber se o dado que estamos utilizando está num formato que se encaixa para o tipo de operações que desejamos efetuar. Uma das situações mais frequentes que enfrentamos é quando os valores numéricos não são imediatamente reconhecidos pelo R. Isso ocorre quando fazemos importações de dados e elementos como vírgula e ponto que são interpretados pelo R como parte de um texto e não de um número. Isso faz com que o dado não possa ser usado em operações aritméticas simples como soma, por exemplo.
+É importante saber se o dado que estamos utilizando está num formato que se encaixa para o tipo de operações que desejamos efetuar. Uma das situações mais frequentes que enfrentamos é quando os valores numéricos não são imediatamente reconhecidos pelo R. 
+
+Isso ocorre quando fazemos importações de dados e elementos como vírgula e ponto que são interpretados pelo R como parte de um texto e não de um número. Isso faz com que o dado não possa ser usado em operações aritméticas simples como soma, por exemplo.
 
 Veja abaixo as seis primeiras informações de rendimento bruto e rendimento líquido da tabela com os dados de pensionistas de julho de 2020
 ```{r}
@@ -137,11 +286,11 @@ sum(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas chaves para essa base.
 
 
-## Caracterização dos dados de pensionistas
+## 2.2) Caracterização dos dados de pensionistas
 
 Uma das melhores feramentas para descobrirmos o que caracteriza os dados que esperamos analisar é a estatística descritiva. E antes que se assuste, aqui vamos falar de coisas que já usamos há muito tempo: contagem, média, valor máximo, valor mínimo, mediana e também ordenação de dados por valores.  
 
-### Contagem de ocorrências
+### 2.3) Contagem de ocorrências
 
 A base de dados de pensionista é do tipo tabular. As bases tabulares são aquelas que se estruturam em linhas e colunas. A contagem de ocorrências em dados tabulares, nada mais é do que a indicação do número de linhas de uma tabela que se enquadram dentro de um determinado parâmetro.
 
@@ -177,7 +326,7 @@ Observe no código acima que a função de contagem de linhas NROW não é mais 
 
 Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobre das pensões temporárias.
 
-#### Valores máximos e mínimos
+#### 2.4) Valores máximos e mínimos
 
 É muito simples descobrir os valores máximos e mínimos de qualquer conjunto de dados usando o R. Veja o bloco de código abaixo para o caso do valor máximo.
 
@@ -245,7 +394,7 @@ df_pensionistas_07_2020 %>%
 
 Agora temos a informação no caminho que desejamos. Os dez menores  rendimentos brutos são um pouco maior ou igual a mil reais. Podemos identificar três instituidores diferentes. Há ainda um valor ausente para a coluna instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.
 
-## Médias e medianas
+## 2.5) Médias e medianas
 
 A média e a mediana são conhecidas como medidas de centralidades na estatística. A funcão delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra. 
 
@@ -263,8 +412,8 @@ Como era de se esperar a média dos valores de rendimento bruto é maior do que 
 Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados. Se temos por exemplo 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.
 
 ```{r}
-# a função mean faz o cálculo da média
-# abaixo a média dos rendimentos brutos e dos rendimentos líquidos
+# a função median faz o cálculo da média
+# abaixo a mediana dos rendimentos brutos e dos rendimentos líquidos
 median(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 median(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 ```
@@ -277,11 +426,11 @@ Observe que quando se trata de mediana, novamente o valor relativo a rendimento 
 
 Essas situações são relativamente comuns. É importante entender a dinãmica de formação desses valores e a distribuição dos valores para encontrar o que melhor caracteriza os dados, se a média ou mediana. Esse é um assunto importante e que deve ser melhor explorado. Aqui foge do objetivo dessa aula.
 
-## 3- Trabalhando as colunas da tabela
+# 3. Trabalhando as colunas da tabela
 
 Usando as funções do pacote tidyverse fica muito fácil de se trabalhar com colunas em tabelas do R. Às vezes é necessario alterar valores e tipos. E algumas vezes é também interessante acrescentar novas colunas que são formadas a partir de colunas já previamente existente. Vamos explorar um pouco essas possibildiades nesse bloco.
 
-### Modificando colunas tipo data
+### 3.1) Modificando colunas tipo data
 
 Na seção anterior vimos como fazer modificações nas duas colunas relativas a valores numéricos. Outro tipo de variável que é bem comum fazermos modificações são as do tipo data. Na tabela que estamos trabalhando as datas estão em um formato pouco usual e que não é rapidamente reconhecida pelo R como data. Isso impede a possibilidade de se fazer operações de data que possam responder, por exemplo, qual a pensão mais antiga paga em Julho de 2020.
 
@@ -315,7 +464,7 @@ df_pensionistas_07_2020%>%
 
 Observe agora que as duas datas que trabalhamos já estão no formato correto e  podem ser usadas em operações típicas de data.
 
-## Acresecentando colunas de data
+## 3.2) Acresecentando colunas de data
 
 A partir das duas colunas que acabamos de fazer os ajustes, vamos criar duas novas colunas que indicam o tempo de recebimento da pensão e idade de beneficiário. Vamos ver como isso pode ser feito.
 
@@ -391,7 +540,7 @@ df_pensionistas_07_2020 %>%
 ```
 
 
-### Acrescentando colunas resultadas de valores numéricos
+### 3.3) Acrescentando colunas resultadas de valores numéricos
 
 Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescntar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.
 
@@ -418,7 +567,7 @@ Com a execução do bloco de código acima, a tabela já possui a informação d
 
 
 
-### Acrescentando colunas de outras tabelas
+### 3.4) Acrescentando colunas de outras tabelas
 
 Uma das possiblidades interessantes de se trabalhar com linguagem de programação, especialmente o **R ** é a facilidade de se fazer cruzamentos com outras tabelas.
 
@@ -440,7 +589,95 @@ df_pensionistas_07_2020 %>%
 ```
 
 
-## Baixando os dados
+# 4. Agrupando e filtrando dados
+
+## 4.1) Agrupar por órgão
+
+Agora vamos fazer algo parecido com a tabela dinâmica do Excel / Google Spreadsheet.
+Para agrupar os dados usamos `group_by()` e informar por qual coluna queremos agrupar. 
+
+Em seguida, o `summarise()` - ou `summarize()` - vai contar o número de linhas, com `n()`. E também vai somar os valores da coluna "RENDIMENTO BRUTO", com `sum()`.
+
+```{r}
+pens_orgao <- df_pensionistas_07_2020 %>%
+  group_by(`NOME DO ORGAO`) %>%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))
+```
+
+## 4.2) Agrupar por tipo de beneficiário
+
+A única diferença em comparação com o código anterior é a coluna informada em `group_by()`.
+
+```{r}
+pens_beneficiario <- df_pensionistas_07_2020 %>%
+  group_by(`TIPO DE BENEFICIARIO`) %>%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))
+```
+
+## 4.3) Agrupar por tipo de pensão (vitalícia, temporária) 
+
+Novamente, só vamos mudar a coluna informada dentro de `group_by()`.
+
+```{r}
+pens_tipo <- df_pensionistas_07_2020 %>%
+  group_by(`NATUREZA PENSAO`) %>%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))
+```
+
+## 4.4) Agrupar por UF 
+
+Mudamos apenas a coluna informada dentro de `group_by()`.
+
+```{r}
+pens_uf <- df_pensionistas_07_2020 %>%
+  group_by(`UF DA UPAG DE VINCULACAO`) %>%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))
+```
+
+## 4.5) Filtrar por órgão e ver quem ganha mais
+
+```{r}
+pens_orgao_MS <- df_pensionistas_07_2020 %>%
+  filter(`NOME DO ORGAO` == "MINISTERIO DA SAUDE") %>%
+  arrange(desc(`RENDIMENTO BRUTO`))
+```
+
+## 4.6) Filtrar por órgão e cargo e ver quem ganha mais
+
+```{r}
+pens_cargo_MS_MEDICO <- df_pensionistas_07_2020 %>%
+  filter(`NOME DO ORGAO` == "MINISTERIO DA SAUDE" &
+           `CARGO SERVIDOR INSTITUIDOR` == "MEDICO") %>%
+  arrange(desc(`RENDIMENTO BRUTO`))
+```
+
+## 4.7) Filtrar por três órgãos e ver quem ganha mais
+
+```{r}
+pens_cargo_MS_ME_MCTIC <- df_pensionistas_07_2020 %>%
+  filter(`SIGLA DO ORGAO` == "MS" |
+         `SIGLA DO ORGAO` == "ME" |
+         `SIGLA DO ORGAO` == "MCTIC") %>%
+  arrange(desc(`RENDIMENTO BRUTO`))
+```
+
+# 5) Baixando os dados
+
+## 5.1) Download do dataframe
+
+```{r}
+write.csv(pens_cargo_MS_ME_MCTIC, "pens_cargo_MS_ME_MCTIC.csv")
+```
+
+
+
+
+
+
 
 Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. Também há um dicionário de dados em formato PDF.
 
