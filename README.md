@@ -4,6 +4,8 @@
 
 ##### O evento é online e gratuito e ocorrerá em 13 de setembro de 2020. A inscrição pode ser feita [neste link](https://congresse.me/eventos/ddadosabraji).
 
+### LINK da oficina: [https://introducao-ao-r-na-abraji.github.io/oficina-R/](https://introducao-ao-r-na-abraji.github.io/oficina-R/)
+
 ##### A oficina se propõe a ensinar o básico da linguagem de programação R, que pode ser bastante útil para jornalistas e outros profissionais. Atualmente, o R é usado principalmente por estatísticos, pesquisadores, cientistas de dados, entre outros.
 
 ##### A base de dados usada na oficina é a dos pensionistas do governo federal, atualizada pelo Ministerio da Economia no site [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas). Os dados ficaram públicos após uma vitória do ['Fiquem Sabendo'](https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/), iniciativa que luta pela transparência. 
