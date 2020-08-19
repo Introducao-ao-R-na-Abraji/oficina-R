@@ -27,8 +27,7 @@ A base de dados foi disponibilizada pelo Ministério da Economia após uma vitó
 Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. 
 Também há um dicionário de dados em formato PDF.
 
-Para esta análise, vamos usar o arquivo mais recente, de *julho de 2020*. Depois, vamos comparar os dados com *julho de 2019*.
-Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar" e depois em "Ir para recurso".
+Para esta análise, vamos usar o arquivo mais recente, de *julho de 2020*. Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar" e depois em "Ir para recurso".
 
 ## 1.5) Instalar os pacotes
 
@@ -36,12 +35,10 @@ Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar"
 
 Para isso, nós vamos usar a função `install.packages()`. Dentro dos parêntesis, devemos informar o nome do pacote.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
-
-install.packages("tidyverse")
-install.packages("data.table")
-
+```{r} 
+# install.packages("tidyverse")
+# install.packages("data.table")
+# install.packages("abjutils")
 ```
 
 ## 1.6) Carregar os pacotes
@@ -50,10 +47,9 @@ Em todas as análises, precisamos também carregar os pacotes que serão usados.
 Usamos a função `library()` e informarmos o nome do pacote dentro dos parêntesis.
 
 ```{r}
-
 library(tidyverse)
 library(data.table)
-
+library(abjutils)
 ```
 
 ## 1.7) Importar o arquivo manualmente
@@ -73,9 +69,7 @@ Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome 
 Neste caso, optamos por usar a função `fread()` do pacote `data.table`.
 
 ```{r}
-
 df_pensionistas_07_2020 <- fread("~/Downloads/PENSIONISTAS_072020 3.csv")
-
 ```
 
 Se quisermos, podemos tambem informar ainda:
@@ -92,11 +86,9 @@ Uma das dificuldades na importação de arquivo é descobrir a pasta.
 Podemos usar as funções `getwd()`, `setwd()` e `list.files()` para nos ajudar.
 
 ```{r}
-
 getwd()
-setwd("~/Downloads")
+# setwd("~/Downloads")
 list.files()
-
 ```
 
 ## 1.10) Verificação de o arquivo
@@ -105,11 +97,9 @@ O arquivo já foi importado e agora queremos dar uma olhada nele.
 Usaremos as funções `summary()`, `glimpse()` e `View()`.
 
 ```{r}
-
 summary(df_pensionistas_07_2020)
 glimpse(df_pensionistas_07_2020)
-View(df_pensionistas_07_2020)
-
+# View(df_pensionistas_07_2020)
 ```
 
 ## 1.11) Verificação de partes do arquivo 
@@ -151,7 +141,7 @@ Outra função interessante para isso é `clean_names()`, do pacote `janitor`.
 
 ## 1.13) Caixas baixa e alta
 
-As funções `toupper()` e `tolower()` para colocar o texto em letra maiúscula e minúscula.
+As funções `toupper()` e `tolower()` colocam o texto em letra maiúscula e minúscula.
 
 ```{r}
 
@@ -205,8 +195,8 @@ head(df_pensionistas_07_2020 %>%
 Observe que o resultado do bloco de código anterior é uma tabela de seis linhas com duas colunas. Veja que ambas colunas estão marcadas como **chr**. Isso indica que o tipo de ambas colunas é texto e não numérico. Essa característica impede fazer operações aritméticas simples, tais como soma. Se tentarmos fazer a operação abaixo...
 
 ```{r}
-#tentativa de somar os rendimentos brutos 
-sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
+# tentativa de somar os rendimentos brutos 
+# sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 
 ```
 
@@ -569,7 +559,7 @@ Vamos imaginar por exemplo que quermos identificar fenômenos que relacionem o r
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
 
-socio_amostra <- readRDS("~/aula_r/data/socio_amostra.rds")
+socio_amostra <- readRDS("data/socio_amostra.rds")
 ```
 
 
@@ -685,7 +675,7 @@ Para esta análise, vamos usar os arquivos de *junho de 2019* e *junho de 2020*.
 
 No trecho de código abaixo vamos nos focar primeiramente em Junho/2019
 
-```{r}
+```
 library(readr)
 #na linguagem de programação R toda linha que começa com # é vista como comentário
 
@@ -745,7 +735,7 @@ address<- paste0("http://repositorio.dados.gov.br/segrt/pensionistas/", v_ano, "
 
 Agora que temos o endereço de onde baixar os dados, o próximo passo é fazer o download. O trecho de código abaixo vai fazer isso
 
-```{r}
+```
 # a função abaixo faz o download. Usa o endereço que está na variável address para baixar o arquivo. Quando o arquivo for finalmente baixado, ele vai estar presente no endereço determinado na variável destifle que é passada na função download.file
 download.file(address, destfile = paste0("data/", v_ano,".zip"),   mode="wb")
 ```
