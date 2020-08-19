@@ -16,7 +16,7 @@ socio_amostra <- readRDS("~/aula_r/data/socio_amostra.rds")
 
 ## 1.1) O que é o R
 
-A linguagem de programação R é versátil e pode ser usada para manipulação, análise, raspagens, visualização de dados, entre outros.
+A linguagem de programação R é versátil e pode ser usada para manipulação, análise, raspagem, visualização de dados, entre outros.
 
 ## 1.2) A estrututra do curso
 
