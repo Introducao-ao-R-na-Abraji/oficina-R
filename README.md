@@ -13,8 +13,8 @@
 ###### Qual é a média e a mediana do valor do benefício dos pensionistas? E quais são os valores mais altos e mais baixos? 
 ###### Como ficam esses dados por órgão? E por tipo de beneficiário? Qual órgão paga os valores mais altos?
 ###### A maioria dos pensionistas tem o benefício vitalício ou temporário?
-###### Quantos pagamentos estão suspensos?
 ###### Quais são os cargos mais frequentes de pensionistas cujo benefício é temporário?
+###### Quantos pagamentos estão suspensos?
 ###### Quantas pessoas são pensionistas por ser filha solteira sem cargo? Qual é o somatório? Qual é o benefício mais alto e mais baixo? E a média? Qual é o órgão de origem? Quantos anos essas pessoas têm? Há quantos anos recebem o benefício?
 ###### Quem é a pessoa que recebe o benefício há mais tempo? E há menos tempo? 
 ###### Podemos também ler os demais arquivos disponíveis para descobrir quanto essa pessoa já recebeu no total?
