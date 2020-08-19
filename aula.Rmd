@@ -43,7 +43,7 @@ Para isso, nós vamos usar a função `install.packages()`. Dentro dos parêntes
 
 ## 1.6) Carregar os pacotes
 
-Em todas as análises, precisamos também carregar os pacotes que serão usados.
+Precisamos também carregar os pacotes que serão usados.
 Usamos a função `library()` e informarmos o nome do pacote dentro dos parêntesis.
 
 ```{r}
