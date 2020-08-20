@@ -12,6 +12,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
+
 ```
 
 
@@ -527,6 +528,7 @@ Uma das possiblidades interessantes de se trabalhar com linguagem de programaç�
 Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no [Brasil.io](https://brasil.io/dataset/socios-brasil/socios/).
 
 ```{r}
+
 socio_amostra <- readRDS("data/socio_amostra.rds")
 ```
 
@@ -535,6 +537,7 @@ socio_amostra <- readRDS("data/socio_amostra.rds")
 df_pensionistas_07_2020<-
 df_pensionistas_07_2020 %>%
   mutate( chave= str_c(`CPF DO BENEFICIARIO`, `NOME DO BENEFICIARIO`))
+
 df_Pensionista_socio<-
 df_pensionistas_07_2020 %>%
   inner_join(socio_amostra)
@@ -546,10 +549,14 @@ Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensio
 ```{r}
 mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 mean(df_Pensionista_socio$`RENDIMENTO BRUTO`)
+
 mean(df_pensionistas_07_2020$idade_beneficario, na.rm = TRUE)
 mean(df_Pensionista_socio$idade_beneficario, na.rm = TRUE)
+
 mean(df_pensionistas_07_2020$tempo_recebimento_pensao, na.rm = TRUE)
 mean(df_Pensionista_socio$tempo_recebimento_pensao, na.rm = TRUE)
+
+
 ```
 
 Observando o que sai nas nas seis linhas de código acima, parece que as médias de rendimento bruto de pensionistas que são sócios é bem maior do que a mesma média do conjunto total. Já quando se vê a comparação das idades dos beneficiários não há praticamente diferença nas médias. Por outro lado volta a ter diferença nas médias quando se compara o tempo de recebimento das pensões.
@@ -645,13 +652,14 @@ pens_cargo_MS_ME_MCTIC <- df_pensionistas_07_2020 %>%
 
 Conforme já dito logo no início, os dados com que estamos trabalhando estão disponíveis na internet. Vamos ver como podemos usar o R para baixar esses dados para seu ambiente computacional. Também vamos ver como salvar o trabalho que você fez em arquivo CSV para ser aproveitado em outros usos que não seja a partir da linguagem R e, por fim, você vai prender a ler vários arquivos com um único comando.
 
-## 5.1) Download do dataframe
+## 5.1) Download automatizado do CSV
 
 É muito simples fazer o download de um arquivo CSV. Basta uma única instrução. Veja abaixo.
 
 ```{r}
 # A função downloadfile vai fazer o download a partir de um endereço de internet especificado e acrescentar o arquivo numa pasta de destino informada
 download.file("http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip", destfile = "data/PENSIONISTAS_072020.zip", mode="wb")
+
 ```
 
 Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato CSV. Veja abaixo como fazer isso.
@@ -669,9 +677,9 @@ A função `write.csv()` salva o dataframe que você criou usando o R. Basta inf
 write.csv(pens_cargo_MS_ME_MCTIC, "pens_cargo_MS_ME_MCTIC.csv")
 ```
 
-## 5.3) Leitura de vários CSVs
+## 5.3) Leitura de vários arquivos
 
-Baixamos todos os CSVs referentes aos meses de 2020. Em seguida, lemos o CSV com o `fread()` no RStudio e logo salvamos o dataframe com `saveRDS()`. Para **janeiro de 2020**, por exemplo, veja abaixo. 
+Baixamos todos os CSVs referentes aos meses de 2020. Em seguida, lemos o CSV com o `fread()` no RStudio e logo salvamos o dataframe com `saveRDS()`. Para **janeiro de 2020**, por exemplo, veja abaixo.
 
 OBS: Você não precisa fazer isso porque todos os arquivos RDS já estão salvos dentro de uma pasta chamada "pensionistas_2020", que está dentro da pasta "data".
 
@@ -684,7 +692,7 @@ Abaixo listamos os arquivos RDS que estão na nossa pasta e chamamos de "arquivo
 arquivos <- list.files("data/pensionistas_2020")
 ```
 
-Agora vamos informar dentro de `map_df()` o caminho ("data/pensionistas_2020/"), seguido pelo nome dos arquivos (estão guardados pelo dentro "arquivos"), a função `readRDS` (que faz a leitura de RDS) e também `.id = "source"` para uma coluna difereciar o arquivo de origem. 
+Agora vamos informar dentro de `map_df()` o caminho ("data/pensionistas_2020/"), seguido pelo nome dos arquivos (estão guardados dentro "arquivos"), a função `readRDS` (que faz a leitura de RDS) e também `.id = "source"` para uma coluna difereciar o arquivo de origem. 
 
 ```{r}
 getwd()
@@ -703,4 +711,5 @@ Caso queira entrar em contato, nós estamos disponíveis aqui:
 
 Gabriela Caesar - [Twitter](https://twitter.com/gabrielacaesar) / [Site](https://www.gabrielacaesar.com/)                           
 Fernando Barbalho - [Twitter](https://twitter.com/barbalhofernand)                
+
 
