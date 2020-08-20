@@ -2,8 +2,19 @@
 title: 'Introdução ao R: oficina na Abraji'
 author: "Gabriela Caesar & Fernando Barbalho"
 date: "20/08/2020"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    theme: cerulean
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
+
+```
+
 
 # 1. Introdução
 
@@ -69,7 +80,7 @@ Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome 
 Neste caso, optamos por usar a função `fread()` do pacote `data.table`.
 
 ```{r}
-df_pensionistas_07_2020 <- fread("~/Downloads/PENSIONISTAS_072020 3.csv")
+df_pensionistas_07_2020 <- fread("data/PENSIONISTAS_072020.csv")
 ```
 
 Se quisermos, podemos tambem informar ainda:
@@ -138,10 +149,8 @@ Outra função interessante para isso é `clean_names()`, do pacote `janitor`.
 ```{r}
 df_pensionistas_07_2020_novo <- df_pensionistas_07_2020 %>%
   rename("servidor_instituidor" = "NOME DO SERVIDOR INSTITUIDOR")
-
 df_pensionistas_07_2020_novo <- df_pensionistas_07_2020 %>%
   janitor::clean_names()
-
 ```
 
 ## 1.13) Outras funções úteis
@@ -176,7 +185,6 @@ Veja abaixo as seis primeiras informações de rendimento bruto e rendimento lí
 #a função head traz informações relacionadas às seis primeiras linhas de uma tabela
 #o símbolo pipe %>% indica ao r que desejamos fazer alguma operação sobre a tabela.
 #nesse caso a operação que desejamos fazer é a seleção das colunas Rendimento Bruto e Rendimento Líquido
-
 head(df_pensionistas_07_2020 %>% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))
      
@@ -187,7 +195,6 @@ Observe que o resultado do bloco de código anterior é uma tabela de seis linha
 ```{r}
 # tentativa de somar os rendimentos brutos 
 # sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
-
 ```
 
 ... vamos receber a seguinte mensagem de erro gerada pelo R
@@ -199,7 +206,6 @@ O R não permitiu fazer soma dos valores de uma coluna numérica. Precisamos ent
 ```{r}
 #install.packages("stringr")
 library(stringr) # a função str_remove_all está na library stringr
-
 #a função mutate permite fazer alterações nos valores das colunas de uma tabela.
 #Nesse caso a função mutate vai fazer alterações nos valores da coluna `RENDIMENTOS BRUTO`
 #a função str_remove_all exclui partes de texto.
@@ -208,11 +214,9 @@ df_pensionistas_07_2020 <-
       df_pensionistas_07_2020 %>%
       mutate(`RENDIMENTO BRUTO` = str_remove_all(`RENDIMENTO BRUTO`,"[.]"),
              `RENDIMENTO BRUTO` = as.numeric(str_remove_all(`RENDIMENTO BRUTO`,",")))
-
 #no fim vamos repetir novamente a instrução do bloco anterior.
 head(df_pensionistas_07_2020 %>% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))
-
 ```
 
 Observe que agora a coluna "Rendimento Bruto" não está mais marcada como **chr** e sim como **dbl**, que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamos então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo:
@@ -222,7 +226,6 @@ Observe que agora a coluna "Rendimento Bruto" não está mais marcada como **chr
 df_pensionistas_07_2020 <-
       df_pensionistas_07_2020 %>%
       mutate(`RENDIMENTO BRUTO` = `RENDIMENTO BRUTO`/100)
-
 #agora executamos novamente a exibição dos seis primeiros valores da tabela
 head(df_pensionistas_07_2020 %>% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))
@@ -235,14 +238,11 @@ df_pensionistas_07_2020 <-
       df_pensionistas_07_2020 %>%
       mutate(`RENDIMENTO LIQUIDO` = str_remove_all(`RENDIMENTO LIQUIDO`,"[.]"),
              `RENDIMENTO LIQUIDO` = as.numeric(str_remove_all(`RENDIMENTO LIQUIDO`,",")))
-
 df_pensionistas_07_2020 <-
       df_pensionistas_07_2020 %>%
       mutate(`RENDIMENTO LIQUIDO` = `RENDIMENTO LIQUIDO`/100)
-
 head(df_pensionistas_07_2020 %>% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))
-
 ```
 
 Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em julho de 2020.
@@ -250,7 +250,6 @@ Agora que as duas colunas já estão no formato correto, podemos calcular o tota
 ```{r}
 #somatório do rendimento bruto
 sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
-
 #somatório do rendimento líquido
 sum(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 ```
@@ -262,7 +261,7 @@ Com isso já temos repostas a duas perguntas que podem ser interessantes de ser 
 
 Uma das melhores feramentas para descobrirmos o que caracteriza os dados que esperamos analisar é a estatística descritiva. E antes que se assuste, aqui vamos falar de coisas que já usamos há muito tempo: contagem, média, valor máximo, valor mínimo, mediana e também ordenação de dados por valores.  
 
-### 2.3) Contagem de ocorrências
+## 2.3) Contagem de ocorrências
 
 A base de dados de pensionista é do tipo tabular. As bases tabulares são aquelas que se estruturam em linhas e colunas. A contagem de ocorrências em dados tabulares, nada mais é do que a indicação do número de linhas de uma tabela que se enquadram dentro de um determinado parâmetro.
 
@@ -280,49 +279,38 @@ Agora vamos imaginar que queremos saber se há mais pensionistas com pensõs tem
 ```{r}
 #A função filter indica ao R qual a condição de filtro que se deseja executar sobre a tabela.
 #No primeiro caso vamos filtrar todas as pensões cuja na ntureza ( campo Natureza Pensao) seja vitalícia
-
 NROW(df_pensionistas_07_2020%>%
   filter(`NATUREZA PENSAO` == "VITALICIA"))
-
 #Fazemos a mesma coisa agora com as pensões temporárias
 #Observe o operador ==  usado para fazer comparações de igualdade
-
 NROW(df_pensionistas_07_2020%>%
   filter(`NATUREZA PENSAO` == "TEMPORARIA"))
-
 ```
 
 Observe no código acima que a função de contagem de linhas NROW não é mais aplicada à tabela completa, mas apenas ao resultado dos dois filtros sobre a tabela. 
 
 Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobro das pensões temporárias.
 
-#### 2.4) Valores máximos e mínimos
+## 2.4) Valores máximos e mínimos
 
 É muito simples descobrir os valores máximos e mínimos de qualquer conjunto de dados usando o R. Veja o bloco de código abaixo para o caso do valor máximo.
 
 ```{r}
 # Max: a função para descobrir o valor máximo 
-
 #Logo abaixo temos o valor máximo de rendimento bruto
 max(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
-
 #E aqui o valor máximo de rendimento líquido
 max(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
-
 ```
 
 E aqui abaixo veja como descobrimos o valor mínimo
 
 ```{r}
-
 # Min: a função para descobrir o valor mínimo 
-
 #Logo abaixo temos o valor mínimo de rendimento bruto
 min(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
-
 #E aqui o valor mínimo de rendimento líquido
 min(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
-
 ```
 
 Observe que aparecem valores estranhos ao que esperaríamos. No caso do valor máximo, os rendimentos bruto e líquido são iguais e esperaríamos o bruto > líquido. 
@@ -355,18 +343,17 @@ df_pensionistas_07_2020 %>%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)
 ```
 
-Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: **## # A tibble: 3,722 x 3**. São mais de 3.700 linhas a mais do que esperávamos. Isso se deve porque existem 3.722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.
+Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: **## # A tibble: 3,722 x 3**. São mais de 3.700 linhas a mais. Isso se deve porque existem 3.722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.
 
 ```{r}
 #nesse bloco de código, antes de descobrirmos os valores mínimos fazemos o filtro para que permaneçam na nossa análise apenas as linhas da tabela que tenham valor de rendimento bruto >= 0.01. Para isso usamos a função filter
-
 df_pensionistas_07_2020 %>%
   filter(`RENDIMENTO BRUTO`>=0.01)%>%
   slice_min(`RENDIMENTO BRUTO`, n=10) %>%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)
 ```
 
-Agora temos a informação no caminho que desejamos. Os dez menores  rendimentos brutos são um pouco maior ou igual a mil reais. Podemos identificar três instituidores diferentes. Há ainda um valor ausente para a coluna instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.
+Agora temos a informação no caminho que desejamos. Muito embora os valores ainda estejam muito baixos. Observe ainda que existem algumas linhas em que não há informação do servidor instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes e tentar entender o que gera esses valores tão baixos para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.
 
 ## 2.5) Médias e medianas
 
@@ -406,7 +393,7 @@ Essas situações são relativamente comuns. É importante entender a dinãmica 
 
 Usando as funções do pacote tidyverse fica muito fácil de se trabalhar com colunas em tabelas do R. Às vezes é necessario alterar valores e tipos. E algumas vezes é também interessante acrescentar novas colunas que são formadas a partir de colunas já previamente existente. Vamos explorar um pouco essas possibildiades nesse bloco.
 
-### 3.1) Modificando colunas tipo data
+## 3.1) Modificando colunas tipo data
 
 Na seção anterior vimos como fazer modificações nas duas colunas relativas a valores numéricos. Outro tipo de variável que é bem comum fazermos modificações são as do tipo data. Na tabela que estamos trabalhando as datas estão em um formato pouco usual e que não é rapidamente reconhecida pelo R como data. Isso impede a possibilidade de se fazer operações de data que possam responder, por exemplo, qual a pensão mais antiga paga em Julho de 2020.
 
@@ -424,8 +411,6 @@ No bloco de código logo abaixo vamos ver como fazemos modificações em colunas
 ```{r}
 #para podermos usar as funções que facilitam o trabalho com datas é necessário usar o pacote lubridate. Lembre de instalá-lo antes, caso não esteja ainda instaldo, usando a função install.package()
 library(lubridate)
-
-
 #A função dmy indica que a variável que está sendo passada como parâmetro está no formato dia, mês, ano. Com essa informação o R é capaz de fazer a transformação e gerar a data correta
 df_pensionistas_07_2020<-
 df_pensionistas_07_2020 %>%
@@ -434,13 +419,11 @@ df_pensionistas_07_2020 %>%
 head(
 df_pensionistas_07_2020%>%
   select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO`))
-
-
 ```
 
 Observe agora que as duas datas que trabalhamos já estão no formato correto e  podem ser usadas em operações típicas de data.
 
-## 3.2) Acresecentando colunas de data
+## 3.2) Acresecentando colunas derivadas de data
 
 A partir das duas colunas que acabamos de fazer os ajustes, vamos criar duas novas colunas que indicam o tempo de recebimento da pensão e idade de beneficiário. Vamos ver como isso pode ser feito.
 
@@ -448,13 +431,10 @@ A partir das duas colunas que acabamos de fazer os ajustes, vamos criar duas nov
 # Para fazermos o cálculo das duas novas variáveis vamoos precisar usar mais duas  funções que estão no pacote lubridate que já foi carregado no bloco de códigos anterior. Essas funções são today e year
 # A função today informa a data de hoje
 # A função year informa o ano de uma determinada data
-
-
 df_pensionistas_07_2020<- 
 df_pensionistas_07_2020 %>%
   mutate(tempo_recebimento_pensao = year(today()) - year(`DATA INICIO DO BENEFICIO`)) %>%
   mutate(idade_beneficario = year(today()) - year(`DATA DE NASCIMENTO`))
-
 df_pensionistas_07_2020 %>%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao, idade_beneficario)
 ```
@@ -478,12 +458,10 @@ Aqui estamos calculando o intervalo em anos entre duas datas. No caso, a diferen
 Agora que já temos a data de início do benefício, podemos saber, por exemplo, quem são os 10 beneficiários com os maiores tempos de benefício.
 
 ```{r}
-
 #Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %>%
   slice_max(tempo_recebimento_pensao, n=10) %>%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao)
-
 ```
 
 Temos então a impressionante informação de que existem benefícios seculares. Se isso não for erro da base, dá uma boa dica de matéria, não é mesmo?
@@ -516,7 +494,7 @@ df_pensionistas_07_2020 %>%
 ```
 
 
-### 3.3) Acrescentando colunas resultadas de valores numéricos
+## 3.3) Acrescentando colunas resultadas de valores numéricos
 
 Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescentar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.
 
@@ -541,32 +519,45 @@ df_pensionistas_07_2020 %>%
 
 Com a execução do bloco de código acima, a tabela já possui a informação da faixa de valores de rendimento bruto que será usada para tratamento de agrupamentos.
 
-### 3.4) Acrescentando colunas de outras tabelas
+## 3.4) Acrescentando colunas de outras tabelas
 
 Uma das possiblidades interessantes de se trabalhar com linguagem de programação, como o **R**, é a facilidade de se fazer cruzamentos com outras tabelas.
 
 Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no [Brasil.io](https://brasil.io/dataset/socios-brasil/socios/).
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
+```{r}
 
 socio_amostra <- readRDS("data/socio_amostra.rds")
 ```
 
 
 ```{r}
-
 df_pensionistas_07_2020<-
 df_pensionistas_07_2020 %>%
   mutate( chave= str_c(`CPF DO BENEFICIARIO`, `NOME DO BENEFICIARIO`))
 
-
-
+df_Pensionista_socio<-
 df_pensionistas_07_2020 %>%
   inner_join(socio_amostra)
   
+```
+
+Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensionistas que foram localizadas numa tabela que tem 300.000 CPFs ligados a alguma sociedade de empresa. Um exercício interessante a ser feito aqui é tentar diferenciar o grupo dos pensionistas sócios do conjunto total dos pensionistas em Julho de 2020. Vamos comparar, por exemplo, a média dos rendimentos brutos e líquidos
+
+```{r}
+mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
+mean(df_Pensionista_socio$`RENDIMENTO BRUTO`)
+
+mean(df_pensionistas_07_2020$idade_beneficario, na.rm = TRUE)
+mean(df_Pensionista_socio$idade_beneficario, na.rm = TRUE)
+
+mean(df_pensionistas_07_2020$tempo_recebimento_pensao, na.rm = TRUE)
+mean(df_Pensionista_socio$tempo_recebimento_pensao, na.rm = TRUE)
+
 
 ```
+
+Observando o que sai nas nas seis linhas de código acima, parece que as médias de rendimento bruto de pensionistas que são sócios é bem maior do que a mesma média do conjunto total. Já quando se vê a comparação das idades dos beneficiários não há praticamente diferença nas médias. Por outro lado volta a ter diferença nas médias quando se compara o tempo de recebimento das pensões.
 
 # 4. Agrupando e filtrando dados
 
@@ -643,97 +634,42 @@ pens_cargo_MS_ME_MCTIC <- df_pensionistas_07_2020 %>%
   arrange(desc(`RENDIMENTO BRUTO`))
 ```
 
-# 5) Baixando os dados
+# 5 Baixando e salvandos os dados
+
+Conforme já dito logo no início, os dados que estamso trabalhando estão disponíveis na internet. Vamos ver como podemos usar o R para baixar esses dados para seu ambiente computacional. Também vamos ver como salvar o rabalho que você fez em arquivo csv para ser aproveitado em outros usos que não seja a partir da linguagem R e por fim você vai prender a ler vários arquivos CSVs.
 
 ## 5.1) Download do dataframe
 
+É muito simples fazer o download de um arquivo csv. Basta uma única instrução. Veja abaixo.
+
 ```{r}
+# A função downloadfile vai fazer o download a partir de um endereço de internet especificado e acrescentar o arquivo numa pasta de destino informada
+download.file("http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip", destfile = "data/PENSIONISTAS_072020.zip",   mode="wb")
+
+```
+
+Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato csv. Veja abaixo como fazer isso.
+
+```{r}
+unzip(zipfile = "data/PENSIONISTAS_072020.ZIP", exdir = "data/csv")
+```
+
+
+## 5.2) Salvando o trabalho
+
+```
 write.csv(pens_cargo_MS_ME_MCTIC, "pens_cargo_MS_ME_MCTIC.csv")
 ```
 
-## 5.2) Leitura de vários CSVs
+## 5.3) Leitura de vários CSVs
 
 Os arquivos CSVs de 2020 estão em pasta zipada:
 https://drive.google.com/file/d/1ix-VpE0aGmEOEZwN07VaXKs24AN5FMsn/view?usp=sharing
 
 ```{r}
 list.files("data")
-
 list.dirs("data")
 ```
 
 
-
-
-
-Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. Também há um dicionário de dados em formato PDF.
-
-Para esta análise, vamos usar os arquivos de *junho de 2019* e *junho de 2020*.
-
-No trecho de código abaixo vamos nos focar primeiramente em Junho/2019
-
-```
-library(readr)
-#na linguagem de programação R toda linha que começa com # é vista como comentário
-
-#primeiramente vamos fazer o download da base de dados de junho/2019
-
-a_ano<- 2019    
-address<- paste0("http://repositorio.dados.gov.br/segrt/pensionistas/", a_ano, ".zip")
-
-download.file(address, destfile = paste0("data/", a_ano,".zip"),   mode="wb")
-    
-    
-    
-unzip(paste0("data/", a_ano,".zip"), exdir = "data")
-
-
-a_ano<- 2019    
-a_mes <- "06"
-gz_gile<-paste0("data/", a_ano, "/PENSIONISTAS_", a_mes, a_ano, ".csv.gz")
-    
-    
-df_pensionista<- read_delim(gzfile(gz_gile), 
-                                ";", escape_double = FALSE,  
-                                trim_ws = TRUE, locale = locale(encoding = "LATIN1"))
-
-```
-O endereço onde está o arquivo de junho de 2019 é o que segue logo abaixo
-
-http://repositorio.dados.gov.br/segrt/pensionistas/2019.zip
-
-Veja que estamos na verdade querendo fazer download de um arquivo compactado para o ano de 2019. Nesse arquivo haverá os dados para todos os meses incluinod Junho de 2019.
-
-Veja agora o endereço para baixar, por exemplo, os dados de 2018.
-
-http://repositorio.dados.gov.br/segrt/pensionistas/2018.zip
-
-Se compararmos os dois endereços veremos que a única coisa que os diferencia é a indicação do ano no endereço.
-
-Isso é bem importante já que muitas vezes os pesquisadores, jornalistas e outros pesquisadores vão querer baixar vários anos e para isso seria interessante o menor esforço humano/computacional possível. Veremos no código abaixo como podemos tirar proveito dessa formação do endereço.
-
-```{r}
-#antes de tudo, sabia que toda linha que começa com # é entendido como comentário e não é executado pelo R
-
-#na linha abaixo estamos iniciando uma variável. através das variáveis fazemos operações em linguagens de programação
-#nesse caso a variável é ano e vou indicar um valor a ela, no caso, 2019, que é o ano que nos interessa fazer o download
-v_ano<- "2019"
-#essa variável vai ser usada para formar o texto que define o endereço que vai ser feito o download.
-
-#no R as operaçoes são feitas através de função. A função abaixo, paste0, cola três textos em sequência.
-#O primeiro texto colado é o início comum do endereço para download de todas as bases que nos interessam: "http://repositorio.dados.gov.br/segrt/pensionistas/"
-#observe as aspas. No R os textos têm que estar entre aspas duplas ("texto") ou aspas simples ('texto').
-#o segundo texto que é colado na sequência é variável v_ano que contém o ano que vamos fazer o download, nesse caso, como já visto, 1999.
-#por fim o terceiro texto colado é ".zip" que termina assim o endereço do download
-#O texto concatenado é atribuído à variável address. 
-address<- paste0("http://repositorio.dados.gov.br/segrt/pensionistas/", v_ano, ".zip")
-
-```
-
-Agora que temos o endereço de onde baixar os dados, o próximo passo é fazer o download. O trecho de código abaixo vai fazer isso
-
-```
-# a função abaixo faz o download. Usa o endereço que está na variável address para baixar o arquivo. Quando o arquivo for finalmente baixado, ele vai estar presente no endereço determinado na variável destifle que é passada na função download.file
-download.file(address, destfile = paste0("data/", v_ano,".zip"),   mode="wb")
-```
 
