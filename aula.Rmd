@@ -156,6 +156,7 @@ A função `distinct()` ajuda a eliminar e identificar duplicatas.
 
 As funções `separate()` e `unite()` separam e unem colunas com base no separador indicado.
 
+
 # 2. Caracterização dos dados
 
 O uso da linguagem de programação R permite uma grande diversidade de análises e descobertas. Muitas delas podem envolver uma elevada complexidade matemática ou de recursos computacionais. 
@@ -652,9 +653,17 @@ write.csv(pens_cargo_MS_ME_MCTIC, "pens_cargo_MS_ME_MCTIC.csv")
 
 ## 5.2) Leitura de vários CSVs
 
-```{r}
+Os arquivos CSVs de 2020 estão em pasta zipada:
+https://drive.google.com/file/d/1ix-VpE0aGmEOEZwN07VaXKs24AN5FMsn/view?usp=sharing
 
+```{r}
+list.files("data")
+
+list.dirs("data")
 ```
+
+
+
 
 
 Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. Também há um dicionário de dados em formato PDF.
