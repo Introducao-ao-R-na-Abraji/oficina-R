@@ -686,7 +686,7 @@ OBS: Você não precisa fazer isso porque todos os arquivos RDS já estão salvo
 PENSIONISTAS_012020 <- fread("PENSIONISTAS_012020.csv")
 saveRDS(PENSIONISTAS_012020, file = "PENSIONISTAS_012020.rds")
 
-Abaixo listamos os arquivos RDS que estão na nossa pasta e chamamos de "arquivos".
+Abaixo listamos os arquivos RDS que estão na nossa pasta.
 
 ```{r}
 arquivos <- list.files("data/pensionistas_2020")
