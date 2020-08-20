@@ -1563,7 +1563,8 @@ library(abjutils)</code></pre>
 <div id="importar-o-arquivo-automaticamente" class="section level2">
 <h2>1.8) Importar o arquivo automaticamente</h2>
 <p>Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome dele. Neste caso, optamos por usar a função <code>fread()</code> do pacote <code>data.table</code>.</p>
-<pre class="r"><code>df_pensionistas_07_2020 &lt;- fread(&quot;data/PENSIONISTAS_072020.csv&quot;)</code></pre>
+<pre class="r"><code># df_pensionistas_07_2020 &lt;- fread(&quot;data/PENSIONISTAS_072020.csv&quot;)
+df_pensionistas_07_2020 &lt;- readRDS(&quot;data/julho2020.rds&quot;)</code></pre>
 <p>Se quisermos, podemos tambem informar ainda: - a codificação do arquivo (encoding)<br />
 - o separador das colunas (sep)<br />
 - o número de linhas que queremos ler (nrows)<br />
@@ -1575,14 +1576,11 @@ library(abjutils)</code></pre>
 <h2>1.9) Descobrir a pasta</h2>
 <p>Uma das dificuldades na importação de arquivo é descobrir a pasta. Podemos usar as funções <code>getwd()</code>, <code>setwd()</code> e <code>list.files()</code> para nos ajudar.</p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/gabrielacaesar/Downloads/oficina-R-master&quot;</code></pre>
+<pre><code>## [1] &quot;/Users/gabrielacaesar/Downloads/oficina-R-master/oficina-R&quot;</code></pre>
 <pre class="r"><code># setwd(&quot;~/Downloads&quot;)
 list.files()</code></pre>
-<pre><code>## [1] &quot;LICENSE&quot;                    &quot;README.md&quot;                 
-## [3] &quot;aula.Rmd&quot;                   &quot;aula.html&quot;                 
-## [5] &quot;data&quot;                       &quot;image&quot;                     
-## [7] &quot;index.html&quot;                 &quot;oficina-R.Rproj&quot;           
-## [9] &quot;pens_cargo_MS_ME_MCTIC.csv&quot;</code></pre>
+<pre><code>## [1] &quot;LICENSE&quot;         &quot;README.md&quot;       &quot;aula.Rmd&quot;        &quot;aula.html&quot;      
+## [5] &quot;data&quot;            &quot;image&quot;           &quot;index.html&quot;      &quot;oficina-R.Rproj&quot;</code></pre>
 </div>
 <div id="verificação-de-o-arquivo" class="section level2">
 <h2>1.10) Verificação de o arquivo</h2>
@@ -1595,23 +1593,20 @@ list.files()</code></pre>
 ##                                                       
 ##                                                       
 ##                                                       
-##                                                       
 ##  DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
-##  Min.   :       0            Min.   :       0            
-##  1st Qu.: 8011916            1st Qu.: 8071986            
-##  Median :15061925            Median :16022014            
-##  Mean   :15200356            Mean   :15757486            
-##  3rd Qu.:23031963            3rd Qu.:23102013            
-##  Max.   :31121983            Max.   :31122019            
-##  NA&#39;s   :2698                NA&#39;s   :2661                
+##  Length:295468               Length:295468               
+##  Class :character            Class :character            
+##  Mode  :character            Mode  :character            
+##                                                          
+##                                                          
+##                                                          
 ##  MATRICULA SERVIDOR INSTITUIDOR NOME DO ORGAO      SIGLA DO ORGAO    
-##  Min.   :130000000007           Length:295468      Length:295468     
-##  1st Qu.:250000559302           Class :character   Class :character  
-##  Median :362050498451           Mode  :character   Mode  :character  
-##  Mean   :332580973116                                                
-##  3rd Qu.:408060846278                                                
-##  Max.   :700008984553                                                
-##                                                                      
+##  Min.   :1.300e+11              Length:295468      Length:295468     
+##  1st Qu.:2.500e+11              Class :character   Class :character  
+##  Median :3.621e+11              Mode  :character   Mode  :character  
+##  Mean   :3.326e+11                                                   
+##  3rd Qu.:4.081e+11                                                   
+##  Max.   :7.000e+11                                                   
 ##  CODIGO ORGAO SUPERIOR CARGO SERVIDOR INSTITUIDOR NIVEL ESCOLARIDADE CARGO
 ##  Min.   :    0         Length:295468              Length:295468           
 ##  1st Qu.:    0         Class :character           Class :character        
@@ -1619,7 +1614,6 @@ list.files()</code></pre>
 ##  Mean   :15313                                                            
 ##  3rd Qu.:17000                                                            
 ##  Max.   :55000                                                            
-##                                                                           
 ##  CLASSE SERVIDOR INSTITUIDOR PADRAO SERVIDOR INSTITUIDOR
 ##  Length:295468               Length:295468              
 ##  Class :character            Class :character           
@@ -1627,15 +1621,13 @@ list.files()</code></pre>
 ##                                                         
 ##                                                         
 ##                                                         
-##                                                         
 ##  REFERENCIA SERVIDOR INSTITUIDOR NIVEL SERVIDOR INSTITUIDOR
-##  Min.   :0                       Min.   :  0.00            
-##  1st Qu.:0                       1st Qu.:  0.00            
-##  Median :0                       Median :  0.00            
-##  Mean   :0                       Mean   : 21.19            
-##  3rd Qu.:0                       3rd Qu.:  0.00            
-##  Max.   :0                       Max.   :801.00            
-##  NA&#39;s   :2661                    NA&#39;s   :2661              
+##  Length:295468                   Length:295468             
+##  Class :character                Class :character          
+##  Mode  :character                Mode  :character          
+##                                                            
+##                                                            
+##                                                            
 ##  OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
 ##  Length:295468                                                 
 ##  Class :character                                              
@@ -1643,22 +1635,19 @@ list.files()</code></pre>
 ##                                                                
 ##                                                                
 ##                                                                
-##                                                                
 ##  DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-##  Min.   :       0                                                      
-##  1st Qu.: 1011953                                                      
-##  Median : 3041972                                                      
-##  Mean   : 8158499                                                      
-##  3rd Qu.:15061962                                                      
-##  Max.   :31122009                                                      
-##  NA&#39;s   :2661                                                          
+##  Length:295468                                                         
+##  Class :character                                                      
+##  Mode  :character                                                      
+##                                                                        
+##                                                                        
+##                                                                        
 ##  NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
-##  Length:295468        Length:295468       Min.   :       0  
-##  Class :character     Class :character    1st Qu.: 8061939  
-##  Mode  :character     Mode  :character    Median :15111937  
-##                                           Mean   :15582528  
-##                                           3rd Qu.:23081934  
-##                                           Max.   :31122011  
+##  Length:295468        Length:295468       Length:295468     
+##  Class :character     Class :character    Class :character  
+##  Mode  :character     Mode  :character    Mode  :character  
+##                                                             
+##                                                             
 ##                                                             
 ##  UF DA UPAG DE VINCULACAO TIPO DE BENEFICIARIO TIPO PENSAO       
 ##  Length:295468            Length:295468        Length:295468     
@@ -1667,20 +1656,17 @@ list.files()</code></pre>
 ##                                                                  
 ##                                                                  
 ##                                                                  
-##                                                                  
 ##  NATUREZA PENSAO    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO
-##  Length:295468      Min.   :       0         Min.   :       0     
-##  Class :character   1st Qu.: 5111994         1st Qu.:       0     
-##  Mode  :character   Median :14092011         Median :       0     
-##                     Mean   :14435553         Mean   :  561923     
-##                     3rd Qu.:23022006         3rd Qu.:       0     
-##                     Max.   :31122019         Max.   :31122050     
+##  Length:295468      Length:295468            Length:295468        
+##  Class :character   Class :character         Class :character     
+##  Mode  :character   Mode  :character         Mode  :character     
 ##                                                                   
-##  RENDIMENTO BRUTO   RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO   V29         
+##                                                                   
+##                                                                   
+##  RENDIMENTO BRUTO   RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO   X29         
 ##  Length:295468      Length:295468      Length:295468      Mode:logical  
 ##  Class :character   Class :character   Class :character   NA&#39;s:295468   
 ##  Mode  :character   Mode  :character   Mode  :character                 
-##                                                                         
 ##                                                                         
 ##                                                                         
 ## </code></pre>
@@ -1689,672 +1675,147 @@ list.files()</code></pre>
 ## Columns: 29
 ## $ `NOME DO SERVIDOR INSTITUIDOR`                                           &lt;chr&gt; …
 ## $ `CPF SERVIDOR INSTITUIDOR`                                               &lt;chr&gt; …
-## $ `DATA NASCIMENTO INSTITUIDOR`                                            &lt;int&gt; …
-## $ `DATA FALECIMENTO INSTITUIDOR`                                           &lt;int&gt; …
-## $ `MATRICULA SERVIDOR INSTITUIDOR`                                         &lt;int64&gt; …
+## $ `DATA NASCIMENTO INSTITUIDOR`                                            &lt;chr&gt; …
+## $ `DATA FALECIMENTO INSTITUIDOR`                                           &lt;chr&gt; …
+## $ `MATRICULA SERVIDOR INSTITUIDOR`                                         &lt;dbl&gt; …
 ## $ `NOME DO ORGAO`                                                          &lt;chr&gt; …
 ## $ `SIGLA DO ORGAO`                                                         &lt;chr&gt; …
-## $ `CODIGO ORGAO SUPERIOR`                                                  &lt;int&gt; …
+## $ `CODIGO ORGAO SUPERIOR`                                                  &lt;dbl&gt; …
 ## $ `CARGO SERVIDOR INSTITUIDOR`                                             &lt;chr&gt; …
 ## $ `NIVEL ESCOLARIDADE CARGO`                                               &lt;chr&gt; …
 ## $ `CLASSE SERVIDOR INSTITUIDOR`                                            &lt;chr&gt; …
 ## $ `PADRAO SERVIDOR INSTITUIDOR`                                            &lt;chr&gt; …
-## $ `REFERENCIA SERVIDOR INSTITUIDOR`                                        &lt;int&gt; …
-## $ `NIVEL SERVIDOR INSTITUIDOR`                                             &lt;int&gt; …
+## $ `REFERENCIA SERVIDOR INSTITUIDOR`                                        &lt;chr&gt; …
+## $ `NIVEL SERVIDOR INSTITUIDOR`                                             &lt;chr&gt; …
 ## $ `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR`         &lt;chr&gt; …
-## $ `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR` &lt;int&gt; …
+## $ `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR` &lt;chr&gt; …
 ## $ `NOME DO BENEFICIARIO`                                                   &lt;chr&gt; …
 ## $ `CPF DO BENEFICIARIO`                                                    &lt;chr&gt; …
-## $ `DATA DE NASCIMENTO`                                                     &lt;int&gt; …
+## $ `DATA DE NASCIMENTO`                                                     &lt;chr&gt; …
 ## $ `UF DA UPAG DE VINCULACAO`                                               &lt;chr&gt; …
 ## $ `TIPO DE BENEFICIARIO`                                                   &lt;chr&gt; …
 ## $ `TIPO PENSAO`                                                            &lt;chr&gt; …
 ## $ `NATUREZA PENSAO`                                                        &lt;chr&gt; …
-## $ `DATA INICIO DO BENEFICIO`                                               &lt;int&gt; …
-## $ `DATA FIM DO BENEFICIO`                                                  &lt;int&gt; …
+## $ `DATA INICIO DO BENEFICIO`                                               &lt;chr&gt; …
+## $ `DATA FIM DO BENEFICIO`                                                  &lt;chr&gt; …
 ## $ `RENDIMENTO BRUTO`                                                       &lt;chr&gt; …
 ## $ `RENDIMENTO LIQUIDO`                                                     &lt;chr&gt; …
 ## $ `PAGAMENTO SUSPENSO`                                                     &lt;chr&gt; …
-## $ V29                                                                      &lt;lgl&gt; …</code></pre>
+## $ X29                                                                      &lt;lgl&gt; …</code></pre>
 <pre class="r"><code># View(df_pensionistas_07_2020)</code></pre>
 </div>
 <div id="verificação-de-partes-do-arquivo" class="section level2">
 <h2>1.11) Verificação de partes do arquivo</h2>
 <p>Outras funções úteis para checar o arquivo estão abaixo. São elas: <code>head()</code>, <code>tail()</code>, <code>colnames()</code>, <code>unique()</code> e <code>length()</code>.</p>
 <pre class="r"><code>head(df_pensionistas_07_2020)</code></pre>
-<pre><code>##               NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
-## 1:                   ADOLFO LEAO DE ARAUJO              ***602951**
-## 2:                 AGNELO FERREIRA DA CRUZ              ***260401**
-## 3: ALBERTO FERNANDO MONTEIRO DO NASCIMENTO              ***421424**
-## 4:           ALEXANDRE PEDRO DE ALEXANDRIA              ***302341**
-## 5:                   ALUIZIO DE SOUZA LIMA              ***891031**
-## 6:          ALVARO RAIMUNDO DE SOUZA FILHO              ***818627**
-##    DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
-## 1:                    12061944                     10021998
-## 2:                    14121939                     25012016
-## 3:                     8021947                     13102012
-## 4:                     4111932                     20112012
-## 5:                    13031934                     21082018
-## 6:                     6021918                     25042000
-##    MATRICULA SERVIDOR INSTITUIDOR                           NOME DO ORGAO
-## 1:                   130000000007 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 2:                   130000000008 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 3:                   130000000011 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 4:                   130000000014 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 5:                   130000000016 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 6:                   130000000017 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##    SIGLA DO ORGAO CODIGO ORGAO SUPERIOR           CARGO SERVIDOR INSTITUIDOR
-## 1:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-## 2:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-## 3:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
-## 4:           MAPA                     0      AUXILIAR OPERAC EM AGROPECUARIA
-## 5:           MAPA                     0  AUDITOR FISCAL FEDERAL AGROPECUARIO
-## 6:           MAPA                     0                          ESTATISTICO
-##    NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
-## 1:           NIVEL AUXILIAR                           S
-## 2:           NIVEL AUXILIAR                           S
-## 3:           NIVEL SUPERIOR                           S
-## 4:           NIVEL AUXILIAR                           S
-## 5:           NIVEL SUPERIOR                           S
-## 6:           NIVEL SUPERIOR                           S
-##    PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
-## 1:                           I                               0
-## 2:                           I                               0
-## 3:                          IV                               0
-## 4:                           I                               0
-## 5:                          IV                               0
-## 6:                         III                               0
-##    NIVEL SERVIDOR INSTITUIDOR
-## 1:                          0
-## 2:                          0
-## 3:                          0
-## 4:                          0
-## 5:                          0
-## 6:                          0
-##    OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-## 1:                                                               
-## 2:                                                               
-## 3:                                            NOMEACAO PARA CARGO
-## 4:                                            NOMEACAO PARA CARGO
-## 5:                                  ADMISSAO SEM CONCURSO PUBLICO
-## 6:                                                               
-##    DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-## 1:                                                                      0
-## 2:                                                                      0
-## 3:                                                               15081970
-## 4:                                                               15061962
-## 5:                                                               15061962
-## 6:                                                                      0
-##               NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
-## 1: CARMEN LUCINDA FARKAS DE ARAUJO         ***777501**           18041951
-## 2:       MARIA DE LOURDES DA SILVA         ***578421**           14011948
-## 3:             MARIZETE DIAS SOUZA         ***574775**           18031954
-## 4:            MARGARIDA ALEXANDRIA         ***464001**           27111943
-## 5:           MARIA JOSE PINTO LIMA         ***764491**           10051935
-## 6:     MARIA AMELIA DE ARAUJO LIMA         ***197357**           18041925
-##    UF DA UPAG DE VINCULACAO                               TIPO DE BENEFICIARIO
-## 1:                       DF                                              VIUVA
-## 2:                       DF                                     COMPANHEIRA(O)
-## 3:                       DF                                     COMPANHEIRA(O)
-## 4:                       DF                                              VIUVA
-## 5:                       DF                                     COMPANHEIRA(O)
-## 6:                       RJ COMPANHEIRA/EX-COMPANHEIRA PA RECONHECIDA JUDICIAL
-##                                      TIPO PENSAO NATUREZA PENSAO
-## 1:                                   LEI 8112/90       VITALICIA
-## 2:            EC 47/2005 E EC 70/2012 - PARIDADE      TEMPORARIA
-## 3: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 4: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 5: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
-## 6:                                   LEI 8112/90       VITALICIA
-##    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
-## 1:                 10021998                     0         1.924,95
-## 2:                 25012016                     0         4.046,19
-## 3:                 13102012                     0        30.305,13
-## 4:                 20112012                     0         5.414,89
-## 5:                 21082018                     0        25.155,49
-## 6:                 26042000                     0        19.105,33
-##    RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
-## 1:           1.857,90                NAO  NA
-## 2:           4.046,19                NAO  NA
-## 3:          24.518,19                NAO  NA
-## 4:           5.414,89                NAO  NA
-## 5:          20.723,33                NAO  NA
-## 6:          14.866,84                NAO  NA</code></pre>
+<pre><code>## # A tibble: 6 x 29
+##   `NOME DO SERVID… `CPF SERVIDOR I… `DATA NASCIMENT… `DATA FALECIMEN…
+##   &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+## 1 ADOLFO LEAO DE … ***602951**      12061944         10021998        
+## 2 AGNELO FERREIRA… ***260401**      14121939         25012016        
+## 3 ALBERTO FERNAND… ***421424**      08021947         13102012        
+## 4 ALEXANDRE PEDRO… ***302341**      04111932         20112012        
+## 5 ALUIZIO DE SOUZ… ***891031**      13031934         21082018        
+## 6 ALVARO RAIMUNDO… ***818627**      06021918         25042000        
+## # … with 25 more variables: `MATRICULA SERVIDOR INSTITUIDOR` &lt;dbl&gt;, `NOME DO
+## #   ORGAO` &lt;chr&gt;, `SIGLA DO ORGAO` &lt;chr&gt;, `CODIGO ORGAO SUPERIOR` &lt;dbl&gt;, `CARGO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL ESCOLARIDADE CARGO` &lt;chr&gt;, `CLASSE
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `PADRAO SERVIDOR INSTITUIDOR` &lt;chr&gt;,
+## #   `REFERENCIA SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NOME DO BENEFICIARIO` &lt;chr&gt;, `CPF DO
+## #   BENEFICIARIO` &lt;chr&gt;, `DATA DE NASCIMENTO` &lt;chr&gt;, `UF DA UPAG DE
+## #   VINCULACAO` &lt;chr&gt;, `TIPO DE BENEFICIARIO` &lt;chr&gt;, `TIPO PENSAO` &lt;chr&gt;,
+## #   `NATUREZA PENSAO` &lt;chr&gt;, `DATA INICIO DO BENEFICIO` &lt;chr&gt;, `DATA FIM DO
+## #   BENEFICIO` &lt;chr&gt;, `RENDIMENTO BRUTO` &lt;chr&gt;, `RENDIMENTO LIQUIDO` &lt;chr&gt;,
+## #   `PAGAMENTO SUSPENSO` &lt;chr&gt;, X29 &lt;lgl&gt;</code></pre>
 <pre class="r"><code>head(df_pensionistas_07_2020, 15)</code></pre>
-<pre><code>##                 NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
-##  1:                    ADOLFO LEAO DE ARAUJO              ***602951**
-##  2:                  AGNELO FERREIRA DA CRUZ              ***260401**
-##  3:  ALBERTO FERNANDO MONTEIRO DO NASCIMENTO              ***421424**
-##  4:            ALEXANDRE PEDRO DE ALEXANDRIA              ***302341**
-##  5:                    ALUIZIO DE SOUZA LIMA              ***891031**
-##  6:           ALVARO RAIMUNDO DE SOUZA FILHO              ***818627**
-##  7:                            AMERICO JORGE              ***397527**
-##  8:                  ANGELO PEREIRA DA SILVA              ***081931**
-##  9:                  ANGELO PEREIRA DA SILVA              ***081931**
-## 10:                  ANGELO PEREIRA DA SILVA              ***081931**
-## 11:                  ANGELO PEREIRA DA SILVA              ***081931**
-## 12:                          ARNALDO LEANDRO              ***518767**
-## 13:                 ARTHUR NATIVIDADE SEABRA              ***455941**
-## 14: AUREA JULIA MOREIRA DE ARAUJO NASCIMENTO              ***217291**
-## 15:                      BENEDITO DIAS LOPES              ***551781**
-##     DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
-##  1:                    12061944                     10021998
-##  2:                    14121939                     25012016
-##  3:                     8021947                     13102012
-##  4:                     4111932                     20112012
-##  5:                    13031934                     21082018
-##  6:                     6021918                     25042000
-##  7:                    22071929                     22072018
-##  8:                    24051941                      2072017
-##  9:                    24051941                      2072017
-## 10:                    24051941                      2072017
-## 11:                    24051941                      2072017
-## 12:                    20081922                      6082019
-## 13:                     7081915                     16122010
-## 14:                    10091940                     28052008
-## 15:                     8091938                      8022001
-##     MATRICULA SERVIDOR INSTITUIDOR                           NOME DO ORGAO
-##  1:                   130000000007 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  2:                   130000000008 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  3:                   130000000011 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  4:                   130000000014 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  5:                   130000000016 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  6:                   130000000017 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  7:                   130000000024 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  8:                   130000000028 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##  9:                   130000000028 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 10:                   130000000028 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 11:                   130000000028 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 12:                   130000000050 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 13:                   130000000052 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 14:                   130000000054 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-## 15:                   130000000057 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
-##     SIGLA DO ORGAO CODIGO ORGAO SUPERIOR           CARGO SERVIDOR INSTITUIDOR
-##  1:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-##  2:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-##  3:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
-##  4:           MAPA                     0      AUXILIAR OPERAC EM AGROPECUARIA
-##  5:           MAPA                     0  AUDITOR FISCAL FEDERAL AGROPECUARIO
-##  6:           MAPA                     0                          ESTATISTICO
-##  7:           MAPA                     0                AGENTE ADMINISTRATIVO
-##  8:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-##  9:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-## 10:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-## 11:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
-## 12:           MAPA                     0                AGENTE ADMINISTRATIVO
-## 13:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
-## 14:           MAPA                     0                AGENTE ADMINISTRATIVO
-## 15:           MAPA                     0                 AGENTE DE VIGILANCIA
-##     NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
-##  1:           NIVEL AUXILIAR                           S
-##  2:           NIVEL AUXILIAR                           S
-##  3:           NIVEL SUPERIOR                           S
-##  4:           NIVEL AUXILIAR                           S
-##  5:           NIVEL SUPERIOR                           S
-##  6:           NIVEL SUPERIOR                           S
-##  7:      NIVEL INTERMEDIARIO                           S
-##  8:           NIVEL AUXILIAR                           S
-##  9:           NIVEL AUXILIAR                           S
-## 10:           NIVEL AUXILIAR                           S
-## 11:           NIVEL AUXILIAR                           S
-## 12:      NIVEL INTERMEDIARIO                           S
-## 13:           NIVEL SUPERIOR                           S
-## 14:      NIVEL INTERMEDIARIO                           S
-## 15:      NIVEL INTERMEDIARIO                           C
-##     PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
-##  1:                           I                               0
-##  2:                           I                               0
-##  3:                          IV                               0
-##  4:                           I                               0
-##  5:                          IV                               0
-##  6:                         III                               0
-##  7:                         III                               0
-##  8:                           I                               0
-##  9:                           I                               0
-## 10:                           I                               0
-## 11:                           I                               0
-## 12:                         III                               0
-## 13:                          IV                               0
-## 14:                         III                               0
-## 15:                          VI                               0
-##     NIVEL SERVIDOR INSTITUIDOR
-##  1:                          0
-##  2:                          0
-##  3:                          0
-##  4:                          0
-##  5:                          0
-##  6:                          0
-##  7:                          0
-##  8:                          0
-##  9:                          0
-## 10:                          0
-## 11:                          0
-## 12:                          0
-## 13:                          0
-## 14:                          0
-## 15:                          0
-##     OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-##  1:                                                               
-##  2:                                                               
-##  3:                                            NOMEACAO PARA CARGO
-##  4:                                            NOMEACAO PARA CARGO
-##  5:                                  ADMISSAO SEM CONCURSO PUBLICO
-##  6:                                                               
-##  7:                                            NOMEACAO PARA CARGO
-##  8:                                            NOMEACAO PARA CARGO
-##  9:                                            NOMEACAO PARA CARGO
-## 10:                                            NOMEACAO PARA CARGO
-## 11:                                            NOMEACAO PARA CARGO
-## 12:                                            NOMEACAO PARA CARGO
-## 13:                                            NOMEACAO PARA CARGO
-## 14:                                            NOMEACAO PARA CARGO
-## 15:                                                               
-##     DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-##  1:                                                                      0
-##  2:                                                                      0
-##  3:                                                               15081970
-##  4:                                                               15061962
-##  5:                                                               15061962
-##  6:                                                                      0
-##  7:                                                               16021951
-##  8:                                                               15061962
-##  9:                                                               15061962
-## 10:                                                               15061962
-## 11:                                                               15061962
-## 12:                                                                1011942
-## 13:                                                               20051942
-## 14:                                                               15061962
-## 15:                                                                      0
-##                 NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
-##  1:  CARMEN LUCINDA FARKAS DE ARAUJO         ***777501**           18041951
-##  2:        MARIA DE LOURDES DA SILVA         ***578421**           14011948
-##  3:              MARIZETE DIAS SOUZA         ***574775**           18031954
-##  4:             MARGARIDA ALEXANDRIA         ***464001**           27111943
-##  5:            MARIA JOSE PINTO LIMA         ***764491**           10051935
-##  6:      MARIA AMELIA DE ARAUJO LIMA         ***197357**           18041925
-##  7:               ELI DA SILVA JORGE         ***042811**           15021935
-##  8: MARIA DO SOCORRO PESSOA DE SOUSA         ***632191**           10031976
-##  9:          DEIVID PEREIRA DE SOUSA         ***498261**            3052001
-## 10:         GABRIEL PEREIRA DE SOUSA         ***498251**            8082005
-## 11:           JULIA PEREIRA DE SOUSA         ***094071**           21062011
-## 12:              LUIZA COSTA LEANDRO         ***261151**           21081942
-## 13:   LAUDELINA MARIA WINTHER SEABRA         ***591071**           10091926
-## 14:       VILCEU SALES DO NASCIMENTO         ***024949**           27011940
-## 15:          CUSTODIA RAIMUNDA LOPES         ***549721**            2021941
-##     UF DA UPAG DE VINCULACAO                               TIPO DE BENEFICIARIO
-##  1:                       DF                                              VIUVA
-##  2:                       DF                                     COMPANHEIRA(O)
-##  3:                       DF                                     COMPANHEIRA(O)
-##  4:                       DF                                              VIUVA
-##  5:                       DF                                     COMPANHEIRA(O)
-##  6:                       RJ COMPANHEIRA/EX-COMPANHEIRA PA RECONHECIDA JUDICIAL
-##  7:                       DF                                            CONJUGE
-##  8:                       DF                                            CONJUGE
-##  9:                       DF                                              FILHO
-## 10:                       DF                                              FILHO
-## 11:                       DF                                              FILHA
-## 12:                       RJ                                            CONJUGE
-## 13:                       DF                                              VIUVA
-## 14:                       PR                                              VIUVO
-## 15:                       DF                                              VIUVA
-##                                       TIPO PENSAO NATUREZA PENSAO
-##  1:                                   LEI 8112/90       VITALICIA
-##  2:            EC 47/2005 E EC 70/2012 - PARIDADE      TEMPORARIA
-##  3: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-##  4: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-##  5: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
-##  6:                                   LEI 8112/90       VITALICIA
-##  7: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
-##  8: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
-##  9: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
-## 10: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
-## 11: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
-## 12: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
-## 13: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 14: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 15:                                   LEI 8112/90       VITALICIA
-##     DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
-##  1:                 10021998                     0         1.924,95
-##  2:                 25012016                     0         4.046,19
-##  3:                 13102012                     0        30.305,13
-##  4:                 20112012                     0         5.414,89
-##  5:                 21082018                     0        25.155,49
-##  6:                 26042000                     0        19.105,33
-##  7:                 22072018                     0         7.738,51
-##  8:                  2072017               2072037         1.353,25
-##  9:                  2072017               3052022         1.353,25
-## 10:                  2072017               8082026         1.353,25
-## 11:                 14082017              21062032         1.350,97
-## 12:                  6082019                     0        10.330,48
-## 13:                 16122010                     0        41.434,32
-## 14:                 28052008                     0         6.204,43
-## 15:                  8022001                     0         2.806,98
-##     RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
-##  1:           1.857,90                NAO  NA
-##  2:           4.046,19                NAO  NA
-##  3:          24.518,19                NAO  NA
-##  4:           5.414,89                NAO  NA
-##  5:          20.723,33                NAO  NA
-##  6:          14.866,84                NAO  NA
-##  7:           6.263,86                NAO  NA
-##  8:           1.110,15                NAO  NA
-##  9:           1.107,71                NAO  NA
-## 10:           1.083,13                NAO  NA
-## 11:           1.105,92                NAO  NA
-## 12:           9.746,90                NAO  NA
-## 13:          32.369,74                NAO  NA
-## 14:           6.153,43                NAO  NA
-## 15:           2.295,04                NAO  NA</code></pre>
+<pre><code>## # A tibble: 15 x 29
+##    `NOME DO SERVID… `CPF SERVIDOR I… `DATA NASCIMENT… `DATA FALECIMEN…
+##    &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+##  1 ADOLFO LEAO DE … ***602951**      12061944         10021998        
+##  2 AGNELO FERREIRA… ***260401**      14121939         25012016        
+##  3 ALBERTO FERNAND… ***421424**      08021947         13102012        
+##  4 ALEXANDRE PEDRO… ***302341**      04111932         20112012        
+##  5 ALUIZIO DE SOUZ… ***891031**      13031934         21082018        
+##  6 ALVARO RAIMUNDO… ***818627**      06021918         25042000        
+##  7 AMERICO JORGE    ***397527**      22071929         22072018        
+##  8 ANGELO PEREIRA … ***081931**      24051941         02072017        
+##  9 ANGELO PEREIRA … ***081931**      24051941         02072017        
+## 10 ANGELO PEREIRA … ***081931**      24051941         02072017        
+## 11 ANGELO PEREIRA … ***081931**      24051941         02072017        
+## 12 ARNALDO LEANDRO  ***518767**      20081922         06082019        
+## 13 ARTHUR NATIVIDA… ***455941**      07081915         16122010        
+## 14 AUREA JULIA MOR… ***217291**      10091940         28052008        
+## 15 BENEDITO DIAS L… ***551781**      08091938         08022001        
+## # … with 25 more variables: `MATRICULA SERVIDOR INSTITUIDOR` &lt;dbl&gt;, `NOME DO
+## #   ORGAO` &lt;chr&gt;, `SIGLA DO ORGAO` &lt;chr&gt;, `CODIGO ORGAO SUPERIOR` &lt;dbl&gt;, `CARGO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL ESCOLARIDADE CARGO` &lt;chr&gt;, `CLASSE
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `PADRAO SERVIDOR INSTITUIDOR` &lt;chr&gt;,
+## #   `REFERENCIA SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NOME DO BENEFICIARIO` &lt;chr&gt;, `CPF DO
+## #   BENEFICIARIO` &lt;chr&gt;, `DATA DE NASCIMENTO` &lt;chr&gt;, `UF DA UPAG DE
+## #   VINCULACAO` &lt;chr&gt;, `TIPO DE BENEFICIARIO` &lt;chr&gt;, `TIPO PENSAO` &lt;chr&gt;,
+## #   `NATUREZA PENSAO` &lt;chr&gt;, `DATA INICIO DO BENEFICIO` &lt;chr&gt;, `DATA FIM DO
+## #   BENEFICIO` &lt;chr&gt;, `RENDIMENTO BRUTO` &lt;chr&gt;, `RENDIMENTO LIQUIDO` &lt;chr&gt;,
+## #   `PAGAMENTO SUSPENSO` &lt;chr&gt;, X29 &lt;lgl&gt;</code></pre>
 <pre class="r"><code>tail(df_pensionistas_07_2020)</code></pre>
-<pre><code>##    NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
-## 1:  ANTONIO PRAZERES DE MIRANDA              ***522842**
-## 2:       ROBERTO SOARES MARQUES              ***515507**
-## 3:      JOSE ESTEVES DE ALMEIDA              00000000000
-## 4:   MANOEL WALDEMIRO DE BARROS              ***350907**
-## 5:   MANOEL WALDEMIRO DE BARROS              ***350907**
-## 6:   MANOEL WALDEMIRO DE BARROS              ***350907**
-##    DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
-## 1:                    11041927                     22012013
-## 2:                     1051929                      3072012
-## 3:                    10031921                     15071986
-## 4:                    11021914                     27051989
-## 5:                    11021914                     27051989
-## 6:                    11021914                     27051989
-##    MATRICULA SERVIDOR INSTITUIDOR      NOME DO ORGAO SIGLA DO ORGAO
-## 1:                   700007972103 COMANDO DA MARINHA             CM
-## 2:                   700007973143 COMANDO DA MARINHA             CM
-## 3:                   700007992815 COMANDO DA MARINHA             CM
-## 4:                   700008984553 COMANDO DA MARINHA             CM
-## 5:                   700008984553 COMANDO DA MARINHA             CM
-## 6:                   700008984553 COMANDO DA MARINHA             CM
-##    CODIGO ORGAO SUPERIOR            CARGO SERVIDOR INSTITUIDOR
-## 1:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-## 2:                 40105   AGENTE DE TRANSP MARITIMO E FLUVIAL
-## 3:                 40105       ARTIF DE ELETRIC E COMUNICACOES
-## 4:                 40105         ARTIF DE CARPINT E MARCENARIA
-## 5:                 40105         ARTIF DE CARPINT E MARCENARIA
-## 6:                 40105         ARTIF DE CARPINT E MARCENARIA
-##    NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
-## 1:      NIVEL INTERMEDIARIO                           B
-## 2:      NIVEL INTERMEDIARIO                           C
-## 3:      NIVEL INTERMEDIARIO                           A
-## 4:      NIVEL INTERMEDIARIO                           A
-## 5:      NIVEL INTERMEDIARIO                           A
-## 6:      NIVEL INTERMEDIARIO                           A
-##    PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
-## 1:                         III                               0
-## 2:                          IV                               0
-## 3:                           V                               0
-## 4:                           V                               0
-## 5:                           V                               0
-## 6:                           V                               0
-##    NIVEL SERVIDOR INSTITUIDOR
-## 1:                          0
-## 2:                          0
-## 3:                          0
-## 4:                          0
-## 5:                          0
-## 6:                          0
-##    OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-## 1:                                            NOMEACAO PARA CARGO
-## 2:                                            NOMEACAO PARA CARGO
-## 3:                                                               
-## 4:                                                               
-## 5:                                                               
-## 6:                                                               
-##    DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-## 1:                                                                1011970
-## 2:                                                                1011970
-## 3:                                                                      0
-## 4:                                                               18111936
-## 5:                                                               18111936
-## 6:                                                               18111936
-##              NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
-## 1:      NILCINEA DA SILVA MIRANDA         ***161462**           12071968
-## 2:   ALCIDINERIA DE ABREU MARQUES         ***212517**            2091938
-## 3: SONIA MARIA ESTEVES DE ALMEIDA         ***343667**            4061952
-## 4:                CELIA DE BARROS         ***067827**           26051940
-## 5:        ANDREA EMILIA DE BARROS         ***135007**           13111966
-## 6:              SOLANGE DE BARROS         ***463497**           19021942
-##    UF DA UPAG DE VINCULACAO                              TIPO DE BENEFICIARIO
-## 1:                       RJ                              FILHA MAIOR INVALIDA
-## 2:                       RJ                                             VIUVA
-## 3:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 4:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 5:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 6:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##                                           TIPO PENSAO NATUREZA PENSAO
-## 1: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
-## 2:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 3:                                        LEI 3373/58      TEMPORARIA
-## 4:                                        LEI 3373/58      TEMPORARIA
-## 5:                                        LEI 3373/58      TEMPORARIA
-## 6:                                        LEI 3373/58      TEMPORARIA
-##    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
-## 1:                 22012013                     0         1.607,88
-## 2:                  3072012                     0         8.027,52
-## 3:                 15071986                     0         5.829,70
-## 4:                 27051989                     0         2.005,03
-## 5:                 27051989                     0         2.005,03
-## 6:                 27051989                     0         2.005,03
-##    RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
-## 1:           1.607,88                NAO  NA
-## 2:           7.865,17                NAO  NA
-## 3:           5.829,70                NAO  NA
-## 4:           2.005,03                NAO  NA
-## 5:           2.005,03                NAO  NA
-## 6:           1.937,95                NAO  NA</code></pre>
+<pre><code>## # A tibble: 6 x 29
+##   `NOME DO SERVID… `CPF SERVIDOR I… `DATA NASCIMENT… `DATA FALECIMEN…
+##   &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+## 1 ANTONIO PRAZERE… ***522842**      11041927         22012013        
+## 2 ROBERTO SOARES … ***515507**      01051929         03072012        
+## 3 JOSE ESTEVES DE… 00000000000      10031921         15071986        
+## 4 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## 5 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## 6 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## # … with 25 more variables: `MATRICULA SERVIDOR INSTITUIDOR` &lt;dbl&gt;, `NOME DO
+## #   ORGAO` &lt;chr&gt;, `SIGLA DO ORGAO` &lt;chr&gt;, `CODIGO ORGAO SUPERIOR` &lt;dbl&gt;, `CARGO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL ESCOLARIDADE CARGO` &lt;chr&gt;, `CLASSE
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `PADRAO SERVIDOR INSTITUIDOR` &lt;chr&gt;,
+## #   `REFERENCIA SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NOME DO BENEFICIARIO` &lt;chr&gt;, `CPF DO
+## #   BENEFICIARIO` &lt;chr&gt;, `DATA DE NASCIMENTO` &lt;chr&gt;, `UF DA UPAG DE
+## #   VINCULACAO` &lt;chr&gt;, `TIPO DE BENEFICIARIO` &lt;chr&gt;, `TIPO PENSAO` &lt;chr&gt;,
+## #   `NATUREZA PENSAO` &lt;chr&gt;, `DATA INICIO DO BENEFICIO` &lt;chr&gt;, `DATA FIM DO
+## #   BENEFICIO` &lt;chr&gt;, `RENDIMENTO BRUTO` &lt;chr&gt;, `RENDIMENTO LIQUIDO` &lt;chr&gt;,
+## #   `PAGAMENTO SUSPENSO` &lt;chr&gt;, X29 &lt;lgl&gt;</code></pre>
 <pre class="r"><code>tail(df_pensionistas_07_2020, 14)</code></pre>
-<pre><code>##     NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
-##  1:     ADELSON PEREIRA DA SILVA              ***970657**
-##  2:                  JORGE MOURA              00000000000
-##  3:                  JORGE MOURA              00000000000
-##  4:          JORGE ALVES RIBEIRO              ***508047**
-##  5:          JORGE ALVES RIBEIRO              ***508047**
-##  6:    ANTONIO DE PADUA FERREIRA              ***751932**
-##  7:  ANTONIO PRAZERES DE MIRANDA              ***522842**
-##  8:  ANTONIO PRAZERES DE MIRANDA              ***522842**
-##  9:  ANTONIO PRAZERES DE MIRANDA              ***522842**
-## 10:       ROBERTO SOARES MARQUES              ***515507**
-## 11:      JOSE ESTEVES DE ALMEIDA              00000000000
-## 12:   MANOEL WALDEMIRO DE BARROS              ***350907**
-## 13:   MANOEL WALDEMIRO DE BARROS              ***350907**
-## 14:   MANOEL WALDEMIRO DE BARROS              ***350907**
-##     DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
-##  1:                    14091909                     27091976
-##  2:                    29041915                     13011949
-##  3:                    29041915                     13011949
-##  4:                    12051935                     24091976
-##  5:                    12051935                     24091976
-##  6:                     8051929                      9072012
-##  7:                    11041927                     22012013
-##  8:                    11041927                     22012013
-##  9:                    11041927                     22012013
-## 10:                     1051929                      3072012
-## 11:                    10031921                     15071986
-## 12:                    11021914                     27051989
-## 13:                    11021914                     27051989
-## 14:                    11021914                     27051989
-##     MATRICULA SERVIDOR INSTITUIDOR      NOME DO ORGAO SIGLA DO ORGAO
-##  1:                   700006998830 COMANDO DA MARINHA             CM
-##  2:                   700006998984 COMANDO DA MARINHA             CM
-##  3:                   700006998984 COMANDO DA MARINHA             CM
-##  4:                   700006999359 COMANDO DA MARINHA             CM
-##  5:                   700006999359 COMANDO DA MARINHA             CM
-##  6:                   700007972102 COMANDO DA MARINHA             CM
-##  7:                   700007972103 COMANDO DA MARINHA             CM
-##  8:                   700007972103 COMANDO DA MARINHA             CM
-##  9:                   700007972103 COMANDO DA MARINHA             CM
-## 10:                   700007973143 COMANDO DA MARINHA             CM
-## 11:                   700007992815 COMANDO DA MARINHA             CM
-## 12:                   700008984553 COMANDO DA MARINHA             CM
-## 13:                   700008984553 COMANDO DA MARINHA             CM
-## 14:                   700008984553 COMANDO DA MARINHA             CM
-##     CODIGO ORGAO SUPERIOR            CARGO SERVIDOR INSTITUIDOR
-##  1:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-##  2:                 40105              AUX OPERAC SERV DIVERSOS
-##  3:                 40105              AUX OPERAC SERV DIVERSOS
-##  4:                 40105                    AGENTE DE PORTARIA
-##  5:                 40105                    AGENTE DE PORTARIA
-##  6:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-##  7:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-##  8:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-##  9:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
-## 10:                 40105   AGENTE DE TRANSP MARITIMO E FLUVIAL
-## 11:                 40105       ARTIF DE ELETRIC E COMUNICACOES
-## 12:                 40105         ARTIF DE CARPINT E MARCENARIA
-## 13:                 40105         ARTIF DE CARPINT E MARCENARIA
-## 14:                 40105         ARTIF DE CARPINT E MARCENARIA
-##     NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
-##  1:      NIVEL INTERMEDIARIO                           C
-##  2:           NIVEL AUXILIAR                           S
-##  3:           NIVEL AUXILIAR                           S
-##  4:      NIVEL INTERMEDIARIO                           B
-##  5:      NIVEL INTERMEDIARIO                           B
-##  6:      NIVEL INTERMEDIARIO                           C
-##  7:      NIVEL INTERMEDIARIO                           B
-##  8:      NIVEL INTERMEDIARIO                           B
-##  9:      NIVEL INTERMEDIARIO                           B
-## 10:      NIVEL INTERMEDIARIO                           C
-## 11:      NIVEL INTERMEDIARIO                           A
-## 12:      NIVEL INTERMEDIARIO                           A
-## 13:      NIVEL INTERMEDIARIO                           A
-## 14:      NIVEL INTERMEDIARIO                           A
-##     PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
-##  1:                           I                               0
-##  2:                           I                               0
-##  3:                           I                               0
-##  4:                           I                               0
-##  5:                           I                               0
-##  6:                         III                               0
-##  7:                         III                               0
-##  8:                         III                               0
-##  9:                         III                               0
-## 10:                          IV                               0
-## 11:                           V                               0
-## 12:                           V                               0
-## 13:                           V                               0
-## 14:                           V                               0
-##     NIVEL SERVIDOR INSTITUIDOR
-##  1:                          0
-##  2:                          0
-##  3:                          0
-##  4:                          0
-##  5:                          0
-##  6:                          0
-##  7:                          0
-##  8:                          0
-##  9:                          0
-## 10:                          0
-## 11:                          0
-## 12:                          0
-## 13:                          0
-## 14:                          0
-##     OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-##  1:                                                               
-##  2:                                                               
-##  3:                                                               
-##  4:                                                               
-##  5:                                                               
-##  6:                                  ADMISSAO POR CONCURSO PUBLICO
-##  7:                                            NOMEACAO PARA CARGO
-##  8:                                            NOMEACAO PARA CARGO
-##  9:                                            NOMEACAO PARA CARGO
-## 10:                                            NOMEACAO PARA CARGO
-## 11:                                                               
-## 12:                                                               
-## 13:                                                               
-## 14:                                                               
-##     DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
-##  1:                                                                      0
-##  2:                                                               26111931
-##  3:                                                               26111931
-##  4:                                                                      0
-##  5:                                                                      0
-##  6:                                                                4011945
-##  7:                                                                1011970
-##  8:                                                                1011970
-##  9:                                                                1011970
-## 10:                                                                1011970
-## 11:                                                                      0
-## 12:                                                               18111936
-## 13:                                                               18111936
-## 14:                                                               18111936
-##                  NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
-##  1:            LUZIA MACHADO DA SILVA         ***556007**           13121948
-##  2:            ABIGAIL CUNHA DE MOURA         ***494627**            6051915
-##  3:             MARIA DA GLORIA MOURA         ***518407**           16081941
-##  4:        ROSELANE FREDERICO RIBEIRO         ***220897**           21061966
-##  5:          IVANIA FREDERICO RIBEIRO         ***800797**           30101960
-##  6:              DIRCE MUNIZ FERREIRA         ***437422**            5071962
-##  7: MARIA DE NAZARE MORAES DE MIRANDA         ***043112**           30121946
-##  8:        AGUINALDO DA SILVA MIRANDA         ***360522**           21051967
-##  9:         NILCINEA DA SILVA MIRANDA         ***161462**           12071968
-## 10:      ALCIDINERIA DE ABREU MARQUES         ***212517**            2091938
-## 11:    SONIA MARIA ESTEVES DE ALMEIDA         ***343667**            4061952
-## 12:                   CELIA DE BARROS         ***067827**           26051940
-## 13:           ANDREA EMILIA DE BARROS         ***135007**           13111966
-## 14:                 SOLANGE DE BARROS         ***463497**           19021942
-##     UF DA UPAG DE VINCULACAO                              TIPO DE BENEFICIARIO
-##  1:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##  2:                       RJ                                             VIUVA
-##  3:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##  4:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##  5:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##  6:                       RJ                              FILHA MAIOR INVALIDA
-##  7:                       RJ                                             VIUVA
-##  8:                       RJ                              FILHO MAIOR INVALIDO
-##  9:                       RJ                              FILHA MAIOR INVALIDA
-## 10:                       RJ                                             VIUVA
-## 11:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 12:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 13:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-## 14:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
-##                                            TIPO PENSAO NATUREZA PENSAO
-##  1:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
-##  2:                  LEI 3373/58 COMBINADA COM 6782/80       VITALICIA
-##  3:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
-##  4:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
-##  5:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
-##  6:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004      TEMPORARIA
-##  7: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL       VITALICIA
-##  8: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
-##  9: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
-## 10:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
-## 11:                                        LEI 3373/58      TEMPORARIA
-## 12:                                        LEI 3373/58      TEMPORARIA
-## 13:                                        LEI 3373/58      TEMPORARIA
-## 14:                                        LEI 3373/58      TEMPORARIA
-##     DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
-##  1:                 27091976                     0         6.821,84
-##  2:                 13011949                     0         1.921,52
-##  3:                 13011949                     0         1.921,52
-##  4:                 24091976                     0         2.470,86
-##  5:                 24091976                     0         2.470,86
-##  6:                  9072012                     0         8.193,96
-##  7:                 22012013                     0         3.215,78
-##  8:                 10062013                     0         1.607,88
-##  9:                 22012013                     0         1.607,88
-## 10:                  3072012                     0         8.027,52
-## 11:                 15071986                     0         5.829,70
-## 12:                 27051989                     0         2.005,03
-## 13:                 27051989                     0         2.005,03
-## 14:                 27051989                     0         2.005,03
-##     RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
-##  1:           5.154,16                NAO  NA
-##  2:           1.921,52                NAO  NA
-##  3:           1.883,03                NAO  NA
-##  4:           2.470,86                NAO  NA
-##  5:           1.983,67                NAO  NA
-##  6:           7.561,10                NAO  NA
-##  7:           3.001,40                NAO  NA
-##  8:           1.500,69                NAO  NA
-##  9:           1.607,88                NAO  NA
-## 10:           7.865,17                NAO  NA
-## 11:           5.829,70                NAO  NA
-## 12:           2.005,03                NAO  NA
-## 13:           2.005,03                NAO  NA
-## 14:           1.937,95                NAO  NA</code></pre>
+<pre><code>## # A tibble: 14 x 29
+##    `NOME DO SERVID… `CPF SERVIDOR I… `DATA NASCIMENT… `DATA FALECIMEN…
+##    &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+##  1 ADELSON PEREIRA… ***970657**      14091909         27091976        
+##  2 JORGE MOURA      00000000000      29041915         13011949        
+##  3 JORGE MOURA      00000000000      29041915         13011949        
+##  4 JORGE ALVES RIB… ***508047**      12051935         24091976        
+##  5 JORGE ALVES RIB… ***508047**      12051935         24091976        
+##  6 ANTONIO DE PADU… ***751932**      08051929         09072012        
+##  7 ANTONIO PRAZERE… ***522842**      11041927         22012013        
+##  8 ANTONIO PRAZERE… ***522842**      11041927         22012013        
+##  9 ANTONIO PRAZERE… ***522842**      11041927         22012013        
+## 10 ROBERTO SOARES … ***515507**      01051929         03072012        
+## 11 JOSE ESTEVES DE… 00000000000      10031921         15071986        
+## 12 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## 13 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## 14 MANOEL WALDEMIR… ***350907**      11021914         27051989        
+## # … with 25 more variables: `MATRICULA SERVIDOR INSTITUIDOR` &lt;dbl&gt;, `NOME DO
+## #   ORGAO` &lt;chr&gt;, `SIGLA DO ORGAO` &lt;chr&gt;, `CODIGO ORGAO SUPERIOR` &lt;dbl&gt;, `CARGO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL ESCOLARIDADE CARGO` &lt;chr&gt;, `CLASSE
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `PADRAO SERVIDOR INSTITUIDOR` &lt;chr&gt;,
+## #   `REFERENCIA SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR
+## #   INSTITUIDOR` &lt;chr&gt;, `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO
+## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NOME DO BENEFICIARIO` &lt;chr&gt;, `CPF DO
+## #   BENEFICIARIO` &lt;chr&gt;, `DATA DE NASCIMENTO` &lt;chr&gt;, `UF DA UPAG DE
+## #   VINCULACAO` &lt;chr&gt;, `TIPO DE BENEFICIARIO` &lt;chr&gt;, `TIPO PENSAO` &lt;chr&gt;,
+## #   `NATUREZA PENSAO` &lt;chr&gt;, `DATA INICIO DO BENEFICIO` &lt;chr&gt;, `DATA FIM DO
+## #   BENEFICIO` &lt;chr&gt;, `RENDIMENTO BRUTO` &lt;chr&gt;, `RENDIMENTO LIQUIDO` &lt;chr&gt;,
+## #   `PAGAMENTO SUSPENSO` &lt;chr&gt;, X29 &lt;lgl&gt;</code></pre>
 <pre class="r"><code>colnames(df_pensionistas_07_2020)</code></pre>
 <pre><code>##  [1] &quot;NOME DO SERVIDOR INSTITUIDOR&quot;                                          
 ##  [2] &quot;CPF SERVIDOR INSTITUIDOR&quot;                                              
@@ -2384,7 +1845,7 @@ list.files()</code></pre>
 ## [26] &quot;RENDIMENTO BRUTO&quot;                                                      
 ## [27] &quot;RENDIMENTO LIQUIDO&quot;                                                    
 ## [28] &quot;PAGAMENTO SUSPENSO&quot;                                                    
-## [29] &quot;V29&quot;</code></pre>
+## [29] &quot;X29&quot;</code></pre>
 <pre class="r"><code>unique(df_pensionistas_07_2020$`NOME DO ORGAO`)</code></pre>
 <pre><code>##   [1] &quot;MINIST.DA AGRICULTURA,PECUARIA E ABAST.&quot; 
 ##   [2] &quot;MINISTERIO DA EDUCACAO&quot;                  
@@ -2607,13 +2068,15 @@ df_pensionistas_07_2020_novo &lt;- df_pensionistas_07_2020 %&gt;%
 #nesse caso a operação que desejamos fazer é a seleção das colunas Rendimento Bruto e Rendimento Líquido
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-## 1:         1.924,95           1.857,90
-## 2:         4.046,19           4.046,19
-## 3:        30.305,13          24.518,19
-## 4:         5.414,89           5.414,89
-## 5:        25.155,49          20.723,33
-## 6:        19.105,33          14.866,84</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##   &lt;chr&gt;              &lt;chr&gt;               
+## 1 1.924,95           1.857,90            
+## 2 4.046,19           4.046,19            
+## 3 30.305,13          24.518,19           
+## 4 5.414,89           5.414,89            
+## 5 25.155,49          20.723,33           
+## 6 19.105,33          14.866,84</code></pre>
 <p>Observe que o resultado do bloco de código anterior é uma tabela de seis linhas com duas colunas. Veja que ambas colunas estão marcadas como <strong>chr</strong>. Isso indica que o tipo de ambas colunas é texto e não numérico. Essa característica impede fazer operações aritméticas simples, tais como soma. Se tentarmos fazer a operação abaixo…</p>
 <pre class="r"><code># tentativa de somar os rendimentos brutos 
 # sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
@@ -2633,13 +2096,15 @@ df_pensionistas_07_2020 &lt;-
 #no fim vamos repetir novamente a instrução do bloco anterior.
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-## 1:           192495           1.857,90
-## 2:           404619           4.046,19
-## 3:          3030513          24.518,19
-## 4:           541489           5.414,89
-## 5:          2515549          20.723,33
-## 6:          1910533          14.866,84</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##                &lt;dbl&gt; &lt;chr&gt;               
+## 1             192495 1.857,90            
+## 2             404619 4.046,19            
+## 3            3030513 24.518,19           
+## 4             541489 5.414,89            
+## 5            2515549 20.723,33           
+## 6            1910533 14.866,84</code></pre>
 <p>Observe que agora a coluna “Rendimento Bruto” não está mais marcada como <strong>chr</strong> e sim como <strong>dbl</strong>, que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamos então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo:</p>
 <pre class="r"><code>#o novo valor da coluna rendimento bruto vai ser o valor que a coluna tem no momento divido por 100
 df_pensionistas_07_2020 &lt;-
@@ -2648,13 +2113,15 @@ df_pensionistas_07_2020 &lt;-
 #agora executamos novamente a exibição dos seis primeiros valores da tabela
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-## 1:          1924.95           1.857,90
-## 2:          4046.19           4.046,19
-## 3:         30305.13          24.518,19
-## 4:          5414.89           5.414,89
-## 5:         25155.49          20.723,33
-## 6:         19105.33          14.866,84</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##                &lt;dbl&gt; &lt;chr&gt;               
+## 1              1925. 1.857,90            
+## 2              4046. 4.046,19            
+## 3             30305. 24.518,19           
+## 4              5415. 5.414,89            
+## 5             25155. 20.723,33           
+## 6             19105. 14.866,84</code></pre>
 <p>Perfeito. Agora temos o valor de rendimento bruto já transformado para numérico e está também com o valor correto. A coluna redimento líquido continua com problema. Temos que refazer todo o procedimento feito em redimento bruto na coluna rendimento líquido. É isso o que é feito logo abaixo.</p>
 <pre class="r"><code>df_pensionistas_07_2020 &lt;-
       df_pensionistas_07_2020 %&gt;%
@@ -2665,13 +2132,15 @@ df_pensionistas_07_2020 &lt;-
       mutate(`RENDIMENTO LIQUIDO` = `RENDIMENTO LIQUIDO`/100)
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-## 1:          1924.95            1857.90
-## 2:          4046.19            4046.19
-## 3:         30305.13           24518.19
-## 4:          5414.89            5414.89
-## 5:         25155.49           20723.33
-## 6:         19105.33           14866.84</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##                &lt;dbl&gt;                &lt;dbl&gt;
+## 1              1925.                1858.
+## 2              4046.                4046.
+## 3             30305.               24518.
+## 4              5415.                5415.
+## 5             25155.               20723.
+## 6             19105.               14867.</code></pre>
 <p>Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em julho de 2020.</p>
 <pre class="r"><code>#somatório do rendimento bruto
 sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
@@ -2735,28 +2204,19 @@ min(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 df_pensionistas_07_2020 %&gt;%
   slice_max(`RENDIMENTO BRUTO`,n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>##                    NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO
-##  1:                    HEBER MARANHAO RODRIGUES        650661.11
-##  2:                   JOAO BATISTA ALVES NOVAES        398632.54
-##  3:                                JORGE VARGAS         97177.41
-##  4:           JOSE GERALDO RODRIGUES DE ALCKMIN         92702.98
-##  5:                    LAERTE NEPOMUCENO VIANNA         89566.19
-##  6:                     RAIMUNDO HOLANDA FARIAS         80604.34
-##  7:                         MOACYR CORREA NUNES         79949.35
-##  8: ALBERICO ALUCIO DE ALCANTARA VELHO BARRETTO         79804.95
-##  9:                    ARMANDO LEITE ROLLEMBERG         78222.43
-## 10:             CARLOS ANTONIO SOARES MEIRELLES         77152.36
-##     RENDIMENTO LIQUIDO
-##  1:          650661.11
-##  2:          289414.13
-##  3:           43150.15
-##  4:           45286.24
-##  5:           60069.66
-##  6:           54695.62
-##  7:           52322.36
-##  8:           78725.43
-##  9:           37437.94
-## 10:           53603.82</code></pre>
+<pre><code>## # A tibble: 10 x 3
+##    `NOME DO SERVIDOR INSTITUIDOR`          `RENDIMENTO BRUT… `RENDIMENTO LIQUID…
+##    &lt;chr&gt;                                               &lt;dbl&gt;               &lt;dbl&gt;
+##  1 HEBER MARANHAO RODRIGUES                          650661.             650661.
+##  2 JOAO BATISTA ALVES NOVAES                         398633.             289414.
+##  3 JORGE VARGAS                                       97177.              43150.
+##  4 JOSE GERALDO RODRIGUES DE ALCKMIN                  92703.              45286.
+##  5 LAERTE NEPOMUCENO VIANNA                           89566.              60070.
+##  6 RAIMUNDO HOLANDA FARIAS                            80604.              54696.
+##  7 MOACYR CORREA NUNES                                79949.              52322.
+##  8 ALBERICO ALUCIO DE ALCANTARA VELHO BAR…            79805.              78725.
+##  9 ARMANDO LEITE ROLLEMBERG                           78222.              37438.
+## 10 CARLOS ANTONIO SOARES MEIRELLES                    77152.              53604.</code></pre>
 <p>Como se vê, pode-se descartar problemas maiores na base já que da amostra dos 10 valores brutos mais elevados, apenas justamente o maior rendimento bruto tem valor igual ao maior rendimento líquido. Existem algumas possibilidades para que isso ocorra, mas pode ser um erro mesmo da base. O R nos ajudou aqui a descobrir com certa facilidade um ponto de investigação.</p>
 <p>Agora vamos tentar ver o que está por trás dos valor mínimo ser zerado. As próximas linhas de código tratam disso</p>
 <pre class="r"><code># a função slice_min vai nos trazer os n menores valores de um conjunto de dados de acordo com uma variável que indicarmos.
@@ -2765,36 +2225,40 @@ df_pensionistas_07_2020 %&gt;%
 df_pensionistas_07_2020 %&gt;%
   slice_min(`RENDIMENTO BRUTO`, n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>##             NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-##    1:           MARIA RODRIGUES DA SILVA                0                  0
-##    2:          JOSE FRANCISCO DOS SANTOS                0                  0
-##    3:               WALTER PEREIRA PINTO                0                  0
-##    4:            FERNANDO ROCHA DA SILVA                0                  0
-##    5: FRANCISCO MONTEIRO MENDES DA COSTA                0                  0
-##   ---                                                                       
-## 3718:          EDSON RIBEIRO DE OLIVEIRA                0                  0
-## 3719:          FRANCISCO PEREIRA BRANDAO                0                  0
-## 3720:         ITAMAR DOS SANTOS PINHEIRO                0                  0
-## 3721:              ALAMIRO DA CRUZ MALTA                0                  0
-## 3722:          SEVERINO FRANCO FERNANDES                0                  0</code></pre>
+<pre><code>## # A tibble: 3,722 x 3
+##    `NOME DO SERVIDOR INSTITUIDOR`     `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##    &lt;chr&gt;                                           &lt;dbl&gt;                &lt;dbl&gt;
+##  1 MARIA RODRIGUES DA SILVA                            0                    0
+##  2 JOSE FRANCISCO DOS SANTOS                           0                    0
+##  3 WALTER PEREIRA PINTO                                0                    0
+##  4 FERNANDO ROCHA DA SILVA                             0                    0
+##  5 FRANCISCO MONTEIRO MENDES DA COSTA                  0                    0
+##  6 MAXIMINO OLIVEIRA DA SILVA                          0                    0
+##  7 ISAAC SIMINANKRU MARINHO XERENTE                    0                    0
+##  8 BENEVENUTO RIEDEL                                   0                    0
+##  9 RAIMUNDO SILVINO                                    0                    0
+## 10 RAIMUNDO SILVINO                                    0                    0
+## # … with 3,712 more rows</code></pre>
 <p>Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: <strong>## # A tibble: 3,722 x 3</strong>. São mais de 3.700 linhas a mais. Isso se deve porque existem 3.722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.</p>
 <pre class="r"><code>#nesse bloco de código, antes de descobrirmos os valores mínimos fazemos o filtro para que permaneçam na nossa análise apenas as linhas da tabela que tenham valor de rendimento bruto &gt;= 0.01. Para isso usamos a função filter
 df_pensionistas_07_2020 %&gt;%
   filter(`RENDIMENTO BRUTO`&gt;=0.01)%&gt;%
   slice_min(`RENDIMENTO BRUTO`, n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>##          NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO RENDIMENTO LIQUIDO
-##  1:                                               5.40               5.40
-##  2:                                              15.97              15.97
-##  3:                    JUSTO SEREHITE            17.80              17.80
-##  4:                                              28.81              28.81
-##  5:           JOAO GUILHERME DA SILVA            35.43              35.43
-##  6:      CARLOS ALBERTO DE LIMA PINTO            45.58              45.58
-##  7: FRANCISCO DE ASSIS DE SOUZA RAMOS            46.92              39.89
-##  8:             MIGUEL SILVA DE SOUZA            54.49              54.49
-##  9:                    NEWTON SALGADO            68.77              68.77
-## 10:                                              69.40              69.40
-## 11:                                              69.40              69.40</code></pre>
+<pre><code>## # A tibble: 11 x 3
+##    `NOME DO SERVIDOR INSTITUIDOR`    `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
+##    &lt;chr&gt;                                          &lt;dbl&gt;                &lt;dbl&gt;
+##  1 &lt;NA&gt;                                             5.4                  5.4
+##  2 &lt;NA&gt;                                            16.0                 16.0
+##  3 JUSTO SEREHITE                                  17.8                 17.8
+##  4 &lt;NA&gt;                                            28.8                 28.8
+##  5 JOAO GUILHERME DA SILVA                         35.4                 35.4
+##  6 CARLOS ALBERTO DE LIMA PINTO                    45.6                 45.6
+##  7 FRANCISCO DE ASSIS DE SOUZA RAMOS               46.9                 39.9
+##  8 MIGUEL SILVA DE SOUZA                           54.5                 54.5
+##  9 NEWTON SALGADO                                  68.8                 68.8
+## 10 &lt;NA&gt;                                            69.4                 69.4
+## 11 &lt;NA&gt;                                            69.4                 69.4</code></pre>
 <p>Agora temos a informação no caminho que desejamos. Muito embora os valores ainda estejam muito baixos. Observe ainda que existem algumas linhas em que não há informação do servidor instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes e tentar entender o que gera esses valores tão baixos para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.</p>
 </div>
 <div id="médias-e-medianas" class="section level2">
@@ -2833,13 +2297,15 @@ median(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <p>Antes de prosseguirmos mostrando como se faz a transofrmação de variável tipo data, é interessante dar uma olhada em algumas amostras de datas para duas variáveis desse tipo.</p>
 <pre class="r"><code>head(df_pensionistas_07_2020%&gt;%
        select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO` ))</code></pre>
-<pre><code>##    DATA INICIO DO BENEFICIO DATA DE NASCIMENTO
-## 1:                 10021998           18041951
-## 2:                 25012016           14011948
-## 3:                 13102012           18031954
-## 4:                 20112012           27111943
-## 5:                 21082018           10051935
-## 6:                 26042000           18041925</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `DATA INICIO DO BENEFICIO` `DATA DE NASCIMENTO`
+##   &lt;chr&gt;                      &lt;chr&gt;               
+## 1 10021998                   18041951            
+## 2 25012016                   14011948            
+## 3 13102012                   18031954            
+## 4 20112012                   27111943            
+## 5 21082018                   10051935            
+## 6 26042000                   18041925</code></pre>
 <p>Observe que as datas são formadas pela concatenação de dia, mês e ano. Por exemplo, na primeira linha a data 10021998 corresponde a 10/02/1998. O nosso objetivo é fazer uma transformação para que o R possa compreender que isso é uma data. Para o R uma data tem que estar no formato aaaa-mm-dd. No caso da data exemplificada essa data teria que ser representada como 1998-02-10.</p>
 <p>No bloco de código logo abaixo vamos ver como fazemos modificações em colunas</p>
 <pre class="r"><code>#para podermos usar as funções que facilitam o trabalho com datas é necessário usar o pacote lubridate. Lembre de instalá-lo antes, caso não esteja ainda instaldo, usando a função install.package()
@@ -2852,13 +2318,15 @@ df_pensionistas_07_2020 %&gt;%
 head(
 df_pensionistas_07_2020%&gt;%
   select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO`))</code></pre>
-<pre><code>##    DATA INICIO DO BENEFICIO DATA DE NASCIMENTO
-## 1:               1998-02-10         1951-04-18
-## 2:               2016-01-25         1948-01-14
-## 3:               2012-10-13         1954-03-18
-## 4:               2012-11-20         1943-11-27
-## 5:               2018-08-21         1935-05-10
-## 6:               2000-04-26         1925-04-18</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   `DATA INICIO DO BENEFICIO` `DATA DE NASCIMENTO`
+##   &lt;date&gt;                     &lt;date&gt;              
+## 1 1998-02-10                 1951-04-18          
+## 2 2016-01-25                 1948-01-14          
+## 3 2012-10-13                 1954-03-18          
+## 4 2012-11-20                 1943-11-27          
+## 5 2018-08-21                 1935-05-10          
+## 6 2000-04-26                 1925-04-18</code></pre>
 <p>Observe agora que as duas datas que trabalhamos já estão no formato correto e podem ser usadas em operações típicas de data.</p>
 </div>
 <div id="acresecentando-colunas-derivadas-de-data" class="section level2">
@@ -2873,30 +2341,20 @@ df_pensionistas_07_2020 %&gt;%
   mutate(idade_beneficario = year(today()) - year(`DATA DE NASCIMENTO`))
 df_pensionistas_07_2020 %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao, idade_beneficario)</code></pre>
-<pre><code>##                    NOME DO BENEFICIARIO tempo_recebimento_pensao
-##      1: CARMEN LUCINDA FARKAS DE ARAUJO                       22
-##      2:       MARIA DE LOURDES DA SILVA                        4
-##      3:             MARIZETE DIAS SOUZA                        8
-##      4:            MARGARIDA ALEXANDRIA                        8
-##      5:           MARIA JOSE PINTO LIMA                        2
-##     ---                                                         
-## 295464:    ALCIDINERIA DE ABREU MARQUES                        8
-## 295465:  SONIA MARIA ESTEVES DE ALMEIDA                       34
-## 295466:                 CELIA DE BARROS                       31
-## 295467:         ANDREA EMILIA DE BARROS                       31
-## 295468:               SOLANGE DE BARROS                       31
-##         idade_beneficario
-##      1:                69
-##      2:                72
-##      3:                66
-##      4:                77
-##      5:                85
-##     ---                  
-## 295464:                82
-## 295465:                68
-## 295466:                80
-## 295467:                54
-## 295468:                78</code></pre>
+<pre><code>## # A tibble: 295,468 x 3
+##    `NOME DO BENEFICIARIO`           tempo_recebimento_pensao idade_beneficario
+##    &lt;chr&gt;                                               &lt;dbl&gt;             &lt;dbl&gt;
+##  1 CARMEN LUCINDA FARKAS DE ARAUJO                        22                69
+##  2 MARIA DE LOURDES DA SILVA                               4                72
+##  3 MARIZETE DIAS SOUZA                                     8                66
+##  4 MARGARIDA ALEXANDRIA                                    8                77
+##  5 MARIA JOSE PINTO LIMA                                   2                85
+##  6 MARIA AMELIA DE ARAUJO LIMA                            20                95
+##  7 ELI DA SILVA JORGE                                      2                85
+##  8 MARIA DO SOCORRO PESSOA DE SOUSA                        3                44
+##  9 DEIVID PEREIRA DE SOUSA                                 3                19
+## 10 GABRIEL PEREIRA DE SOUSA                                3                15
+## # … with 295,458 more rows</code></pre>
 <p>Aqui vale explorar um pouco mais o bloco de código logo acima. Começando pelo trecho abaixo</p>
 <pre><code>year(today())</code></pre>
 <p>Esse trecho vai trazer como resultado o ano <strong>[função year]</strong> referente à data de hoje <strong>[função today()]</strong></p>
@@ -2908,86 +2366,80 @@ df_pensionistas_07_2020 %&gt;%
 df_pensionistas_07_2020 %&gt;%
   slice_max(tempo_recebimento_pensao, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao)</code></pre>
-<pre><code>##                  NOME DO BENEFICIARIO tempo_recebimento_pensao
-##  1:               WANDA CARDOSO TOROK                      107
-##  2:             MARIA DE PAIVA GUSMAO                      100
-##  3:              ZILDA SAMPAIO ORSANO                       99
-##  4: MARINA RITA ABRANCHES DE OLIVEIRA                       99
-##  5:               ARMINDA SA STIEBLER                       99
-##  6:           OLINDA ROSA DE CARVALHO                       98
-##  7:            ISOLINA GONZAGA BENTES                       97
-##  8:     JURANDYR GOMES DA SILVA MELLO                       97
-##  9:        LUIZA VASCONCELOS DE JESUS                       96
-## 10:              CECILIA LINO MOREIRA                       96
-## 11:               LAURA MARIA BRANDAO                       96
-## 12:      MARIA CLEO VASCONCELOS SALEM                       96
-## 13:           URBANA DOS PASSOS SOUZA                       96</code></pre>
+<pre><code>## # A tibble: 13 x 2
+##    `NOME DO BENEFICIARIO`            tempo_recebimento_pensao
+##    &lt;chr&gt;                                                &lt;dbl&gt;
+##  1 WANDA CARDOSO TOROK                                    107
+##  2 MARIA DE PAIVA GUSMAO                                  100
+##  3 ZILDA SAMPAIO ORSANO                                    99
+##  4 MARINA RITA ABRANCHES DE OLIVEIRA                       99
+##  5 ARMINDA SA STIEBLER                                     99
+##  6 OLINDA ROSA DE CARVALHO                                 98
+##  7 ISOLINA GONZAGA BENTES                                  97
+##  8 JURANDYR GOMES DA SILVA MELLO                           97
+##  9 LUIZA VASCONCELOS DE JESUS                              96
+## 10 CECILIA LINO MOREIRA                                    96
+## 11 LAURA MARIA BRANDAO                                     96
+## 12 MARIA CLEO VASCONCELOS SALEM                            96
+## 13 URBANA DOS PASSOS SOUZA                                 96</code></pre>
 <p>Temos então a impressionante informação de que existem benefícios seculares. Se isso não for erro da base, dá uma boa dica de matéria, não é mesmo?</p>
 <p>E que tal agora descobrirmos os beneficiários mais velhos. Vamos seguir a mesma lógica do bloco de código anterior.</p>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(idade_beneficario, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, idade_beneficario)</code></pre>
-<pre><code>##              NOME DO BENEFICIARIO idade_beneficario
-##  1:               DULCINA RIBEIRO               120
-##  2:    MERCEDES DA COSTA LOUREIRO               118
-##  3:     WILHERMINE LUEB HEIDEGGER               117
-##  4:     ALICE TAVARES DE OLIVEIRA               117
-##  5:              ANGELINA DINARDI               116
-##  6:    AMANDA GALVAO DE SA CAMPOS               115
-##  7:          ANNA DOS SANTOS DIAS               115
-##  8: ALMERINDA FERRARI DE OLIVEIRA               115
-##  9:   FRANCISCA LUIZA DE OLIVEIRA               115
-## 10:    LEONIRA FERREIRA DE MORAIS               114</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    `NOME DO BENEFICIARIO`        idade_beneficario
+##    &lt;chr&gt;                                     &lt;dbl&gt;
+##  1 DULCINA RIBEIRO                             120
+##  2 MERCEDES DA COSTA LOUREIRO                  118
+##  3 WILHERMINE LUEB HEIDEGGER                   117
+##  4 ALICE TAVARES DE OLIVEIRA                   117
+##  5 ANGELINA DINARDI                            116
+##  6 AMANDA GALVAO DE SA CAMPOS                  115
+##  7 ANNA DOS SANTOS DIAS                        115
+##  8 ALMERINDA FERRARI DE OLIVEIRA               115
+##  9 FRANCISCA LUIZA DE OLIVEIRA                 115
+## 10 LEONIRA FERREIRA DE MORAIS                  114</code></pre>
 <p>Novamente as informações que aparecem são de chamar muita atenção. A lista dos beneficários mais idosos são de super-centenários. De novo isso indica ou problema na base ou uma dica de matérias muito interessantes.</p>
 <p>Isso nos leva à curiosidade de fazer novas ordenações, levando agora em consideração as duas informações de tempo de benefício e idade do beneficiário no resultado da consulta.</p>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(idade_beneficario, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, idade_beneficario, tempo_recebimento_pensao)</code></pre>
-<pre><code>##              NOME DO BENEFICIARIO idade_beneficario tempo_recebimento_pensao
-##  1:               DULCINA RIBEIRO               120                       53
-##  2:    MERCEDES DA COSTA LOUREIRO               118                       45
-##  3:     WILHERMINE LUEB HEIDEGGER               117                       NA
-##  4:     ALICE TAVARES DE OLIVEIRA               117                       73
-##  5:              ANGELINA DINARDI               116                       29
-##  6:    AMANDA GALVAO DE SA CAMPOS               115                       27
-##  7:          ANNA DOS SANTOS DIAS               115                       16
-##  8: ALMERINDA FERRARI DE OLIVEIRA               115                       NA
-##  9:   FRANCISCA LUIZA DE OLIVEIRA               115                       29
-## 10:    LEONIRA FERREIRA DE MORAIS               114                        7</code></pre>
+<pre><code>## # A tibble: 10 x 3
+##    `NOME DO BENEFICIARIO`        idade_beneficario tempo_recebimento_pensao
+##    &lt;chr&gt;                                     &lt;dbl&gt;                    &lt;dbl&gt;
+##  1 DULCINA RIBEIRO                             120                       53
+##  2 MERCEDES DA COSTA LOUREIRO                  118                       45
+##  3 WILHERMINE LUEB HEIDEGGER                   117                       NA
+##  4 ALICE TAVARES DE OLIVEIRA                   117                       73
+##  5 ANGELINA DINARDI                            116                       29
+##  6 AMANDA GALVAO DE SA CAMPOS                  115                       27
+##  7 ANNA DOS SANTOS DIAS                        115                       16
+##  8 ALMERINDA FERRARI DE OLIVEIRA               115                       NA
+##  9 FRANCISCA LUIZA DE OLIVEIRA                 115                       29
+## 10 LEONIRA FERREIRA DE MORAIS                  114                        7</code></pre>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(tempo_recebimento_pensao, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao, idade_beneficario)</code></pre>
-<pre><code>##                  NOME DO BENEFICIARIO tempo_recebimento_pensao
-##  1:               WANDA CARDOSO TOROK                      107
-##  2:             MARIA DE PAIVA GUSMAO                      100
-##  3:              ZILDA SAMPAIO ORSANO                       99
-##  4: MARINA RITA ABRANCHES DE OLIVEIRA                       99
-##  5:               ARMINDA SA STIEBLER                       99
-##  6:           OLINDA ROSA DE CARVALHO                       98
-##  7:            ISOLINA GONZAGA BENTES                       97
-##  8:     JURANDYR GOMES DA SILVA MELLO                       97
-##  9:        LUIZA VASCONCELOS DE JESUS                       96
-## 10:              CECILIA LINO MOREIRA                       96
-## 11:               LAURA MARIA BRANDAO                       96
-## 12:      MARIA CLEO VASCONCELOS SALEM                       96
-## 13:           URBANA DOS PASSOS SOUZA                       96
-##     idade_beneficario
-##  1:               107
-##  2:               101
-##  3:                98
-##  4:               104
-##  5:               102
-##  6:               101
-##  7:                99
-##  8:               110
-##  9:               100
-## 10:                97
-## 11:                99
-## 12:                96
-## 13:                98</code></pre>
+<pre><code>## # A tibble: 13 x 3
+##    `NOME DO BENEFICIARIO`            tempo_recebimento_pensao idade_beneficario
+##    &lt;chr&gt;                                                &lt;dbl&gt;             &lt;dbl&gt;
+##  1 WANDA CARDOSO TOROK                                    107               107
+##  2 MARIA DE PAIVA GUSMAO                                  100               101
+##  3 ZILDA SAMPAIO ORSANO                                    99                98
+##  4 MARINA RITA ABRANCHES DE OLIVEIRA                       99               104
+##  5 ARMINDA SA STIEBLER                                     99               102
+##  6 OLINDA ROSA DE CARVALHO                                 98               101
+##  7 ISOLINA GONZAGA BENTES                                  97                99
+##  8 JURANDYR GOMES DA SILVA MELLO                           97               110
+##  9 LUIZA VASCONCELOS DE JESUS                              96               100
+## 10 CECILIA LINO MOREIRA                                    96                97
+## 11 LAURA MARIA BRANDAO                                     96                99
+## 12 MARIA CLEO VASCONCELOS SALEM                            96                96
+## 13 URBANA DOS PASSOS SOUZA                                 96                98</code></pre>
 </div>
 <div id="acrescentando-colunas-resultadas-de-valores-numéricos" class="section level2">
 <h2>3.3) Acrescentando colunas resultadas de valores numéricos</h2>
@@ -3121,11 +2573,11 @@ download.file(&quot;http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONIS
 <p>Baixamos todos os CSVs referentes aos meses de 2020. Em seguida, lemos o CSV com o <code>fread()</code> no RStudio e logo salvamos o dataframe com <code>saveRDS()</code>. Para <strong>janeiro de 2020</strong>, por exemplo, veja abaixo.</p>
 <p>OBS: Você não precisa fazer isso porque todos os arquivos RDS já estão salvos dentro de uma pasta chamada “pensionistas_2020”, que está dentro da pasta “data”.</p>
 <p>PENSIONISTAS_012020 &lt;- fread(“PENSIONISTAS_012020.csv”) saveRDS(PENSIONISTAS_012020, file = “PENSIONISTAS_012020.rds”)</p>
-<p>Abaixo listamos os arquivos RDS que estão na nossa pasta e chamamos de “arquivos”.</p>
+<p>Abaixo listamos os arquivos RDS que estão na nossa pasta.</p>
 <pre class="r"><code>arquivos &lt;- list.files(&quot;data/pensionistas_2020&quot;)</code></pre>
 <p>Agora vamos informar dentro de <code>map_df()</code> o caminho (“data/pensionistas_2020/”), seguido pelo nome dos arquivos (estão guardados dentro “arquivos”), a função <code>readRDS</code> (que faz a leitura de RDS) e também <code>.id = &quot;source&quot;</code> para uma coluna difereciar o arquivo de origem.</p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/gabrielacaesar/Downloads/oficina-R-master&quot;</code></pre>
+<pre><code>## [1] &quot;/Users/gabrielacaesar/Downloads/oficina-R-master/oficina-R&quot;</code></pre>
 <pre class="r"><code>pensionistas_2020_all &lt;- map_df(paste0(&quot;data/pensionistas_2020/&quot;, arquivos), readRDS, .id = &quot;source&quot;)</code></pre>
 </div>
 </div>

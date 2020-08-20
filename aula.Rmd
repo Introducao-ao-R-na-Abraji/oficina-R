@@ -80,7 +80,8 @@ Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome 
 Neste caso, optamos por usar a função `fread()` do pacote `data.table`.
 
 ```{r}
-df_pensionistas_07_2020 <- fread("data/PENSIONISTAS_072020.csv")
+# df_pensionistas_07_2020 <- fread("data/PENSIONISTAS_072020.csv")
+df_pensionistas_07_2020 <- readRDS("data/julho2020.rds")
 ```
 
 Se quisermos, podemos tambem informar ainda:
