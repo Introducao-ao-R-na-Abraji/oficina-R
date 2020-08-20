@@ -12,7 +12,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
-
 ```
 
 
@@ -38,7 +37,7 @@ A base de dados foi disponibilizada pelo Ministério da Economia após uma vitó
 Os arquivos são disponibilizados por mês no portal [dados.gov.br](http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas) em formato CSV. 
 Também há um dicionário de dados em formato PDF.
 
-Para esta análise, vamos usar o arquivo mais recente, de *julho de 2020*. Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar" e depois em "Ir para recurso".
+Para esta análise, vamos usar o arquivo mais recente, de **julho de 2020**. Para baixar os arquivos, acesse o link, localize o arquivo, clique em "Explorar" e depois em "Ir para recurso".
 
 ## 1.5) Instalar os pacotes
 
@@ -67,12 +66,12 @@ library(abjutils)
 
 Há diversas formas de importar um arquivo para o RStudio.
 Uma das formas mais simples é:
-- Clique em "File"
-- Clique em "Import Dataset"
-- Clique em "From text (base)"
-- Selecione o arquivo
-- Cheque se tudo parece correto
-- Clique em "Import"
+- Clique em "File"                    
+- Clique em "Import Dataset"                
+- Clique em "From text (base)"                
+- Selecione o arquivo               
+- Cheque se tudo parece correto               
+- Clique em "Import"                
 
 ## 1.8) Importar o arquivo automaticamente
 
@@ -84,12 +83,12 @@ df_pensionistas_07_2020 <- fread("data/PENSIONISTAS_072020.csv")
 ```
 
 Se quisermos, podemos tambem informar ainda:
-- a codificação do arquivo (encoding)
-- o separador das colunas (sep)
-- o número de linhas que queremos ler (nrows)
-- quais colunas queremos ler (colnames)
-- quais colunas não queremos ler (drop)
-- outros
+- a codificação do arquivo (encoding)               
+- o separador das colunas (sep)               
+- o número de linhas que queremos ler (nrows)               
+- quais colunas queremos ler (colnames)           
+- quais colunas não queremos ler (drop)           
+- outros                
 
 ## 1.9) Descobrir a pasta
 
@@ -157,13 +156,15 @@ df_pensionistas_07_2020_novo <- df_pensionistas_07_2020 %>%
 
 As funções `toupper()` e `tolower()` colocam o texto em letra maiúscula e minúscula. 
 
-Já a função `rm_accent()` do pacote `abjutils` elimina o acento do texto.
+A função `rm_accent()` do pacote `abjutils` elimina o acento do texto.
 
 A função `str_trim()` elimina espaços excedentes antes e depois do texto.
 
 A função `distinct()` ajuda a eliminar e identificar duplicatas.
 
 As funções `separate()` e `unite()` separam e unem colunas com base no separador indicado.
+
+As funções `pivot_longer()` e `pivot_wider()` reorganizam a estrutura de linhas e colunas. 
 
 
 # 2. Caracterização dos dados
@@ -526,7 +527,6 @@ Uma das possiblidades interessantes de se trabalhar com linguagem de programaç�
 Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no [Brasil.io](https://brasil.io/dataset/socios-brasil/socios/).
 
 ```{r}
-
 socio_amostra <- readRDS("data/socio_amostra.rds")
 ```
 
@@ -535,26 +535,21 @@ socio_amostra <- readRDS("data/socio_amostra.rds")
 df_pensionistas_07_2020<-
 df_pensionistas_07_2020 %>%
   mutate( chave= str_c(`CPF DO BENEFICIARIO`, `NOME DO BENEFICIARIO`))
-
 df_Pensionista_socio<-
 df_pensionistas_07_2020 %>%
   inner_join(socio_amostra)
   
 ```
 
-Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensionistas que foram localizadas numa tabela que tem 300.000 CPFs ligados a alguma sociedade de empresa. Um exercício interessante a ser feito aqui é tentar diferenciar o grupo dos pensionistas sócios do conjunto total dos pensionistas em Julho de 2020. Vamos comparar, por exemplo, a média dos rendimentos brutos e líquidos
+Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensionistas que foram localizadas numa tabela que tem 300.000 CPFs ligados a alguma sociedade de empresa. Um exercício interessante a ser feito aqui é tentar diferenciar o grupo dos pensionistas sócios do conjunto total dos pensionistas em julho de 2020. Vamos comparar, por exemplo, a média dos rendimentos brutos e líquidos.
 
 ```{r}
 mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 mean(df_Pensionista_socio$`RENDIMENTO BRUTO`)
-
 mean(df_pensionistas_07_2020$idade_beneficario, na.rm = TRUE)
 mean(df_Pensionista_socio$idade_beneficario, na.rm = TRUE)
-
 mean(df_pensionistas_07_2020$tempo_recebimento_pensao, na.rm = TRUE)
 mean(df_Pensionista_socio$tempo_recebimento_pensao, na.rm = TRUE)
-
-
 ```
 
 Observando o que sai nas nas seis linhas de código acima, parece que as médias de rendimento bruto de pensionistas que são sócios é bem maior do que a mesma média do conjunto total. Já quando se vê a comparação das idades dos beneficiários não há praticamente diferença nas médias. Por outro lado volta a ter diferença nas médias quando se compara o tempo de recebimento das pensões.
@@ -598,16 +593,22 @@ pens_tipo <- df_pensionistas_07_2020 %>%
 
 ## 4.4) Agrupar por UF 
 
-Mudamos apenas a coluna informada dentro de `group_by()`.
+Mudamos novamente a coluna informada dentro de `group_by()`.
+Além de `n()` e `sum()`, aqui também usamos `mean()` e `median()`.
 
 ```{r}
 pens_uf <- df_pensionistas_07_2020 %>%
   group_by(`UF DA UPAG DE VINCULACAO`) %>%
   summarise(contagem = n(),
-            soma = sum(`RENDIMENTO BRUTO`))
+            soma = sum(`RENDIMENTO BRUTO`),
+            média = mean(`RENDIMENTO BRUTO`),
+            mediana = median(`RENDIMENTO BRUTO`))
 ```
 
 ## 4.5) Filtrar por órgão e ver quem ganha mais
+
+Usamos o `filter()` para filtrar o órgão de interesse.
+Depois, usamos `arrange()` para ordenar em ordem decrescente, com `desc()`.
 
 ```{r}
 pens_orgao_MS <- df_pensionistas_07_2020 %>%
@@ -616,6 +617,10 @@ pens_orgao_MS <- df_pensionistas_07_2020 %>%
 ```
 
 ## 4.6) Filtrar por órgão e cargo e ver quem ganha mais
+
+Aqui usamos o `filter()` novamente.
+Desta vez, definimos interesses em duas colunas.
+Os dois quesitos precisam ser cumpridos.
 
 ```{r}
 pens_cargo_MS_MEDICO <- df_pensionistas_07_2020 %>%
@@ -626,6 +631,8 @@ pens_cargo_MS_MEDICO <- df_pensionistas_07_2020 %>%
 
 ## 4.7) Filtrar por três órgãos e ver quem ganha mais
 
+Agora, pedimos ao `filter()` para manter apenas as linhas em que aparece alguma daquelas siglas.
+
 ```{r}
 pens_cargo_MS_ME_MCTIC <- df_pensionistas_07_2020 %>%
   filter(`SIGLA DO ORGAO` == "MS" |
@@ -634,21 +641,20 @@ pens_cargo_MS_ME_MCTIC <- df_pensionistas_07_2020 %>%
   arrange(desc(`RENDIMENTO BRUTO`))
 ```
 
-# 5 Baixando e salvandos os dados
+# 5. Baixando e salvandos os dados
 
-Conforme já dito logo no início, os dados que estamso trabalhando estão disponíveis na internet. Vamos ver como podemos usar o R para baixar esses dados para seu ambiente computacional. Também vamos ver como salvar o rabalho que você fez em arquivo csv para ser aproveitado em outros usos que não seja a partir da linguagem R e por fim você vai prender a ler vários arquivos CSVs.
+Conforme já dito logo no início, os dados com que estamos trabalhando estão disponíveis na internet. Vamos ver como podemos usar o R para baixar esses dados para seu ambiente computacional. Também vamos ver como salvar o trabalho que você fez em arquivo CSV para ser aproveitado em outros usos que não seja a partir da linguagem R e, por fim, você vai prender a ler vários arquivos com um único comando.
 
 ## 5.1) Download do dataframe
 
-É muito simples fazer o download de um arquivo csv. Basta uma única instrução. Veja abaixo.
+É muito simples fazer o download de um arquivo CSV. Basta uma única instrução. Veja abaixo.
 
 ```{r}
 # A função downloadfile vai fazer o download a partir de um endereço de internet especificado e acrescentar o arquivo numa pasta de destino informada
-download.file("http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip", destfile = "data/PENSIONISTAS_072020.zip",   mode="wb")
-
+download.file("http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip", destfile = "data/PENSIONISTAS_072020.zip", mode="wb")
 ```
 
-Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato csv. Veja abaixo como fazer isso.
+Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato CSV. Veja abaixo como fazer isso.
 
 ```{r}
 unzip(zipfile = "data/PENSIONISTAS_072020.ZIP", exdir = "data/csv")
@@ -657,19 +663,44 @@ unzip(zipfile = "data/PENSIONISTAS_072020.ZIP", exdir = "data/csv")
 
 ## 5.2) Salvando o trabalho
 
-```
+A função `write.csv()` salva o dataframe que você criou usando o R. Basta informar o nome do dataframe e, em seguida, o nome do arquivo que você quer gerar e a extensão CSV.
+
+```{r}
 write.csv(pens_cargo_MS_ME_MCTIC, "pens_cargo_MS_ME_MCTIC.csv")
 ```
 
 ## 5.3) Leitura de vários CSVs
 
-Os arquivos CSVs de 2020 estão em pasta zipada:
-https://drive.google.com/file/d/1ix-VpE0aGmEOEZwN07VaXKs24AN5FMsn/view?usp=sharing
+Baixamos todos os CSVs referentes aos meses de 2020. Em seguida, lemos o CSV com o `fread()` no RStudio e logo salvamos o dataframe com `saveRDS()`. Para **janeiro de 2020**, por exemplo, veja abaixo. 
+
+OBS: Você não precisa fazer isso porque todos os arquivos RDS já estão salvos dentro de uma pasta chamada "pensionistas_2020", que está dentro da pasta "data".
+
+PENSIONISTAS_012020 <- fread("PENSIONISTAS_012020.csv")
+saveRDS(PENSIONISTAS_012020, file = "PENSIONISTAS_012020.rds")
+
+Abaixo listamos os arquivos RDS que estão na nossa pasta e chamamos de "arquivos".
 
 ```{r}
-list.files("data")
-list.dirs("data")
+arquivos <- list.files("data/pensionistas_2020")
 ```
 
+Agora vamos informar dentro de `map_df()` o caminho ("data/pensionistas_2020/"), seguido pelo nome dos arquivos (estão guardados pelo dentro "arquivos"), a função `readRDS` (que faz a leitura de RDS) e também `.id = "source"` para uma coluna difereciar o arquivo de origem. 
 
+```{r}
+getwd()
+pensionistas_2020_all <- map_df(paste0("data/pensionistas_2020/", arquivos), readRDS, .id = "source")
+```
+
+# 6. Agradecimentos
+
+## 6.1) Fim
+
+Obrigado por acompanhar a oficina até aqui. Há inúmeras possibilidades com o R, então não deixe de pesquisar e buscar por outros materiais.
+
+Obrigado também à Abraji pela iniciativa e pelo convite.
+
+Caso queira entrar em contato, nós estamos disponíveis aqui:
+
+Gabriela Caesar - [Twitter](https://twitter.com/gabrielacaesar) / [Site](https://www.gabrielacaesar.com/)                           
+Fernando Barbalho - [Twitter](https://twitter.com/barbalhofernand)                
 
