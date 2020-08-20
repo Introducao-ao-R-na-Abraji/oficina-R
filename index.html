@@ -11,7 +11,6 @@
 
 <meta name="author" content="Gabriela Caesar &amp; Fernando Barbalho" />
 
-<meta name="date" content="2020-05-08" />
 
 <title>Introdução ao R: oficina na Abraji</title>
 
@@ -1512,7 +1511,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Introdução ao R: oficina na Abraji</h1>
 <h4 class="author">Gabriela Caesar &amp; Fernando Barbalho</h4>
-<h4 class="date">05/08/2020</h4>
+<h4 class="date">20/08/2020</h4>
 
 </div>
 
@@ -1520,57 +1519,1097 @@ div.tocify {
 <div id="introdução" class="section level1">
 <h1>1. Introdução</h1>
 <div id="o-que-é-o-r" class="section level2">
-<h2>O que é o R</h2>
-<p>Aproveitar o conteúdo do curso do CODA 2019</p>
+<h2>1.1) O que é o R</h2>
+<p>A linguagem de programação R é versátil e pode ser usada para manipulação, análise, raspagem, visualização de dados, entre outros.</p>
 </div>
 <div id="a-estrututra-do-curso" class="section level2">
-<h2>A estrututra do curso</h2>
-<p>Descrever como o curso será direcionado. Explicar que o foco é em uso prática de consumo e análise de dados com foco na base de dados de pensionistas. Não serão excplicados conteúdos mais comuns de programação mais amplo. O objetivo é o(a) aluno(a) sair do curso já sabendo trabalhar dados disponíveis na internet. Isso inclui desde fazer o download do dado até fazer tratamentos e análises que permitam responder a perguntas típicas de um ambiente de jornalismo.</p>
+<h2>1.2) A estrututra do curso</h2>
+<p>Esta oficina foca no uso prática de consumo e análise de dados com foco na base de dados de pensionistas. O objetivo é o(a) aluno(a) sair do curso já sabendo trabalhar dados disponíveis na internet.</p>
+<p>Isso inclui desde fazer o download do dado até fazer tratamentos e análises que permitam responder a perguntas típicas de um ambiente de jornalismo.</p>
 </div>
-</div>
-<div id="o-caso-dos-pensionistas" class="section level1">
-<h1>O caso dos pensionistas</h1>
+<div id="o-caso-dos-pensionistas" class="section level2">
+<h2>1.3) O caso dos pensionistas</h2>
 <p>Para esta oficina, vamos usar os dados de pensionistas do governo federal. A base de dados foi disponibilizada pelo Ministério da Economia após uma vitória do <a href="https://fiquemsabendo.com.br/transparencia/pensionistas-e-aposentados-servidores-inativos/">‘Fiquem sabendo’</a>.</p>
-<p>Indicar brevemente os passos dados pela Fiquem Sabendo para conseguir os dados. Explicar brevemente o que os dados contêm.</p>
-<p>Mostrar o aplicativo que consome dados já previamento baixados e tratados Mostrar conjunto de matérias que ja foram produzidos sobre o tema</p>
+</div>
+<div id="download-do-arquivo" class="section level2">
+<h2>1.4) Download do arquivo</h2>
+<p>Os arquivos são disponibilizados por mês no portal <a href="http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas">dados.gov.br</a> em formato CSV. Também há um dicionário de dados em formato PDF.</p>
+<p>Para esta análise, vamos usar o arquivo mais recente, de <em>julho de 2020</em>. Para baixar os arquivos, acesse o link, localize o arquivo, clique em “Explorar” e depois em “Ir para recurso”.</p>
+</div>
+<div id="instalar-os-pacotes" class="section level2">
+<h2>1.5) Instalar os pacotes</h2>
+<p>É preciso instalar alguns pacotes caso esta seja a primeira vez que você mexa com R no seu computador.</p>
+<p>Para isso, nós vamos usar a função <code>install.packages()</code>. Dentro dos parêntesis, devemos informar o nome do pacote.</p>
+<pre class="r"><code># install.packages(&quot;tidyverse&quot;)
+# install.packages(&quot;data.table&quot;)
+# install.packages(&quot;abjutils&quot;)</code></pre>
+</div>
+<div id="carregar-os-pacotes" class="section level2">
+<h2>1.6) Carregar os pacotes</h2>
+<p>Precisamos também carregar os pacotes que serão usados. Usamos a função <code>library()</code> e informarmos o nome do pacote dentro dos parêntesis.</p>
+<pre class="r"><code>library(tidyverse)
+library(data.table)
+library(abjutils)</code></pre>
+</div>
+<div id="importar-o-arquivo-manualmente" class="section level2">
+<h2>1.7) Importar o arquivo manualmente</h2>
+<p>Há diversas formas de importar um arquivo para o RStudio. Uma das formas mais simples é: - Clique em “File” - Clique em “Import Dataset” - Clique em “From text (base)” - Selecione o arquivo - Cheque se tudo parece correto - Clique em “Import”</p>
+</div>
+<div id="importar-o-arquivo-automaticamente" class="section level2">
+<h2>1.8) Importar o arquivo automaticamente</h2>
+<p>Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome dele. Neste caso, optamos por usar a função <code>fread()</code> do pacote <code>data.table</code>.</p>
+<pre class="r"><code>df_pensionistas_07_2020 &lt;- fread(&quot;data/PENSIONISTAS_072020.csv&quot;)</code></pre>
+<p>Se quisermos, podemos tambem informar ainda: - a codificação do arquivo (encoding) - o separador das colunas (sep) - o número de linhas que queremos ler (nrows) - quais colunas queremos ler (colnames) - quais colunas não queremos ler (drop) - outros</p>
+</div>
+<div id="descobrir-a-pasta" class="section level2">
+<h2>1.9) Descobrir a pasta</h2>
+<p>Uma das dificuldades na importação de arquivo é descobrir a pasta. Podemos usar as funções <code>getwd()</code>, <code>setwd()</code> e <code>list.files()</code> para nos ajudar.</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/fernando.barbalho/Documents/aula_r&quot;</code></pre>
+<pre class="r"><code># setwd(&quot;~/Downloads&quot;)
+list.files()</code></pre>
+<pre><code>## [1] &quot;aula.html&quot;                  &quot;aula.Rmd&quot;                  
+## [3] &quot;data&quot;                       &quot;image&quot;                     
+## [5] &quot;pens_cargo_MS_ME_MCTIC.csv&quot; &quot;PENSIONISTAS_072020.csv&quot;   
+## [7] &quot;project.Rproj&quot;</code></pre>
+</div>
+<div id="verificação-de-o-arquivo" class="section level2">
+<h2>1.10) Verificação de o arquivo</h2>
+<p>O arquivo já foi importado e agora queremos dar uma olhada nele. Usaremos as funções <code>summary()</code>, <code>glimpse()</code> e <code>View()</code>.</p>
+<pre class="r"><code>summary(df_pensionistas_07_2020)</code></pre>
+<pre><code>##  NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
+##  Length:295468                Length:295468           
+##  Class :character             Class :character        
+##  Mode  :character             Mode  :character        
+##                                                       
+##                                                       
+##                                                       
+##                                                       
+##  DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
+##  Min.   :       0            Min.   :       0            
+##  1st Qu.: 8011916            1st Qu.: 8071986            
+##  Median :15061925            Median :16022014            
+##  Mean   :15200356            Mean   :15757486            
+##  3rd Qu.:23031963            3rd Qu.:23102013            
+##  Max.   :31121983            Max.   :31122019            
+##  NA&#39;s   :2698                NA&#39;s   :2661                
+##  MATRICULA SERVIDOR INSTITUIDOR NOME DO ORGAO      SIGLA DO ORGAO    
+##  Min.   :6.423e-313             Length:295468      Length:295468     
+##  1st Qu.:1.235e-312             Class :character   Class :character  
+##  Median :1.789e-312             Mode  :character   Mode  :character  
+##  Mean   :1.643e-312                                                  
+##  3rd Qu.:2.016e-312                                                  
+##  Max.   :3.459e-312                                                  
+##                                                                      
+##  CODIGO ORGAO SUPERIOR CARGO SERVIDOR INSTITUIDOR NIVEL ESCOLARIDADE CARGO
+##  Min.   :    0         Length:295468              Length:295468           
+##  1st Qu.:    0         Class :character           Class :character        
+##  Median :17000         Mode  :character           Mode  :character        
+##  Mean   :15313                                                            
+##  3rd Qu.:17000                                                            
+##  Max.   :55000                                                            
+##                                                                           
+##  CLASSE SERVIDOR INSTITUIDOR PADRAO SERVIDOR INSTITUIDOR
+##  Length:295468               Length:295468              
+##  Class :character            Class :character           
+##  Mode  :character            Mode  :character           
+##                                                         
+##                                                         
+##                                                         
+##                                                         
+##  REFERENCIA SERVIDOR INSTITUIDOR NIVEL SERVIDOR INSTITUIDOR
+##  Min.   :0                       Min.   :  0.00            
+##  1st Qu.:0                       1st Qu.:  0.00            
+##  Median :0                       Median :  0.00            
+##  Mean   :0                       Mean   : 21.19            
+##  3rd Qu.:0                       3rd Qu.:  0.00            
+##  Max.   :0                       Max.   :801.00            
+##  NA&#39;s   :2661                    NA&#39;s   :2661              
+##  OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  Length:295468                                                 
+##  Class :character                                              
+##  Mode  :character                                              
+##                                                                
+##                                                                
+##                                                                
+##                                                                
+##  DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  Min.   :       0                                                      
+##  1st Qu.: 1011953                                                      
+##  Median : 3041972                                                      
+##  Mean   : 8158499                                                      
+##  3rd Qu.:15061962                                                      
+##  Max.   :31122009                                                      
+##  NA&#39;s   :2661                                                          
+##  NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
+##  Length:295468        Length:295468       Min.   :       0  
+##  Class :character     Class :character    1st Qu.: 8061939  
+##  Mode  :character     Mode  :character    Median :15111937  
+##                                           Mean   :15582528  
+##                                           3rd Qu.:23081934  
+##                                           Max.   :31122011  
+##                                                             
+##  UF DA UPAG DE VINCULACAO TIPO DE BENEFICIARIO TIPO PENSAO       
+##  Length:295468            Length:295468        Length:295468     
+##  Class :character         Class :character     Class :character  
+##  Mode  :character         Mode  :character     Mode  :character  
+##                                                                  
+##                                                                  
+##                                                                  
+##                                                                  
+##  NATUREZA PENSAO    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO
+##  Length:295468      Min.   :       0         Min.   :       0     
+##  Class :character   1st Qu.: 5111994         1st Qu.:       0     
+##  Mode  :character   Median :14092011         Median :       0     
+##                     Mean   :14435553         Mean   :  561923     
+##                     3rd Qu.:23022006         3rd Qu.:       0     
+##                     Max.   :31122019         Max.   :31122050     
+##                                                                   
+##  RENDIMENTO BRUTO   RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO   V29         
+##  Length:295468      Length:295468      Length:295468      Mode:logical  
+##  Class :character   Class :character   Class :character   NA&#39;s:295468   
+##  Mode  :character   Mode  :character   Mode  :character                 
+##                                                                         
+##                                                                         
+##                                                                         
+## </code></pre>
+<pre class="r"><code>glimpse(df_pensionistas_07_2020)</code></pre>
+<pre><code>## Rows: 295,468
+## Columns: 29
+## $ `NOME DO SERVIDOR INSTITUIDOR`                                           &lt;chr&gt; ...
+## $ `CPF SERVIDOR INSTITUIDOR`                                               &lt;chr&gt; ...
+## $ `DATA NASCIMENTO INSTITUIDOR`                                            &lt;int&gt; ...
+## $ `DATA FALECIMENTO INSTITUIDOR`                                           &lt;int&gt; ...
+## $ `MATRICULA SERVIDOR INSTITUIDOR`                                         &lt;dbl&gt; ...
+## $ `NOME DO ORGAO`                                                          &lt;chr&gt; ...
+## $ `SIGLA DO ORGAO`                                                         &lt;chr&gt; ...
+## $ `CODIGO ORGAO SUPERIOR`                                                  &lt;int&gt; ...
+## $ `CARGO SERVIDOR INSTITUIDOR`                                             &lt;chr&gt; ...
+## $ `NIVEL ESCOLARIDADE CARGO`                                               &lt;chr&gt; ...
+## $ `CLASSE SERVIDOR INSTITUIDOR`                                            &lt;chr&gt; ...
+## $ `PADRAO SERVIDOR INSTITUIDOR`                                            &lt;chr&gt; ...
+## $ `REFERENCIA SERVIDOR INSTITUIDOR`                                        &lt;int&gt; ...
+## $ `NIVEL SERVIDOR INSTITUIDOR`                                             &lt;int&gt; ...
+## $ `OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR`         &lt;chr&gt; ...
+## $ `DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR` &lt;int&gt; ...
+## $ `NOME DO BENEFICIARIO`                                                   &lt;chr&gt; ...
+## $ `CPF DO BENEFICIARIO`                                                    &lt;chr&gt; ...
+## $ `DATA DE NASCIMENTO`                                                     &lt;int&gt; ...
+## $ `UF DA UPAG DE VINCULACAO`                                               &lt;chr&gt; ...
+## $ `TIPO DE BENEFICIARIO`                                                   &lt;chr&gt; ...
+## $ `TIPO PENSAO`                                                            &lt;chr&gt; ...
+## $ `NATUREZA PENSAO`                                                        &lt;chr&gt; ...
+## $ `DATA INICIO DO BENEFICIO`                                               &lt;int&gt; ...
+## $ `DATA FIM DO BENEFICIO`                                                  &lt;int&gt; ...
+## $ `RENDIMENTO BRUTO`                                                       &lt;chr&gt; ...
+## $ `RENDIMENTO LIQUIDO`                                                     &lt;chr&gt; ...
+## $ `PAGAMENTO SUSPENSO`                                                     &lt;chr&gt; ...
+## $ V29                                                                      &lt;lgl&gt; ...</code></pre>
+<pre class="r"><code># View(df_pensionistas_07_2020)</code></pre>
+</div>
+<div id="verificação-de-partes-do-arquivo" class="section level2">
+<h2>1.11) Verificação de partes do arquivo</h2>
+<p>Outras funções úteis para checar o arquivo estão abaixo. São elas: <code>head()</code>, <code>tail()</code>, <code>colnames()</code>, <code>unique()</code> e <code>length()</code>.</p>
+<pre class="r"><code>head(df_pensionistas_07_2020)</code></pre>
+<pre><code>##               NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
+## 1:                   ADOLFO LEAO DE ARAUJO              ***602951**
+## 2:                 AGNELO FERREIRA DA CRUZ              ***260401**
+## 3: ALBERTO FERNANDO MONTEIRO DO NASCIMENTO              ***421424**
+## 4:           ALEXANDRE PEDRO DE ALEXANDRIA              ***302341**
+## 5:                   ALUIZIO DE SOUZA LIMA              ***891031**
+## 6:          ALVARO RAIMUNDO DE SOUZA FILHO              ***818627**
+##    DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
+## 1:                    12061944                     10021998
+## 2:                    14121939                     25012016
+## 3:                     8021947                     13102012
+## 4:                     4111932                     20112012
+## 5:                    13031934                     21082018
+## 6:                     6021918                     25042000
+##    MATRICULA SERVIDOR INSTITUIDOR                           NOME DO ORGAO
+## 1:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 2:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 3:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 4:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 5:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 6:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##    SIGLA DO ORGAO CODIGO ORGAO SUPERIOR           CARGO SERVIDOR INSTITUIDOR
+## 1:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+## 2:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+## 3:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
+## 4:           MAPA                     0      AUXILIAR OPERAC EM AGROPECUARIA
+## 5:           MAPA                     0  AUDITOR FISCAL FEDERAL AGROPECUARIO
+## 6:           MAPA                     0                          ESTATISTICO
+##    NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
+## 1:           NIVEL AUXILIAR                           S
+## 2:           NIVEL AUXILIAR                           S
+## 3:           NIVEL SUPERIOR                           S
+## 4:           NIVEL AUXILIAR                           S
+## 5:           NIVEL SUPERIOR                           S
+## 6:           NIVEL SUPERIOR                           S
+##    PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
+## 1:                           I                               0
+## 2:                           I                               0
+## 3:                          IV                               0
+## 4:                           I                               0
+## 5:                          IV                               0
+## 6:                         III                               0
+##    NIVEL SERVIDOR INSTITUIDOR
+## 1:                          0
+## 2:                          0
+## 3:                          0
+## 4:                          0
+## 5:                          0
+## 6:                          0
+##    OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+## 1:                                                               
+## 2:                                                               
+## 3:                                            NOMEACAO PARA CARGO
+## 4:                                            NOMEACAO PARA CARGO
+## 5:                                  ADMISSAO SEM CONCURSO PUBLICO
+## 6:                                                               
+##    DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+## 1:                                                                      0
+## 2:                                                                      0
+## 3:                                                               15081970
+## 4:                                                               15061962
+## 5:                                                               15061962
+## 6:                                                                      0
+##               NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
+## 1: CARMEN LUCINDA FARKAS DE ARAUJO         ***777501**           18041951
+## 2:       MARIA DE LOURDES DA SILVA         ***578421**           14011948
+## 3:             MARIZETE DIAS SOUZA         ***574775**           18031954
+## 4:            MARGARIDA ALEXANDRIA         ***464001**           27111943
+## 5:           MARIA JOSE PINTO LIMA         ***764491**           10051935
+## 6:     MARIA AMELIA DE ARAUJO LIMA         ***197357**           18041925
+##    UF DA UPAG DE VINCULACAO                               TIPO DE BENEFICIARIO
+## 1:                       DF                                              VIUVA
+## 2:                       DF                                     COMPANHEIRA(O)
+## 3:                       DF                                     COMPANHEIRA(O)
+## 4:                       DF                                              VIUVA
+## 5:                       DF                                     COMPANHEIRA(O)
+## 6:                       RJ COMPANHEIRA/EX-COMPANHEIRA PA RECONHECIDA JUDICIAL
+##                                      TIPO PENSAO NATUREZA PENSAO
+## 1:                                   LEI 8112/90       VITALICIA
+## 2:            EC 47/2005 E EC 70/2012 - PARIDADE      TEMPORARIA
+## 3: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 4: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 5: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
+## 6:                                   LEI 8112/90       VITALICIA
+##    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
+## 1:                 10021998                     0         1.924,95
+## 2:                 25012016                     0         4.046,19
+## 3:                 13102012                     0        30.305,13
+## 4:                 20112012                     0         5.414,89
+## 5:                 21082018                     0        25.155,49
+## 6:                 26042000                     0        19.105,33
+##    RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
+## 1:           1.857,90                NAO  NA
+## 2:           4.046,19                NAO  NA
+## 3:          24.518,19                NAO  NA
+## 4:           5.414,89                NAO  NA
+## 5:          20.723,33                NAO  NA
+## 6:          14.866,84                NAO  NA</code></pre>
+<pre class="r"><code>head(df_pensionistas_07_2020, 15)</code></pre>
+<pre><code>##                 NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
+##  1:                    ADOLFO LEAO DE ARAUJO              ***602951**
+##  2:                  AGNELO FERREIRA DA CRUZ              ***260401**
+##  3:  ALBERTO FERNANDO MONTEIRO DO NASCIMENTO              ***421424**
+##  4:            ALEXANDRE PEDRO DE ALEXANDRIA              ***302341**
+##  5:                    ALUIZIO DE SOUZA LIMA              ***891031**
+##  6:           ALVARO RAIMUNDO DE SOUZA FILHO              ***818627**
+##  7:                            AMERICO JORGE              ***397527**
+##  8:                  ANGELO PEREIRA DA SILVA              ***081931**
+##  9:                  ANGELO PEREIRA DA SILVA              ***081931**
+## 10:                  ANGELO PEREIRA DA SILVA              ***081931**
+## 11:                  ANGELO PEREIRA DA SILVA              ***081931**
+## 12:                          ARNALDO LEANDRO              ***518767**
+## 13:                 ARTHUR NATIVIDADE SEABRA              ***455941**
+## 14: AUREA JULIA MOREIRA DE ARAUJO NASCIMENTO              ***217291**
+## 15:                      BENEDITO DIAS LOPES              ***551781**
+##     DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
+##  1:                    12061944                     10021998
+##  2:                    14121939                     25012016
+##  3:                     8021947                     13102012
+##  4:                     4111932                     20112012
+##  5:                    13031934                     21082018
+##  6:                     6021918                     25042000
+##  7:                    22071929                     22072018
+##  8:                    24051941                      2072017
+##  9:                    24051941                      2072017
+## 10:                    24051941                      2072017
+## 11:                    24051941                      2072017
+## 12:                    20081922                      6082019
+## 13:                     7081915                     16122010
+## 14:                    10091940                     28052008
+## 15:                     8091938                      8022001
+##     MATRICULA SERVIDOR INSTITUIDOR                           NOME DO ORGAO
+##  1:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  2:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  3:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  4:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  5:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  6:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  7:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  8:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##  9:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 10:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 11:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 12:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 13:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 14:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+## 15:                  6.422853e-313 MINIST.DA AGRICULTURA,PECUARIA E ABAST.
+##     SIGLA DO ORGAO CODIGO ORGAO SUPERIOR           CARGO SERVIDOR INSTITUIDOR
+##  1:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+##  2:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+##  3:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
+##  4:           MAPA                     0      AUXILIAR OPERAC EM AGROPECUARIA
+##  5:           MAPA                     0  AUDITOR FISCAL FEDERAL AGROPECUARIO
+##  6:           MAPA                     0                          ESTATISTICO
+##  7:           MAPA                     0                AGENTE ADMINISTRATIVO
+##  8:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+##  9:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+## 10:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+## 11:           MAPA                     0 AUXILIAR OPERACIONAL EM AGROPECUARIA
+## 12:           MAPA                     0                AGENTE ADMINISTRATIVO
+## 13:           MAPA                     0          FISCAL FEDERAL AGROPECUARIO
+## 14:           MAPA                     0                AGENTE ADMINISTRATIVO
+## 15:           MAPA                     0                 AGENTE DE VIGILANCIA
+##     NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
+##  1:           NIVEL AUXILIAR                           S
+##  2:           NIVEL AUXILIAR                           S
+##  3:           NIVEL SUPERIOR                           S
+##  4:           NIVEL AUXILIAR                           S
+##  5:           NIVEL SUPERIOR                           S
+##  6:           NIVEL SUPERIOR                           S
+##  7:      NIVEL INTERMEDIARIO                           S
+##  8:           NIVEL AUXILIAR                           S
+##  9:           NIVEL AUXILIAR                           S
+## 10:           NIVEL AUXILIAR                           S
+## 11:           NIVEL AUXILIAR                           S
+## 12:      NIVEL INTERMEDIARIO                           S
+## 13:           NIVEL SUPERIOR                           S
+## 14:      NIVEL INTERMEDIARIO                           S
+## 15:      NIVEL INTERMEDIARIO                           C
+##     PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
+##  1:                           I                               0
+##  2:                           I                               0
+##  3:                          IV                               0
+##  4:                           I                               0
+##  5:                          IV                               0
+##  6:                         III                               0
+##  7:                         III                               0
+##  8:                           I                               0
+##  9:                           I                               0
+## 10:                           I                               0
+## 11:                           I                               0
+## 12:                         III                               0
+## 13:                          IV                               0
+## 14:                         III                               0
+## 15:                          VI                               0
+##     NIVEL SERVIDOR INSTITUIDOR
+##  1:                          0
+##  2:                          0
+##  3:                          0
+##  4:                          0
+##  5:                          0
+##  6:                          0
+##  7:                          0
+##  8:                          0
+##  9:                          0
+## 10:                          0
+## 11:                          0
+## 12:                          0
+## 13:                          0
+## 14:                          0
+## 15:                          0
+##     OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  1:                                                               
+##  2:                                                               
+##  3:                                            NOMEACAO PARA CARGO
+##  4:                                            NOMEACAO PARA CARGO
+##  5:                                  ADMISSAO SEM CONCURSO PUBLICO
+##  6:                                                               
+##  7:                                            NOMEACAO PARA CARGO
+##  8:                                            NOMEACAO PARA CARGO
+##  9:                                            NOMEACAO PARA CARGO
+## 10:                                            NOMEACAO PARA CARGO
+## 11:                                            NOMEACAO PARA CARGO
+## 12:                                            NOMEACAO PARA CARGO
+## 13:                                            NOMEACAO PARA CARGO
+## 14:                                            NOMEACAO PARA CARGO
+## 15:                                                               
+##     DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  1:                                                                      0
+##  2:                                                                      0
+##  3:                                                               15081970
+##  4:                                                               15061962
+##  5:                                                               15061962
+##  6:                                                                      0
+##  7:                                                               16021951
+##  8:                                                               15061962
+##  9:                                                               15061962
+## 10:                                                               15061962
+## 11:                                                               15061962
+## 12:                                                                1011942
+## 13:                                                               20051942
+## 14:                                                               15061962
+## 15:                                                                      0
+##                 NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
+##  1:  CARMEN LUCINDA FARKAS DE ARAUJO         ***777501**           18041951
+##  2:        MARIA DE LOURDES DA SILVA         ***578421**           14011948
+##  3:              MARIZETE DIAS SOUZA         ***574775**           18031954
+##  4:             MARGARIDA ALEXANDRIA         ***464001**           27111943
+##  5:            MARIA JOSE PINTO LIMA         ***764491**           10051935
+##  6:      MARIA AMELIA DE ARAUJO LIMA         ***197357**           18041925
+##  7:               ELI DA SILVA JORGE         ***042811**           15021935
+##  8: MARIA DO SOCORRO PESSOA DE SOUSA         ***632191**           10031976
+##  9:          DEIVID PEREIRA DE SOUSA         ***498261**            3052001
+## 10:         GABRIEL PEREIRA DE SOUSA         ***498251**            8082005
+## 11:           JULIA PEREIRA DE SOUSA         ***094071**           21062011
+## 12:              LUIZA COSTA LEANDRO         ***261151**           21081942
+## 13:   LAUDELINA MARIA WINTHER SEABRA         ***591071**           10091926
+## 14:       VILCEU SALES DO NASCIMENTO         ***024949**           27011940
+## 15:          CUSTODIA RAIMUNDA LOPES         ***549721**            2021941
+##     UF DA UPAG DE VINCULACAO                               TIPO DE BENEFICIARIO
+##  1:                       DF                                              VIUVA
+##  2:                       DF                                     COMPANHEIRA(O)
+##  3:                       DF                                     COMPANHEIRA(O)
+##  4:                       DF                                              VIUVA
+##  5:                       DF                                     COMPANHEIRA(O)
+##  6:                       RJ COMPANHEIRA/EX-COMPANHEIRA PA RECONHECIDA JUDICIAL
+##  7:                       DF                                            CONJUGE
+##  8:                       DF                                            CONJUGE
+##  9:                       DF                                              FILHO
+## 10:                       DF                                              FILHO
+## 11:                       DF                                              FILHA
+## 12:                       RJ                                            CONJUGE
+## 13:                       DF                                              VIUVA
+## 14:                       PR                                              VIUVO
+## 15:                       DF                                              VIUVA
+##                                       TIPO PENSAO NATUREZA PENSAO
+##  1:                                   LEI 8112/90       VITALICIA
+##  2:            EC 47/2005 E EC 70/2012 - PARIDADE      TEMPORARIA
+##  3: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+##  4: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+##  5: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
+##  6:                                   LEI 8112/90       VITALICIA
+##  7: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
+##  8: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
+##  9: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
+## 10: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
+## 11: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015      TEMPORARIA
+## 12: EC 41/2003 - LEI 10.887/2004 - LEI 13135/2015       VITALICIA
+## 13: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 14: LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 15:                                   LEI 8112/90       VITALICIA
+##     DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
+##  1:                 10021998                     0         1.924,95
+##  2:                 25012016                     0         4.046,19
+##  3:                 13102012                     0        30.305,13
+##  4:                 20112012                     0         5.414,89
+##  5:                 21082018                     0        25.155,49
+##  6:                 26042000                     0        19.105,33
+##  7:                 22072018                     0         7.738,51
+##  8:                  2072017               2072037         1.353,25
+##  9:                  2072017               3052022         1.353,25
+## 10:                  2072017               8082026         1.353,25
+## 11:                 14082017              21062032         1.350,97
+## 12:                  6082019                     0        10.330,48
+## 13:                 16122010                     0        41.434,32
+## 14:                 28052008                     0         6.204,43
+## 15:                  8022001                     0         2.806,98
+##     RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
+##  1:           1.857,90                NAO  NA
+##  2:           4.046,19                NAO  NA
+##  3:          24.518,19                NAO  NA
+##  4:           5.414,89                NAO  NA
+##  5:          20.723,33                NAO  NA
+##  6:          14.866,84                NAO  NA
+##  7:           6.263,86                NAO  NA
+##  8:           1.110,15                NAO  NA
+##  9:           1.107,71                NAO  NA
+## 10:           1.083,13                NAO  NA
+## 11:           1.105,92                NAO  NA
+## 12:           9.746,90                NAO  NA
+## 13:          32.369,74                NAO  NA
+## 14:           6.153,43                NAO  NA
+## 15:           2.295,04                NAO  NA</code></pre>
+<pre class="r"><code>tail(df_pensionistas_07_2020)</code></pre>
+<pre><code>##    NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
+## 1:  ANTONIO PRAZERES DE MIRANDA              ***522842**
+## 2:       ROBERTO SOARES MARQUES              ***515507**
+## 3:      JOSE ESTEVES DE ALMEIDA              00000000000
+## 4:   MANOEL WALDEMIRO DE BARROS              ***350907**
+## 5:   MANOEL WALDEMIRO DE BARROS              ***350907**
+## 6:   MANOEL WALDEMIRO DE BARROS              ***350907**
+##    DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
+## 1:                    11041927                     22012013
+## 2:                     1051929                      3072012
+## 3:                    10031921                     15071986
+## 4:                    11021914                     27051989
+## 5:                    11021914                     27051989
+## 6:                    11021914                     27051989
+##    MATRICULA SERVIDOR INSTITUIDOR      NOME DO ORGAO SIGLA DO ORGAO
+## 1:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 2:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 3:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 4:                  3.458504e-312 COMANDO DA MARINHA             CM
+## 5:                  3.458504e-312 COMANDO DA MARINHA             CM
+## 6:                  3.458504e-312 COMANDO DA MARINHA             CM
+##    CODIGO ORGAO SUPERIOR            CARGO SERVIDOR INSTITUIDOR
+## 1:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+## 2:                 40105   AGENTE DE TRANSP MARITIMO E FLUVIAL
+## 3:                 40105       ARTIF DE ELETRIC E COMUNICACOES
+## 4:                 40105         ARTIF DE CARPINT E MARCENARIA
+## 5:                 40105         ARTIF DE CARPINT E MARCENARIA
+## 6:                 40105         ARTIF DE CARPINT E MARCENARIA
+##    NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
+## 1:      NIVEL INTERMEDIARIO                           B
+## 2:      NIVEL INTERMEDIARIO                           C
+## 3:      NIVEL INTERMEDIARIO                           A
+## 4:      NIVEL INTERMEDIARIO                           A
+## 5:      NIVEL INTERMEDIARIO                           A
+## 6:      NIVEL INTERMEDIARIO                           A
+##    PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
+## 1:                         III                               0
+## 2:                          IV                               0
+## 3:                           V                               0
+## 4:                           V                               0
+## 5:                           V                               0
+## 6:                           V                               0
+##    NIVEL SERVIDOR INSTITUIDOR
+## 1:                          0
+## 2:                          0
+## 3:                          0
+## 4:                          0
+## 5:                          0
+## 6:                          0
+##    OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+## 1:                                            NOMEACAO PARA CARGO
+## 2:                                            NOMEACAO PARA CARGO
+## 3:                                                               
+## 4:                                                               
+## 5:                                                               
+## 6:                                                               
+##    DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+## 1:                                                                1011970
+## 2:                                                                1011970
+## 3:                                                                      0
+## 4:                                                               18111936
+## 5:                                                               18111936
+## 6:                                                               18111936
+##              NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
+## 1:      NILCINEA DA SILVA MIRANDA         ***161462**           12071968
+## 2:   ALCIDINERIA DE ABREU MARQUES         ***212517**            2091938
+## 3: SONIA MARIA ESTEVES DE ALMEIDA         ***343667**            4061952
+## 4:                CELIA DE BARROS         ***067827**           26051940
+## 5:        ANDREA EMILIA DE BARROS         ***135007**           13111966
+## 6:              SOLANGE DE BARROS         ***463497**           19021942
+##    UF DA UPAG DE VINCULACAO                              TIPO DE BENEFICIARIO
+## 1:                       RJ                              FILHA MAIOR INVALIDA
+## 2:                       RJ                                             VIUVA
+## 3:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 4:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 5:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 6:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##                                           TIPO PENSAO NATUREZA PENSAO
+## 1: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
+## 2:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 3:                                        LEI 3373/58      TEMPORARIA
+## 4:                                        LEI 3373/58      TEMPORARIA
+## 5:                                        LEI 3373/58      TEMPORARIA
+## 6:                                        LEI 3373/58      TEMPORARIA
+##    DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
+## 1:                 22012013                     0         1.607,88
+## 2:                  3072012                     0         8.027,52
+## 3:                 15071986                     0         5.829,70
+## 4:                 27051989                     0         2.005,03
+## 5:                 27051989                     0         2.005,03
+## 6:                 27051989                     0         2.005,03
+##    RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
+## 1:           1.607,88                NAO  NA
+## 2:           7.865,17                NAO  NA
+## 3:           5.829,70                NAO  NA
+## 4:           2.005,03                NAO  NA
+## 5:           2.005,03                NAO  NA
+## 6:           1.937,95                NAO  NA</code></pre>
+<pre class="r"><code>tail(df_pensionistas_07_2020, 14)</code></pre>
+<pre><code>##     NOME DO SERVIDOR INSTITUIDOR CPF SERVIDOR INSTITUIDOR
+##  1:     ADELSON PEREIRA DA SILVA              ***970657**
+##  2:                  JORGE MOURA              00000000000
+##  3:                  JORGE MOURA              00000000000
+##  4:          JORGE ALVES RIBEIRO              ***508047**
+##  5:          JORGE ALVES RIBEIRO              ***508047**
+##  6:    ANTONIO DE PADUA FERREIRA              ***751932**
+##  7:  ANTONIO PRAZERES DE MIRANDA              ***522842**
+##  8:  ANTONIO PRAZERES DE MIRANDA              ***522842**
+##  9:  ANTONIO PRAZERES DE MIRANDA              ***522842**
+## 10:       ROBERTO SOARES MARQUES              ***515507**
+## 11:      JOSE ESTEVES DE ALMEIDA              00000000000
+## 12:   MANOEL WALDEMIRO DE BARROS              ***350907**
+## 13:   MANOEL WALDEMIRO DE BARROS              ***350907**
+## 14:   MANOEL WALDEMIRO DE BARROS              ***350907**
+##     DATA NASCIMENTO INSTITUIDOR DATA FALECIMENTO INSTITUIDOR
+##  1:                    14091909                     27091976
+##  2:                    29041915                     13011949
+##  3:                    29041915                     13011949
+##  4:                    12051935                     24091976
+##  5:                    12051935                     24091976
+##  6:                     8051929                      9072012
+##  7:                    11041927                     22012013
+##  8:                    11041927                     22012013
+##  9:                    11041927                     22012013
+## 10:                     1051929                      3072012
+## 11:                    10031921                     15071986
+## 12:                    11021914                     27051989
+## 13:                    11021914                     27051989
+## 14:                    11021914                     27051989
+##     MATRICULA SERVIDOR INSTITUIDOR      NOME DO ORGAO SIGLA DO ORGAO
+##  1:                  3.458494e-312 COMANDO DA MARINHA             CM
+##  2:                  3.458494e-312 COMANDO DA MARINHA             CM
+##  3:                  3.458494e-312 COMANDO DA MARINHA             CM
+##  4:                  3.458494e-312 COMANDO DA MARINHA             CM
+##  5:                  3.458494e-312 COMANDO DA MARINHA             CM
+##  6:                  3.458499e-312 COMANDO DA MARINHA             CM
+##  7:                  3.458499e-312 COMANDO DA MARINHA             CM
+##  8:                  3.458499e-312 COMANDO DA MARINHA             CM
+##  9:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 10:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 11:                  3.458499e-312 COMANDO DA MARINHA             CM
+## 12:                  3.458504e-312 COMANDO DA MARINHA             CM
+## 13:                  3.458504e-312 COMANDO DA MARINHA             CM
+## 14:                  3.458504e-312 COMANDO DA MARINHA             CM
+##     CODIGO ORGAO SUPERIOR            CARGO SERVIDOR INSTITUIDOR
+##  1:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+##  2:                 40105              AUX OPERAC SERV DIVERSOS
+##  3:                 40105              AUX OPERAC SERV DIVERSOS
+##  4:                 40105                    AGENTE DE PORTARIA
+##  5:                 40105                    AGENTE DE PORTARIA
+##  6:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+##  7:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+##  8:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+##  9:                 40105 ARTIF DE ESTRUT DE OBRAS E METALURGIA
+## 10:                 40105   AGENTE DE TRANSP MARITIMO E FLUVIAL
+## 11:                 40105       ARTIF DE ELETRIC E COMUNICACOES
+## 12:                 40105         ARTIF DE CARPINT E MARCENARIA
+## 13:                 40105         ARTIF DE CARPINT E MARCENARIA
+## 14:                 40105         ARTIF DE CARPINT E MARCENARIA
+##     NIVEL ESCOLARIDADE CARGO CLASSE SERVIDOR INSTITUIDOR
+##  1:      NIVEL INTERMEDIARIO                           C
+##  2:           NIVEL AUXILIAR                           S
+##  3:           NIVEL AUXILIAR                           S
+##  4:      NIVEL INTERMEDIARIO                           B
+##  5:      NIVEL INTERMEDIARIO                           B
+##  6:      NIVEL INTERMEDIARIO                           C
+##  7:      NIVEL INTERMEDIARIO                           B
+##  8:      NIVEL INTERMEDIARIO                           B
+##  9:      NIVEL INTERMEDIARIO                           B
+## 10:      NIVEL INTERMEDIARIO                           C
+## 11:      NIVEL INTERMEDIARIO                           A
+## 12:      NIVEL INTERMEDIARIO                           A
+## 13:      NIVEL INTERMEDIARIO                           A
+## 14:      NIVEL INTERMEDIARIO                           A
+##     PADRAO SERVIDOR INSTITUIDOR REFERENCIA SERVIDOR INSTITUIDOR
+##  1:                           I                               0
+##  2:                           I                               0
+##  3:                           I                               0
+##  4:                           I                               0
+##  5:                           I                               0
+##  6:                         III                               0
+##  7:                         III                               0
+##  8:                         III                               0
+##  9:                         III                               0
+## 10:                          IV                               0
+## 11:                           V                               0
+## 12:                           V                               0
+## 13:                           V                               0
+## 14:                           V                               0
+##     NIVEL SERVIDOR INSTITUIDOR
+##  1:                          0
+##  2:                          0
+##  3:                          0
+##  4:                          0
+##  5:                          0
+##  6:                          0
+##  7:                          0
+##  8:                          0
+##  9:                          0
+## 10:                          0
+## 11:                          0
+## 12:                          0
+## 13:                          0
+## 14:                          0
+##     OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  1:                                                               
+##  2:                                                               
+##  3:                                                               
+##  4:                                                               
+##  5:                                                               
+##  6:                                  ADMISSAO POR CONCURSO PUBLICO
+##  7:                                            NOMEACAO PARA CARGO
+##  8:                                            NOMEACAO PARA CARGO
+##  9:                                            NOMEACAO PARA CARGO
+## 10:                                            NOMEACAO PARA CARGO
+## 11:                                                               
+## 12:                                                               
+## 13:                                                               
+## 14:                                                               
+##     DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR
+##  1:                                                                      0
+##  2:                                                               26111931
+##  3:                                                               26111931
+##  4:                                                                      0
+##  5:                                                                      0
+##  6:                                                                4011945
+##  7:                                                                1011970
+##  8:                                                                1011970
+##  9:                                                                1011970
+## 10:                                                                1011970
+## 11:                                                                      0
+## 12:                                                               18111936
+## 13:                                                               18111936
+## 14:                                                               18111936
+##                  NOME DO BENEFICIARIO CPF DO BENEFICIARIO DATA DE NASCIMENTO
+##  1:            LUZIA MACHADO DA SILVA         ***556007**           13121948
+##  2:            ABIGAIL CUNHA DE MOURA         ***494627**            6051915
+##  3:             MARIA DA GLORIA MOURA         ***518407**           16081941
+##  4:        ROSELANE FREDERICO RIBEIRO         ***220897**           21061966
+##  5:          IVANIA FREDERICO RIBEIRO         ***800797**           30101960
+##  6:              DIRCE MUNIZ FERREIRA         ***437422**            5071962
+##  7: MARIA DE NAZARE MORAES DE MIRANDA         ***043112**           30121946
+##  8:        AGUINALDO DA SILVA MIRANDA         ***360522**           21051967
+##  9:         NILCINEA DA SILVA MIRANDA         ***161462**           12071968
+## 10:      ALCIDINERIA DE ABREU MARQUES         ***212517**            2091938
+## 11:    SONIA MARIA ESTEVES DE ALMEIDA         ***343667**            4061952
+## 12:                   CELIA DE BARROS         ***067827**           26051940
+## 13:           ANDREA EMILIA DE BARROS         ***135007**           13111966
+## 14:                 SOLANGE DE BARROS         ***463497**           19021942
+##     UF DA UPAG DE VINCULACAO                              TIPO DE BENEFICIARIO
+##  1:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##  2:                       RJ                                             VIUVA
+##  3:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##  4:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##  5:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##  6:                       RJ                              FILHA MAIOR INVALIDA
+##  7:                       RJ                                             VIUVA
+##  8:                       RJ                              FILHO MAIOR INVALIDO
+##  9:                       RJ                              FILHA MAIOR INVALIDA
+## 10:                       RJ                                             VIUVA
+## 11:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 12:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 13:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+## 14:                       RJ FILHA MAIOR SOLTEIRA SEM CARGO PUBLICO PERMANENTE
+##                                            TIPO PENSAO NATUREZA PENSAO
+##  1:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
+##  2:                  LEI 3373/58 COMBINADA COM 6782/80       VITALICIA
+##  3:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
+##  4:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
+##  5:                  LEI 3373/58 COMBINADA COM 6782/80      TEMPORARIA
+##  6:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004      TEMPORARIA
+##  7: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL       VITALICIA
+##  8: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
+##  9: LEI 8112/90-EC41/03-LEI 10887/04/ DECISAO JUDICIAL      TEMPORARIA
+## 10:      LEI 8.112/1990 - EC 41/2003 - LEI 10.887/2004       VITALICIA
+## 11:                                        LEI 3373/58      TEMPORARIA
+## 12:                                        LEI 3373/58      TEMPORARIA
+## 13:                                        LEI 3373/58      TEMPORARIA
+## 14:                                        LEI 3373/58      TEMPORARIA
+##     DATA INICIO DO BENEFICIO DATA FIM DO BENEFICIO RENDIMENTO BRUTO
+##  1:                 27091976                     0         6.821,84
+##  2:                 13011949                     0         1.921,52
+##  3:                 13011949                     0         1.921,52
+##  4:                 24091976                     0         2.470,86
+##  5:                 24091976                     0         2.470,86
+##  6:                  9072012                     0         8.193,96
+##  7:                 22012013                     0         3.215,78
+##  8:                 10062013                     0         1.607,88
+##  9:                 22012013                     0         1.607,88
+## 10:                  3072012                     0         8.027,52
+## 11:                 15071986                     0         5.829,70
+## 12:                 27051989                     0         2.005,03
+## 13:                 27051989                     0         2.005,03
+## 14:                 27051989                     0         2.005,03
+##     RENDIMENTO LIQUIDO PAGAMENTO SUSPENSO V29
+##  1:           5.154,16                NAO  NA
+##  2:           1.921,52                NAO  NA
+##  3:           1.883,03                NAO  NA
+##  4:           2.470,86                NAO  NA
+##  5:           1.983,67                NAO  NA
+##  6:           7.561,10                NAO  NA
+##  7:           3.001,40                NAO  NA
+##  8:           1.500,69                NAO  NA
+##  9:           1.607,88                NAO  NA
+## 10:           7.865,17                NAO  NA
+## 11:           5.829,70                NAO  NA
+## 12:           2.005,03                NAO  NA
+## 13:           2.005,03                NAO  NA
+## 14:           1.937,95                NAO  NA</code></pre>
+<pre class="r"><code>colnames(df_pensionistas_07_2020)</code></pre>
+<pre><code>##  [1] &quot;NOME DO SERVIDOR INSTITUIDOR&quot;                                          
+##  [2] &quot;CPF SERVIDOR INSTITUIDOR&quot;                                              
+##  [3] &quot;DATA NASCIMENTO INSTITUIDOR&quot;                                           
+##  [4] &quot;DATA FALECIMENTO INSTITUIDOR&quot;                                          
+##  [5] &quot;MATRICULA SERVIDOR INSTITUIDOR&quot;                                        
+##  [6] &quot;NOME DO ORGAO&quot;                                                         
+##  [7] &quot;SIGLA DO ORGAO&quot;                                                        
+##  [8] &quot;CODIGO ORGAO SUPERIOR&quot;                                                 
+##  [9] &quot;CARGO SERVIDOR INSTITUIDOR&quot;                                            
+## [10] &quot;NIVEL ESCOLARIDADE CARGO&quot;                                              
+## [11] &quot;CLASSE SERVIDOR INSTITUIDOR&quot;                                           
+## [12] &quot;PADRAO SERVIDOR INSTITUIDOR&quot;                                           
+## [13] &quot;REFERENCIA SERVIDOR INSTITUIDOR&quot;                                       
+## [14] &quot;NIVEL SERVIDOR INSTITUIDOR&quot;                                            
+## [15] &quot;OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR&quot;        
+## [16] &quot;DATA DE OCORRENCIA DE INGRESSO NO SERVICO PUBLICO SERVIDOR INSTITUIDOR&quot;
+## [17] &quot;NOME DO BENEFICIARIO&quot;                                                  
+## [18] &quot;CPF DO BENEFICIARIO&quot;                                                   
+## [19] &quot;DATA DE NASCIMENTO&quot;                                                    
+## [20] &quot;UF DA UPAG DE VINCULACAO&quot;                                              
+## [21] &quot;TIPO DE BENEFICIARIO&quot;                                                  
+## [22] &quot;TIPO PENSAO&quot;                                                           
+## [23] &quot;NATUREZA PENSAO&quot;                                                       
+## [24] &quot;DATA INICIO DO BENEFICIO&quot;                                              
+## [25] &quot;DATA FIM DO BENEFICIO&quot;                                                 
+## [26] &quot;RENDIMENTO BRUTO&quot;                                                      
+## [27] &quot;RENDIMENTO LIQUIDO&quot;                                                    
+## [28] &quot;PAGAMENTO SUSPENSO&quot;                                                    
+## [29] &quot;V29&quot;</code></pre>
+<pre class="r"><code>unique(df_pensionistas_07_2020$`NOME DO ORGAO`)</code></pre>
+<pre><code>##   [1] &quot;MINIST.DA AGRICULTURA,PECUARIA E ABAST.&quot; 
+##   [2] &quot;MINISTERIO DA EDUCACAO&quot;                  
+##   [3] &quot;COMANDO DO EXERCITO&quot;                     
+##   [4] &quot;FUNDACAO OSORIO&quot;                         
+##   [5] &quot;MINISTERIO DA ECONOMIA&quot;                  
+##   [6] &quot;MINISTERIO DA JUSTICA E SEGURANCA PUBLIC&quot;
+##   [7] &quot;AGENCIA BRASILEIRA DE INTELIGENCIA&quot;      
+##   [8] &quot;POLICIA FEDERAL&quot;                         
+##   [9] &quot;COMANDO DA AERONAUTICA&quot;                  
+##  [10] &quot;CAIXA DE FINANCIAMENTO IMOB.AERONAUTICA&quot; 
+##  [11] &quot;AGENCIA ESPACIAL BRASILEIRA&quot;             
+##  [12] &quot;COMPANHIA NACIONAL DE ABASTECIMENTO&quot;     
+##  [13] &quot;COMPANHIA DESENV. DO VALE SAO FRANCISCO&quot; 
+##  [14] &quot;FUNDACAO NACIONAL DE ARTES&quot;              
+##  [15] &quot;INSTITUTO DO PATR.HIST.E ART. NACIONAL&quot;  
+##  [16] &quot;FUNDACAO BIBLIOTECA NACIONAL&quot;            
+##  [17] &quot;MINISTERIO DA SAUDE&quot;                     
+##  [18] &quot;INSTITUTO NACIONAL DE EDUCACAO DE SURDOS&quot;
+##  [19] &quot;INSTITUTO BENJAMIN CONSTANT&quot;             
+##  [20] &quot;FUNDO NACIONAL DE DESENVOLV. DA EDUCACAO&quot;
+##  [21] &quot;INST.NACIONAL DE EST.E PESQ.EDUCACIONAIS&quot;
+##  [22] &quot;COLEGIO PEDRO II&quot;                        
+##  [23] &quot;FUND.UNIV.FED.DO VALE DO SAO FRANCISCO&quot;  
+##  [24] &quot;UNIVERSIDADE FEDERAL DE ALAGOAS&quot;         
+##  [25] &quot;UNIVERSIDADE FEDERAL DA BAHIA&quot;           
+##  [26] &quot;UNIVERSIDADE FEDERAL DO CEARA&quot;           
+##  [27] &quot;UNIVERSIDADE FEDERAL DO ESPIRITO SANTO&quot;  
+##  [28] &quot;UNIVERSIDADE FEDERAL DE GOIAS&quot;           
+##  [29] &quot;UNIVERSIDADE FEDERAL FLUMINENSE&quot;         
+##  [30] &quot;UNIVERSIDADE FEDERAL DE JUIZ DE FORA&quot;    
+##  [31] &quot;UNIVERSIDADE FEDERAL DE MINAS GERAIS&quot;    
+##  [32] &quot;UNIVERSIDADE FEDERAL DO PARA&quot;            
+##  [33] &quot;UNIVERSIDADE FEDERAL DA PARAIBA&quot;         
+##  [34] &quot;UNIVERSIDADE FEDERAL DO PARANA&quot;          
+##  [35] &quot;UNIVERSIDADE FEDERAL DE PERNAMBUCO&quot;      
+##  [36] &quot;UNIVERSIDADE FED. DO RIO GRANDE DO NORTE&quot;
+##  [37] &quot;UNIVERSIDADE FED. DO RIO GRANDE DO SUL&quot;  
+##  [38] &quot;UNIVERSIDADE FEDERAL DO RIO DE JANEIRO&quot;  
+##  [39] &quot;UNIVERSIDADE FEDERAL DE SANTA CATARINA&quot;  
+##  [40] &quot;UNIVERSIDADE FEDERAL DE SANTA MARIA&quot;     
+##  [41] &quot;UNIVERSIDADE FEDERAL RURAL DE PERNAMBUCO&quot;
+##  [42] &quot;UNIV. FEDERAL RURAL DO RIO DE JANEIRO&quot;   
+##  [43] &quot;UNIVERSIDADE FEDERAL DE RORAIMA&quot;         
+##  [44] &quot;FUNDACAO UNIVERSIDADE FED. DO TOCANTINS&quot; 
+##  [45] &quot;UNIVERSIDADE FEDERAL DE CAMPINA GRANDE&quot;  
+##  [46] &quot;UNIVERSIDADE FEDERAL RURAL DA AMAZONIA&quot;  
+##  [47] &quot;UNIVERSIDADE FED.DO TRIANGULO MINEIRO&quot;   
+##  [48] &quot;UNI.FED.VALES DO JEQUITINHONHA E MUCURI&quot; 
+##  [49] &quot;CENTRO FEDERAL DE EDUCACAO TECNOLOGICA -&quot;
+##  [50] &quot;CENTRO FEDERAL DE EDUCACAO TECNOLOGICA D&quot;
+##  [51] &quot;UNIVERS. TECNOLOGICA FEDERAL DO PARANA&quot;  
+##  [52] &quot;UNIVERSIDADE FEDERAL DE ALFENAS&quot;         
+##  [53] &quot;UNIVERSIDADE FEDERAL DE ITAJUBA&quot;         
+##  [54] &quot;UNIVERSIDADE FEDERAL DE SAO PAULO&quot;       
+##  [55] &quot;UNIVERSIDADE FEDERAL DE LAVRAS&quot;          
+##  [56] &quot;UNIVERSIDADE FEDERAL RURAL DO SEMI-ARIDO&quot;
+##  [57] &quot;FUNDACAO UNIVERSIDADE FEDERAL DO PAMPA&quot;  
+##  [58] &quot;UNIVERSIDADE FEDERAL DA INTEGRACAO LATIN&quot;
+##  [59] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE RONDONI&quot;
+##  [60] &quot;UNIVERSIDADE FEDERAL DO ESTADO DO RIO DE&quot;
+##  [61] &quot;FUNDACAO UNIVERSIDADE DO AMAZONAS&quot;       
+##  [62] &quot;FUNDACAO UNIVERSIDADE DE BRASILIA&quot;       
+##  [63] &quot;FUNDACAO UNIVERSIDADE DO MARANHAO&quot;       
+##  [64] &quot;FUNDACAO UNIVERSIDADE FEDERAL DO RIO GRA&quot;
+##  [65] &quot;FUNDACAO UNIV. FEDERAL DE UBERLANDIA&quot;    
+##  [66] &quot;UNIVERSIDADE FEDERAL DO ACRE&quot;            
+##  [67] &quot;UNIVERSIDADE FEDERAL DE MATO GROSSO&quot;     
+##  [68] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE OURO PR&quot;
+##  [69] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE PELOTAS&quot;
+##  [70] &quot;UNIVERSIDADE FEDERAL DO PIAUI&quot;           
+##  [71] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE SAO CAR&quot;
+##  [72] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE SERGIPE&quot;
+##  [73] &quot;UNIVERSIDADE FEDERAL DE VICOSA&quot;          
+##  [74] &quot;UNIV. FEDERAL DE MATO GROSSO DO SUL&quot;     
+##  [75] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE CIENCIA&quot;
+##  [76] &quot;FUNDACAO UNIVERSIDADE FEDERAL DE SAO JOA&quot;
+##  [77] &quot;FUNDACAO UNVERSIDADE FEDERAL DO AMAPA&quot;   
+##  [78] &quot;FUNDACAO JOAQUIM NABUCO&quot;                 
+##  [79] &quot;FUND COORD APERF PESSOAL NIVEL SUPERIOR&quot; 
+##  [80] &quot;FUNDACAO UNIVERSIDADE FEDERAL DA GRANDE&quot; 
+##  [81] &quot;UNIVERSIDADE FEDERAL DO RECONCAVO DA BAH&quot;
+##  [82] &quot;FUNDACAO UNIVERSIDADE FEDERAL DO ABC&quot;    
+##  [83] &quot;INSTITUTO FEDERAL DO ACRE&quot;               
+##  [84] &quot;INSTITUTO FEDERAL DE ALAGOAS&quot;            
+##  [85] &quot;INSTITUTO FEDERAL DO AMAZONAS&quot;           
+##  [86] &quot;INSTITUTO FEDERAL BAIANO&quot;                
+##  [87] &quot;INSTITUTO FEDERAL DO CEARA&quot;              
+##  [88] &quot;INSTITUTO FEDERAL DO ESPIRITO SANTO&quot;     
+##  [89] &quot;INSTITUTO FEDERAL GOIANO&quot;                
+##  [90] &quot;INSTITUTO FEDERAL DO MARANHAO&quot;           
+##  [91] &quot;INSTITUTO FEDERAL DE MINAS GERAIS&quot;       
+##  [92] &quot;INSTITUTO FED. DO NORTE DE MINAS GERAIS&quot; 
+##  [93] &quot;INSTITUTO FED.DO SUDESTE DE MINAS GERAIS&quot;
+##  [94] &quot;INSTITUTO FEDERAL DO SUL DE MINAS GERAIS&quot;
+##  [95] &quot;INSTITUTO FEDERAL DE EDUCACAO, CIENCIA E&quot;
+##  [96] &quot;INSTITUTO FEDERAL DE MATO GROSSO&quot;        
+##  [97] &quot;INSTITUTO FEDERAL DE MATO GROSSO DO SUL&quot; 
+##  [98] &quot;INSTITUTO FEDERAL DO PARA&quot;               
+##  [99] &quot;INSTITUTO FEDERAL DA PARAIBA&quot;            
+## [100] &quot;INSTITUTO FEDERAL DE PERNAMBUCO&quot;         
+## [101] &quot;INSTITUTO FEDERAL DO RIO GRANDE DO SUL&quot;  
+## [102] &quot;INSTITUTO FEDERAL FARROUPILHA&quot;           
+## [103] &quot;INSTITUTO FEDERAL DE RONDONIA&quot;           
+## [104] &quot;INSTITUTO FEDERAL CATARINENSE&quot;           
+## [105] &quot;INSTITUTO FEDERAL DE SERGIPE&quot;            
+## [106] &quot;INSTITUTO FEDERAL DO TOCANTINS&quot;          
+## [107] &quot;INSTITUTO FEDERAL DO AMAPA&quot;              
+## [108] &quot;INSTITUTO FEDERAL DA BAHIA&quot;              
+## [109] &quot;INSTITUTO FEDERAL DE BRASILIA&quot;           
+## [110] &quot;INSTITUTO FEDERAL DE GOIAS&quot;              
+## [111] &quot;INSTITUTO FEDERAL DO PIAUI&quot;              
+## [112] &quot;INSTITUTO FEDERAL DO PARANA&quot;             
+## [113] &quot;INSTITUTO FEDERAL DO RIO DE JANEIRO&quot;     
+## [114] &quot;INSTITUTO FEDERAL FLUMINENSE&quot;            
+## [115] &quot;INSTITUTO FEDERAL DO RIO GRANDE DO NORTE&quot;
+## [116] &quot;INSTITUTO FEDERAL SUL RIO-GRANDENSE&quot;     
+## [117] &quot;INSTITUTO FEDERAL DE RORAIMA&quot;            
+## [118] &quot;INSTITUTO FEDERAL DE SANTA CATARINA&quot;     
+## [119] &quot;INSTITUTO FEDERAL DE SAO PAULO&quot;          
+## [120] &quot;UNIVERSIDADE FEDERAL DA FRONTEIRA SUL&quot;   
+## [121] &quot;UNIVERSIDADE FEDERAL DO OESTE DO PARA&quot;   
+## [122] &quot;UNIVERSIDADE DA INTEGRACAO INTERNACIONAL&quot;
+## [123] &quot;UNIVERSIDADE FEDERAL DO SUL E SUDESTE DO&quot;
+## [124] &quot;UNIVERSIDADE FEDERAL DO CARIRI&quot;          
+## [125] &quot;UNIVERSIDADE FEDERAL DO SUL DA BAHIA&quot;    
+## [126] &quot;FUNDACAO NACIONAL DO INDIO&quot;              
+## [127] &quot;INST.NAC.METROLOGIA,NORM.E QUAL.INDL.&quot;   
+## [128] &quot;INSTITUTO NACIONAL DA PROPRIEDADE INDUST&quot;
+## [129] &quot;POLICIA RODOVIARIA FEDERAL&quot;              
+## [130] &quot;MINISTERIO DE MINAS E ENERGIA&quot;           
+## [131] &quot;AGENCIA NACIONAL DE ENERGIA ELETRICA&quot;    
+## [132] &quot;AGENCIA NAC PETROLEO GAS NAT BIOCOMBUSTI&quot;
+## [133] &quot;AGENCIA NACIONAL DE MINERACAO&quot;           
+## [134] &quot;MINISTERIO DAS RELACOES EXTERIORES&quot;      
+## [135] &quot;FUNDACAO ALEXANDRE DE GUSMAO&quot;            
+## [136] &quot;FUNDACAO OSWALDO CRUZ&quot;                   
+## [137] &quot;FUNDACAO NACIONAL DE SAUDE&quot;              
+## [138] &quot;AGENCIA NACIONAL DE VIGILANCIA SANITARIA&quot;
+## [139] &quot;AGENCIA NACIONAL DE SAUDE SUPLEMENTAR&quot;   
+## [140] &quot;DEFENSORIA PUBLICA DA UNIAO&quot;             
+## [141] &quot;AGENCIA NACIONAL DE TRANSPORTES TERRESTR&quot;
+## [142] &quot;AGENCIA NAC. DE TRANSPORTES AQUAVIARIOS&quot; 
+## [143] &quot;DEPARTAMENTO NACIONAL DE INFRAESTRUTURA&quot; 
+## [144] &quot;MINISTERIO DA DEFESA&quot;                    
+## [145] &quot;ADVOCACIA-GERAL DA UNIAO&quot;                
+## [146] &quot;MINISTERIO DA CIENCIA, TECNOLOGIA, INOVA&quot;
+## [147] &quot;MINISTERIO DO MEIO AMBIENTE&quot;             
+## [148] &quot;MINISTERIO DO DESENVOLVIMENTO REGIONAL&quot;  
+## [149] &quot;FUNDACAO ESCOLA NACIONAL DE ADMINISTRACA&quot;
+## [150] &quot;COMISSAO NACIONAL DE ENERGIA NUCLEAR&quot;    
+## [151] &quot;FUNDACAO CASA DE RUI BARBOSA&quot;            
+## [152] &quot;FUNDACAO CULTURAL PALMARES&quot;              
+## [153] &quot;CONSELHO NAC.DE DESEN.CIEN.E TECNOLOGICO&quot;
+## [154] &quot;SUPERINTENDENCIA ZONA FRANCA DE MANAUS&quot;  
+## [155] &quot;INSTITUTO BRASILEIRO DO MEIO AMBIENTE E&quot; 
+## [156] &quot;GOVERNO DO EX-TERRITORIO DO AMAPA&quot;       
+## [157] &quot;GOVERNO DO EX-TERRITORIO DO ACRE&quot;        
+## [158] &quot;GOVERNO DO EX-TERRITORIO DE RONDONIA&quot;    
+## [159] &quot;GOVERNO DO EX-TERRITORIO DE RORAIMA&quot;     
+## [160] &quot;ANTIGO EST.GUANABARA E DISTRITO FEDERAL&quot; 
+## [161] &quot;DEP.DE CENTRAL.SERV.DE INATIVOS E PENS.&quot; 
+## [162] &quot;MINISTERIO DAS COMUNICACOES&quot;             
+## [163] &quot;AGENCIA NACIONAL DE TELECOMUNICACOES&quot;    
+## [164] &quot;INSTITUTO NAC. DE COLONIZ E REF AGRARIA&quot; 
+## [165] &quot;DEPTO. NACIONAL DE OBRAS CONTRA AS SECAS&quot;
+## [166] &quot;INSTITUTO BRASILEIRO DE MUSEUS&quot;          
+## [167] &quot;AGENCIA NACIONAL DE AGUAS&quot;               
+## [168] &quot;INSTITUTO DE PESQ. JARDIM BOTANICO DO RJ&quot;
+## [169] &quot;INSTITUTO CHICO MENDES DE CONSERVACAO DA&quot;
+## [170] &quot;COMISSAO DE VALORES MOBILIARIOS&quot;         
+## [171] &quot;FUND. INST. BRASIL. GEOG. E ESTATISTICA&quot; 
+## [172] &quot;INSTITUTO DE PESQUISA ECONOMICA APLICADA&quot;
+## [173] &quot;SUPERINTENDENCIA DE SEGUROS PRIVADOS&quot;    
+## [174] &quot;MINISTERIO DA INFRAESTRUTURA&quot;            
+## [175] &quot;AGENCIA NACIONAL DE AVIACAO CIVIL&quot;       
+## [176] &quot;SUPERINTENDENCIA DO DESENV. DA AMAZONIA&quot; 
+## [177] &quot;SUPERINTENDENCIA DO DESENV. DO NORDESTE&quot; 
+## [178] &quot;MINISTERIO DO TURISMO&quot;                   
+## [179] &quot;MINISTERIO DA CIDADANIA&quot;                 
+## [180] &quot;FUND.JORGE DUPRAT FIG. SEG. MED.TRABALHO&quot;
+## [181] &quot;INSTITUTO NACIONAL DE SEGURO SOCIAL&quot;     
+## [182] &quot;CONTROLADORIA-GERAL DA UNIAO&quot;            
+## [183] &quot;COMANDO DA MARINHA&quot;</code></pre>
+<pre class="r"><code>length(unique(df_pensionistas_07_2020$`NOME DO ORGAO`))</code></pre>
+<pre><code>## [1] 183</code></pre>
+<pre class="r"><code>length(colnames(df_pensionistas_07_2020))</code></pre>
+<pre><code>## [1] 29</code></pre>
+</div>
+<div id="renomeação-de-cabeçalho" class="section level2">
+<h2>1.12) Renomeação de cabeçalho</h2>
+<p>A função <code>rename()</code> nos permite renomear alguma coluna do cabeçalho. Outra função interessante para isso é <code>clean_names()</code>, do pacote <code>janitor</code>.</p>
+<pre class="r"><code>df_pensionistas_07_2020_novo &lt;- df_pensionistas_07_2020 %&gt;%
+  rename(&quot;servidor_instituidor&quot; = &quot;NOME DO SERVIDOR INSTITUIDOR&quot;)
+df_pensionistas_07_2020_novo &lt;- df_pensionistas_07_2020 %&gt;%
+  janitor::clean_names()</code></pre>
+</div>
+<div id="outras-funções-úteis" class="section level2">
+<h2>1.13) Outras funções úteis</h2>
+<p>As funções <code>toupper()</code> e <code>tolower()</code> colocam o texto em letra maiúscula e minúscula.</p>
+<p>Já a função <code>rm_accent()</code> do pacote <code>abjutils</code> elimina o acento do texto.</p>
+<p>A função <code>str_trim()</code> elimina espaços excedentes antes e depois do texto.</p>
+<p>A função <code>distinct()</code> ajuda a eliminar e identificar duplicatas.</p>
+<p>As funções <code>separate()</code> e <code>unite()</code> separam e unem colunas com base no separador indicado.</p>
+</div>
 </div>
 <div id="caracterização-dos-dados" class="section level1">
 <h1>2. Caracterização dos dados</h1>
-<p>O uso da linguagem de programação R permite uma grande diversidade de análises e descobertas. Muitas delas podem envolver uma elevada complexidade matemática ou de recursos computacionais. É necessário destacar, no entanto, que no começo de tudo há a necessidade de se conhecer o melhor possível o dado que se tem em mão. Aí é comum o uso de operações de estatística descritiva como mínimo valor, máximo valor, média e mediana, por exemplo.</p>
+<p>O uso da linguagem de programação R permite uma grande diversidade de análises e descobertas. Muitas delas podem envolver uma elevada complexidade matemática ou de recursos computacionais.</p>
+<p>É necessário destacar, no entanto, que no começo de tudo há a necessidade de se conhecer o melhor possível o dado que se tem em mão. Aí é comum o uso de operações de estatística descritiva como mínimo valor, máximo valor, média e mediana, por exemplo.</p>
 <p>Observa-se ainda que mesmo para essas operações mais simples é muito frequente a necessiddade de se fazer alguns ajustes para que os dados possam ser corretamente utilizados. Nessa seção vamos fazer alguns exercícios básicos de ajuste do dado e em seguida vamos usar alguns roteiros para caracterização básica dos dados de pensionsitas.</p>
 <div id="um-primeiro-ajuste-nos-dados" class="section level2">
-<h2>Um primeiro ajuste nos dados</h2>
-<p>É importante saber se o dado que estamos utilizando está num formato que se encaixa para o tipo de operações que desejamos efetuar. Uma das situações mais frequentes que enfrentamos é quando os valores numéricos não são imediatamente reconhecidos pelo R. Isso ocorre quando fazemos importações de dados e elementos como vírgula e ponto que são interpretados pelo R como parte de um texto e não de um número. Isso faz com que o dado não possa ser usado em operações aritméticas simples como soma, por exemplo.</p>
-<p>Veja abaixo as seis primeiras informações de rendimento bruto e rendimento líquido da tabela com os dados de pensionistas de julho de 2020</p>
-<pre class="r"><code>#para executar as linhas abaixo, é necessário carregar a library tidyverse. 
-# se houver erro ao executar a função library(tidyverse), instale o pacote, para isso descomente a linha logo abaixo e execute a instalação do pacote tidyverse
-#install.packages(&quot;tidyverse&quot;)
-library(tidyverse) 
-#a função head traz informações relacionadas às seis primeiras linhas de uma tabela
+<h2>2.1) Um primeiro ajuste nos dados</h2>
+<p>É importante saber se o dado que estamos utilizando está num formato que se encaixa para o tipo de operações que desejamos efetuar. Uma das situações mais frequentes que enfrentamos é quando os valores numéricos não são imediatamente reconhecidos pelo R.</p>
+<p>Isso ocorre quando fazemos importações de dados e elementos como vírgula e ponto que são interpretados pelo R como parte de um texto e não de um número. Isso faz com que o dado não possa ser usado em operações aritméticas simples como soma, por exemplo.</p>
+<p>Veja abaixo as seis primeiras informações de rendimento bruto e rendimento líquido da tabela com os dados de pensionistas de julho de 2020.</p>
+<pre class="r"><code>#a função head traz informações relacionadas às seis primeiras linhas de uma tabela
 #o símbolo pipe %&gt;% indica ao r que desejamos fazer alguma operação sobre a tabela.
 #nesse caso a operação que desejamos fazer é a seleção das colunas Rendimento Bruto e Rendimento Líquido
-
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##   &lt;chr&gt;              &lt;chr&gt;               
-## 1 1.924,95           1.857,90            
-## 2 4.046,19           4.046,19            
-## 3 30.305,13          24.518,19           
-## 4 5.414,89           5.414,89            
-## 5 25.155,49          20.723,33           
-## 6 19.105,33          14.866,84</code></pre>
+<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+## 1:         1.924,95           1.857,90
+## 2:         4.046,19           4.046,19
+## 3:        30.305,13          24.518,19
+## 4:         5.414,89           5.414,89
+## 5:        25.155,49          20.723,33
+## 6:        19.105,33          14.866,84</code></pre>
 <p>Observe que o resultado do bloco de código anterior é uma tabela de seis linhas com duas colunas. Veja que ambas colunas estão marcadas como <strong>chr</strong>. Isso indica que o tipo de ambas colunas é texto e não numérico. Essa característica impede fazer operações aritméticas simples, tais como soma. Se tentarmos fazer a operação abaixo…</p>
-<pre><code>#tentativa de somar os rendimentos brutos 
-sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
-</code></pre>
+<pre class="r"><code># tentativa de somar os rendimentos brutos 
+# sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <p>… vamos receber a seguinte mensagem de erro gerada pelo R</p>
 <p><img src="data:image/png;base64,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" /></p>
-<p>O R não permitiu fazer soma dos valores de uma coluna numérica. Precisamos então tratar essas duas colunas. Primeiramente precisamos retirar os pontOs e vírgulas para deixar num formato que seja possível indicar ao R que as duas colunas são numéricas. Veja abaixo:</p>
+<p>O R não permitiu fazer soma dos valores de uma coluna numérica. Precisamos então tratar essas duas colunas. Primeiramente precisamos retirar os pontos e vírgulas para deixar num formato que seja possível indicar ao R que as duas colunas são numéricas. Veja abaixo:</p>
 <pre class="r"><code>#install.packages(&quot;stringr&quot;)
 library(stringr) # a função str_remove_all está na library stringr
-
 #a função mutate permite fazer alterações nos valores das colunas de uma tabela.
 #Nesse caso a função mutate vai fazer alterações nos valores da coluna `RENDIMENTOS BRUTO`
 #a função str_remove_all exclui partes de texto.
@@ -1579,98 +2618,87 @@ df_pensionistas_07_2020 &lt;-
       df_pensionistas_07_2020 %&gt;%
       mutate(`RENDIMENTO BRUTO` = str_remove_all(`RENDIMENTO BRUTO`,&quot;[.]&quot;),
              `RENDIMENTO BRUTO` = as.numeric(str_remove_all(`RENDIMENTO BRUTO`,&quot;,&quot;)))
-
 #no fim vamos repetir novamente a instrução do bloco anterior.
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##                &lt;dbl&gt; &lt;chr&gt;               
-## 1             192495 1.857,90            
-## 2             404619 4.046,19            
-## 3            3030513 24.518,19           
-## 4             541489 5.414,89            
-## 5            2515549 20.723,33           
-## 6            1910533 14.866,84</code></pre>
-<p>Observe que agora a cluna Rendimento Bruo não está mais marcada como <strong>chr</strong> e sim como <strong>dbl</strong> que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamso então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo</p>
+<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+## 1:           192495           1.857,90
+## 2:           404619           4.046,19
+## 3:          3030513          24.518,19
+## 4:           541489           5.414,89
+## 5:          2515549          20.723,33
+## 6:          1910533          14.866,84</code></pre>
+<p>Observe que agora a coluna “Rendimento Bruto” não está mais marcada como <strong>chr</strong> e sim como <strong>dbl</strong>, que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamos então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo:</p>
 <pre class="r"><code>#o novo valor da coluna rendimento bruto vai ser o valor que a coluna tem no momento divido por 100
 df_pensionistas_07_2020 &lt;-
       df_pensionistas_07_2020 %&gt;%
       mutate(`RENDIMENTO BRUTO` = `RENDIMENTO BRUTO`/100)
-
 #agora executamos novamente a exibição dos seis primeiros valores da tabela
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##                &lt;dbl&gt; &lt;chr&gt;               
-## 1              1925. 1.857,90            
-## 2              4046. 4.046,19            
-## 3             30305. 24.518,19           
-## 4              5415. 5.414,89            
-## 5             25155. 20.723,33           
-## 6             19105. 14.866,84</code></pre>
-<p>Perfeito. Agora temos o valor de rendimento bruto já transformado para numérico e está também com o valor correto. A coluna redimento líquido continua com problema. Temos que refazer todo o procedimento feiro em redimento bruto na coluna rendimento líquido. É isso o que é feito logo abaixo.</p>
+<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+## 1:          1924.95           1.857,90
+## 2:          4046.19           4.046,19
+## 3:         30305.13          24.518,19
+## 4:          5414.89           5.414,89
+## 5:         25155.49          20.723,33
+## 6:         19105.33          14.866,84</code></pre>
+<p>Perfeito. Agora temos o valor de rendimento bruto já transformado para numérico e está também com o valor correto. A coluna redimento líquido continua com problema. Temos que refazer todo o procedimento feito em redimento bruto na coluna rendimento líquido. É isso o que é feito logo abaixo.</p>
 <pre class="r"><code>df_pensionistas_07_2020 &lt;-
       df_pensionistas_07_2020 %&gt;%
       mutate(`RENDIMENTO LIQUIDO` = str_remove_all(`RENDIMENTO LIQUIDO`,&quot;[.]&quot;),
              `RENDIMENTO LIQUIDO` = as.numeric(str_remove_all(`RENDIMENTO LIQUIDO`,&quot;,&quot;)))
-
 df_pensionistas_07_2020 &lt;-
       df_pensionistas_07_2020 %&gt;%
       mutate(`RENDIMENTO LIQUIDO` = `RENDIMENTO LIQUIDO`/100)
-
 head(df_pensionistas_07_2020 %&gt;% 
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##                &lt;dbl&gt;                &lt;dbl&gt;
-## 1              1925.                1858.
-## 2              4046.                4046.
-## 3             30305.               24518.
-## 4              5415.                5415.
-## 5             25155.               20723.
-## 6             19105.               14867.</code></pre>
-<p>Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em Julho de 2020.</p>
+<pre><code>##    RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+## 1:          1924.95            1857.90
+## 2:          4046.19            4046.19
+## 3:         30305.13           24518.19
+## 4:          5414.89            5414.89
+## 5:         25155.49           20723.33
+## 6:         19105.33           14866.84</code></pre>
+<p>Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em julho de 2020.</p>
 <pre class="r"><code>#somatório do rendimento bruto
 sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <pre><code>## [1] 2404020856</code></pre>
 <pre class="r"><code>#somatório do rendimento líquido
 sum(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 <pre><code>## [1] 2009970612</code></pre>
-<p>Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas chaves para essa base.</p>
+<p>Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual é o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas para essa base.</p>
 </div>
 <div id="caracterização-dos-dados-de-pensionistas" class="section level2">
-<h2>Caracterização dos dados de pensionistas</h2>
+<h2>2.2) Caracterização dos dados de pensionistas</h2>
 <p>Uma das melhores feramentas para descobrirmos o que caracteriza os dados que esperamos analisar é a estatística descritiva. E antes que se assuste, aqui vamos falar de coisas que já usamos há muito tempo: contagem, média, valor máximo, valor mínimo, mediana e também ordenação de dados por valores.</p>
-<div id="contagem-de-ocorrências" class="section level3">
-<h3>Contagem de ocorrências</h3>
+</div>
+<div id="contagem-de-ocorrências" class="section level2">
+<h2>2.3) Contagem de ocorrências</h2>
 <p>A base de dados de pensionista é do tipo tabular. As bases tabulares são aquelas que se estruturam em linhas e colunas. A contagem de ocorrências em dados tabulares, nada mais é do que a indicação do número de linhas de uma tabela que se enquadram dentro de um determinado parâmetro.</p>
-<p>A tabela que estamos trabalhando refere-se às pensões que foram pagas em Julho de 2020. Para sabermos o número de pensões que se enquadram nessa característica basta contar o número de linhas da tabela. Veja o bloco de código abaixo.</p>
+<p>A tabela que estamos trabalhando se refere às pensões que foram pagas em julho de 2020. Para sabermos o número de pensões que se enquadram nessa característica basta contar o número de linhas da tabela. Veja o bloco de código abaixo.</p>
 <pre class="r"><code>#a função que indica o número de linhas de uma tabela á NROW. 
 NROW(df_pensionistas_07_2020)</code></pre>
 <pre><code>## [1] 295468</code></pre>
 <p>Utilizando o bloco de código acima descobrimos que 295.468 é o número de pensões pagas em Julho de 2020.</p>
-<p>Agora vamos ingainar que queremos saber se há mais pensionistas com pensõs temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é através do uso de filtros.</p>
+<p>Agora vamos imaginar que queremos saber se há mais pensionistas com pensõs temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é com o uso de filtros.</p>
 <pre class="r"><code>#A função filter indica ao R qual a condição de filtro que se deseja executar sobre a tabela.
 #No primeiro caso vamos filtrar todas as pensões cuja na ntureza ( campo Natureza Pensao) seja vitalícia
-
 NROW(df_pensionistas_07_2020%&gt;%
   filter(`NATUREZA PENSAO` == &quot;VITALICIA&quot;))</code></pre>
 <pre><code>## [1] 198063</code></pre>
-<pre class="r"><code>#FAzemos a mesma coisa agora com as pensões temporárias
+<pre class="r"><code>#Fazemos a mesma coisa agora com as pensões temporárias
 #Observe o operador ==  usado para fazer comparações de igualdade
-
 NROW(df_pensionistas_07_2020%&gt;%
   filter(`NATUREZA PENSAO` == &quot;TEMPORARIA&quot;))</code></pre>
 <pre><code>## [1] 97402</code></pre>
-<p>Observe no código acima que a função de contagem de linhas NROW não é mais aplicada a tabela completa, mas apenas ao resultado dos dois filtros sobre a tabela.</p>
-<p>Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobre das pensões temporárias.</p>
-<div id="valores-máximos-e-mínimos" class="section level4">
-<h4>Valores máximos e mínimos</h4>
+<p>Observe no código acima que a função de contagem de linhas NROW não é mais aplicada à tabela completa, mas apenas ao resultado dos dois filtros sobre a tabela.</p>
+<p>Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobro das pensões temporárias.</p>
+</div>
+<div id="valores-máximos-e-mínimos" class="section level2">
+<h2>2.4) Valores máximos e mínimos</h2>
 <p>É muito simples descobrir os valores máximos e mínimos de qualquer conjunto de dados usando o R. Veja o bloco de código abaixo para o caso do valor máximo.</p>
-<pre class="r"><code># Max A função para descobrir o valor máximo é 
-
+<pre class="r"><code># Max: a função para descobrir o valor máximo 
 #Logo abaixo temos o valor máximo de rendimento bruto
 max(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <pre><code>## [1] 650661.1</code></pre>
@@ -1678,15 +2706,16 @@ max(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 max(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 <pre><code>## [1] 650661.1</code></pre>
 <p>E aqui abaixo veja como descobrimos o valor mínimo</p>
-<pre class="r"><code># Max A função para descobrir o valor máximo é 
-
+<pre class="r"><code># Min: a função para descobrir o valor mínimo 
 #Logo abaixo temos o valor mínimo de rendimento bruto
 min(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <pre><code>## [1] 0</code></pre>
 <pre class="r"><code>#E aqui o valor mínimo de rendimento líquido
 min(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 <pre><code>## [1] 0</code></pre>
-<p>Observe que aparecem valores estranhos ao que esperaríamos. No caso do valor máximo, os rendimentos bruto e líquido são iguais e esperaríamos o bruto &gt; líquido. Já no caso de valor mínimo os valores estão zerados para ambas variáveis. Esse é um tipo de situação comum em ciência de dados: identificar ocorrência inesperadas que requerem maiores investigações e eventualmente faxina dos dados. Aqui vamos tentar ivestigar um pouco mais do que se tratam esses dados. Uma opcão interessante é usar o <strong>ordenamento de valores</strong> e descobrir mais informações que possam nos ajudar a tomar decisões sobre os dados.</p>
+<p>Observe que aparecem valores estranhos ao que esperaríamos. No caso do valor máximo, os rendimentos bruto e líquido são iguais e esperaríamos o bruto &gt; líquido.</p>
+<p>Já no caso de valor mínimo os valores estão zerados para ambas variáveis.</p>
+<p>Esse é um tipo de situação comum em ciência de dados: identificar ocorrência inesperadas que requerem maiores investigações e eventualmente faxina dos dados. Aqui vamos tentar investigar um pouco mais do que se tratam esses dados. Uma opção interessante é usar o <strong>ordenamento de valores</strong> e descobrir mais informações que possam nos ajudar a tomar decisões sobre os dados.</p>
 <p>Vamos começar ordenando os valores em ordem decrescente e capturando apenas as 10 primeiras linhas</p>
 <pre class="r"><code># a função slice_max vai nos trazer os n maiores valores de um conjunto de dados de acordo com uma variável que indicarmos.
 # no caso abaixo o n=10 (os dez maiores valores) da variável rendimento bruto
@@ -1694,19 +2723,28 @@ min(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 df_pensionistas_07_2020 %&gt;%
   slice_max(`RENDIMENTO BRUTO`,n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>## # A tibble: 10 x 3
-##    `NOME DO SERVIDOR INSTITUIDOR`          `RENDIMENTO BRUT~ `RENDIMENTO LIQUID~
-##    &lt;chr&gt;                                               &lt;dbl&gt;               &lt;dbl&gt;
-##  1 HEBER MARANHAO RODRIGUES                          650661.             650661.
-##  2 JOAO BATISTA ALVES NOVAES                         398633.             289414.
-##  3 JORGE VARGAS                                       97177.              43150.
-##  4 JOSE GERALDO RODRIGUES DE ALCKMIN                  92703.              45286.
-##  5 LAERTE NEPOMUCENO VIANNA                           89566.              60070.
-##  6 RAIMUNDO HOLANDA FARIAS                            80604.              54696.
-##  7 MOACYR CORREA NUNES                                79949.              52322.
-##  8 ALBERICO ALUCIO DE ALCANTARA VELHO BAR~            79805.              78725.
-##  9 ARMANDO LEITE ROLLEMBERG                           78222.              37438.
-## 10 CARLOS ANTONIO SOARES MEIRELLES                    77152.              53604.</code></pre>
+<pre><code>##                    NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO
+##  1:                    HEBER MARANHAO RODRIGUES        650661.11
+##  2:                   JOAO BATISTA ALVES NOVAES        398632.54
+##  3:                                JORGE VARGAS         97177.41
+##  4:           JOSE GERALDO RODRIGUES DE ALCKMIN         92702.98
+##  5:                    LAERTE NEPOMUCENO VIANNA         89566.19
+##  6:                     RAIMUNDO HOLANDA FARIAS         80604.34
+##  7:                         MOACYR CORREA NUNES         79949.35
+##  8: ALBERICO ALUCIO DE ALCANTARA VELHO BARRETTO         79804.95
+##  9:                    ARMANDO LEITE ROLLEMBERG         78222.43
+## 10:             CARLOS ANTONIO SOARES MEIRELLES         77152.36
+##     RENDIMENTO LIQUIDO
+##  1:          650661.11
+##  2:          289414.13
+##  3:           43150.15
+##  4:           45286.24
+##  5:           60069.66
+##  6:           54695.62
+##  7:           52322.36
+##  8:           78725.43
+##  9:           37437.94
+## 10:           53603.82</code></pre>
 <p>Como se vê, pode-se descartar problemas maiores na base já que da amostra dos 10 valores brutos mais elevados, apenas justamente o maior rendimento bruto tem valor igual ao maior rendimento líquido. Existem algumas possibilidades para que isso ocorra, mas pode ser um erro mesmo da base. O R nos ajudou aqui a descobrir com certa facilidade um ponto de investigação.</p>
 <p>Agora vamos tentar ver o que está por trás dos valor mínimo ser zerado. As próximas linhas de código tratam disso</p>
 <pre class="r"><code># a função slice_min vai nos trazer os n menores valores de um conjunto de dados de acordo com uma variável que indicarmos.
@@ -1715,48 +2753,41 @@ df_pensionistas_07_2020 %&gt;%
 df_pensionistas_07_2020 %&gt;%
   slice_min(`RENDIMENTO BRUTO`, n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>## # A tibble: 3,722 x 3
-##    `NOME DO SERVIDOR INSTITUIDOR`     `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##    &lt;chr&gt;                                           &lt;dbl&gt;                &lt;dbl&gt;
-##  1 MARIA RODRIGUES DA SILVA                            0                    0
-##  2 JOSE FRANCISCO DOS SANTOS                           0                    0
-##  3 WALTER PEREIRA PINTO                                0                    0
-##  4 FERNANDO ROCHA DA SILVA                             0                    0
-##  5 FRANCISCO MONTEIRO MENDES DA COSTA                  0                    0
-##  6 MAXIMINO OLIVEIRA DA SILVA                          0                    0
-##  7 ISAAC SIMINANKRU MARINHO XERENTE                    0                    0
-##  8 BENEVENUTO RIEDEL                                   0                    0
-##  9 RAIMUNDO SILVINO                                    0                    0
-## 10 RAIMUNDO SILVINO                                    0                    0
-## # ... with 3,712 more rows</code></pre>
-<p>Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: <strong>## # A tibble: 3,722 x 3</strong>. São mais de 3700 linhas a mais do que esperávamos. Isso se deve porque existem 3722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.</p>
+<pre><code>##             NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+##    1:           MARIA RODRIGUES DA SILVA                0                  0
+##    2:          JOSE FRANCISCO DOS SANTOS                0                  0
+##    3:               WALTER PEREIRA PINTO                0                  0
+##    4:            FERNANDO ROCHA DA SILVA                0                  0
+##    5: FRANCISCO MONTEIRO MENDES DA COSTA                0                  0
+##   ---                                                                       
+## 3718:          EDSON RIBEIRO DE OLIVEIRA                0                  0
+## 3719:          FRANCISCO PEREIRA BRANDAO                0                  0
+## 3720:         ITAMAR DOS SANTOS PINHEIRO                0                  0
+## 3721:              ALAMIRO DA CRUZ MALTA                0                  0
+## 3722:          SEVERINO FRANCO FERNANDES                0                  0</code></pre>
+<p>Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: <strong>## # A tibble: 3,722 x 3</strong>. São mais de 3.700 linhas a mais. Isso se deve porque existem 3.722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.</p>
 <pre class="r"><code>#nesse bloco de código, antes de descobrirmos os valores mínimos fazemos o filtro para que permaneçam na nossa análise apenas as linhas da tabela que tenham valor de rendimento bruto &gt;= 0.01. Para isso usamos a função filter
-
 df_pensionistas_07_2020 %&gt;%
   filter(`RENDIMENTO BRUTO`&gt;=0.01)%&gt;%
   slice_min(`RENDIMENTO BRUTO`, n=10) %&gt;%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)</code></pre>
-<pre><code>## # A tibble: 11 x 3
-##    `NOME DO SERVIDOR INSTITUIDOR`    `RENDIMENTO BRUTO` `RENDIMENTO LIQUIDO`
-##    &lt;chr&gt;                                          &lt;dbl&gt;                &lt;dbl&gt;
-##  1 &lt;NA&gt;                                             5.4                  5.4
-##  2 &lt;NA&gt;                                            16.0                 16.0
-##  3 JUSTO SEREHITE                                  17.8                 17.8
-##  4 &lt;NA&gt;                                            28.8                 28.8
-##  5 JOAO GUILHERME DA SILVA                         35.4                 35.4
-##  6 CARLOS ALBERTO DE LIMA PINTO                    45.6                 45.6
-##  7 FRANCISCO DE ASSIS DE SOUZA RAMOS               46.9                 39.9
-##  8 MIGUEL SILVA DE SOUZA                           54.5                 54.5
-##  9 NEWTON SALGADO                                  68.8                 68.8
-## 10 &lt;NA&gt;                                            69.4                 69.4
-## 11 &lt;NA&gt;                                            69.4                 69.4</code></pre>
-<p>Agora temos a informação no caminho que desejamos. Os dez menores rendimentos brutos são um pouco maior ou igual a mil reais. Podemos identificar três instituidores diferentes. Há ainda um valor ausente para a coluna instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.</p>
-</div>
-</div>
+<pre><code>##          NOME DO SERVIDOR INSTITUIDOR RENDIMENTO BRUTO RENDIMENTO LIQUIDO
+##  1:                                               5.40               5.40
+##  2:                                              15.97              15.97
+##  3:                    JUSTO SEREHITE            17.80              17.80
+##  4:                                              28.81              28.81
+##  5:           JOAO GUILHERME DA SILVA            35.43              35.43
+##  6:      CARLOS ALBERTO DE LIMA PINTO            45.58              45.58
+##  7: FRANCISCO DE ASSIS DE SOUZA RAMOS            46.92              39.89
+##  8:             MIGUEL SILVA DE SOUZA            54.49              54.49
+##  9:                    NEWTON SALGADO            68.77              68.77
+## 10:                                              69.40              69.40
+## 11:                                              69.40              69.40</code></pre>
+<p>Agora temos a informação no caminho que desejamos. Muito embora os valores ainda estejam muito baixos. Observe ainda que existem algumas linhas em que não há informação do servidor instituidor. Isso sugere uma tarefa de avaliação dos valores ausentes e tentar entender o que gera esses valores tão baixos para tomar decisão sobre o que fazer na faxina de dados. Mas isso é outro assunto. Por enquanto parece que está fácil de caracterizar os valores mínimos e máximos com as instruções que passamos até agora, que é o objetivo dessa seção.</p>
 </div>
 <div id="médias-e-medianas" class="section level2">
-<h2>Médias e medianas</h2>
-<p>A média e a mediana são conhecidas como medidas de centralidades na estatística. A funcão delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra.</p>
+<h2>2.5) Médias e medianas</h2>
+<p>A média e a mediana são conhecidas como medidas de centralidades na estatística. A função delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra.</p>
 <p>Vamos começar com o cálculo da média. Lembrando que essa medida é calculada pela somatória dos valores/número de valores. No bloco abaixo vamos conhecer o uso da média no R.</p>
 <pre class="r"><code># a função mean faz o cálculo da média
 # abaixo a média dos rendimentos brutos e dos rendimentos líquidos
@@ -1765,9 +2796,10 @@ mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <pre class="r"><code>mean(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
 <pre><code>## [1] 6802.668</code></pre>
 <p>Como era de se esperar a média dos valores de rendimento bruto é maior do que o rendimento líquido.</p>
-<p>Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados. Se temos por exemplo 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.</p>
-<pre class="r"><code># a função mean faz o cálculo da média
-# abaixo a média dos rendimentos brutos e dos rendimentos líquidos
+<p>Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados.</p>
+<p>Se temos, por exemplo, 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.</p>
+<pre class="r"><code># a função median faz o cálculo da média
+# abaixo a mediana dos rendimentos brutos e dos rendimentos líquidos
 median(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 <pre><code>## [1] 5799.02</code></pre>
 <pre class="r"><code>median(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)</code></pre>
@@ -1779,30 +2811,27 @@ median(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
 </ul>
 <p>Essas situações são relativamente comuns. É importante entender a dinãmica de formação desses valores e a distribuição dos valores para encontrar o que melhor caracteriza os dados, se a média ou mediana. Esse é um assunto importante e que deve ser melhor explorado. Aqui foge do objetivo dessa aula.</p>
 </div>
-<div id="trabalhando-as-colunas-da-tabela" class="section level2">
-<h2>3- Trabalhando as colunas da tabela</h2>
+</div>
+<div id="trabalhando-as-colunas-da-tabela" class="section level1">
+<h1>3. Trabalhando as colunas da tabela</h1>
 <p>Usando as funções do pacote tidyverse fica muito fácil de se trabalhar com colunas em tabelas do R. Às vezes é necessario alterar valores e tipos. E algumas vezes é também interessante acrescentar novas colunas que são formadas a partir de colunas já previamente existente. Vamos explorar um pouco essas possibildiades nesse bloco.</p>
-<div id="modificando-colunas-tipo-data" class="section level3">
-<h3>Modificando colunas tipo data</h3>
+<div id="modificando-colunas-tipo-data" class="section level2">
+<h2>3.1) Modificando colunas tipo data</h2>
 <p>Na seção anterior vimos como fazer modificações nas duas colunas relativas a valores numéricos. Outro tipo de variável que é bem comum fazermos modificações são as do tipo data. Na tabela que estamos trabalhando as datas estão em um formato pouco usual e que não é rapidamente reconhecida pelo R como data. Isso impede a possibilidade de se fazer operações de data que possam responder, por exemplo, qual a pensão mais antiga paga em Julho de 2020.</p>
 <p>Antes de prosseguirmos mostrando como se faz a transofrmação de variável tipo data, é interessante dar uma olhada em algumas amostras de datas para duas variáveis desse tipo.</p>
 <pre class="r"><code>head(df_pensionistas_07_2020%&gt;%
        select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO` ))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `DATA INICIO DO BENEFICIO` `DATA DE NASCIMENTO`
-##   &lt;chr&gt;                      &lt;chr&gt;               
-## 1 10021998                   18041951            
-## 2 25012016                   14011948            
-## 3 13102012                   18031954            
-## 4 20112012                   27111943            
-## 5 21082018                   10051935            
-## 6 26042000                   18041925</code></pre>
+<pre><code>##    DATA INICIO DO BENEFICIO DATA DE NASCIMENTO
+## 1:                 10021998           18041951
+## 2:                 25012016           14011948
+## 3:                 13102012           18031954
+## 4:                 20112012           27111943
+## 5:                 21082018           10051935
+## 6:                 26042000           18041925</code></pre>
 <p>Observe que as datas são formadas pela concatenação de dia, mês e ano. Por exemplo, na primeira linha a data 10021998 corresponde a 10/02/1998. O nosso objetivo é fazer uma transformação para que o R possa compreender que isso é uma data. Para o R uma data tem que estar no formato aaaa-mm-dd. No caso da data exemplificada essa data teria que ser representada como 1998-02-10.</p>
 <p>No bloco de código logo abaixo vamos ver como fazemos modificações em colunas</p>
 <pre class="r"><code>#para podermos usar as funções que facilitam o trabalho com datas é necessário usar o pacote lubridate. Lembre de instalá-lo antes, caso não esteja ainda instaldo, usando a função install.package()
 library(lubridate)
-
-
 #A função dmy indica que a variável que está sendo passada como parâmetro está no formato dia, mês, ano. Com essa informação o R é capaz de fazer a transformação e gerar a data correta
 df_pensionistas_07_2020&lt;-
 df_pensionistas_07_2020 %&gt;%
@@ -1811,135 +2840,146 @@ df_pensionistas_07_2020 %&gt;%
 head(
 df_pensionistas_07_2020%&gt;%
   select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO`))</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   `DATA INICIO DO BENEFICIO` `DATA DE NASCIMENTO`
-##   &lt;date&gt;                     &lt;date&gt;              
-## 1 1998-02-10                 1951-04-18          
-## 2 2016-01-25                 1948-01-14          
-## 3 2012-10-13                 1954-03-18          
-## 4 2012-11-20                 1943-11-27          
-## 5 2018-08-21                 1935-05-10          
-## 6 2000-04-26                 1925-04-18</code></pre>
+<pre><code>##    DATA INICIO DO BENEFICIO DATA DE NASCIMENTO
+## 1:               1998-02-10         1951-04-18
+## 2:               2016-01-25         1948-01-14
+## 3:               2012-10-13         1954-03-18
+## 4:               2012-11-20         1943-11-27
+## 5:               2018-08-21         1935-05-10
+## 6:               2000-04-26         1925-04-18</code></pre>
 <p>Observe agora que as duas datas que trabalhamos já estão no formato correto e podem ser usadas em operações típicas de data.</p>
 </div>
-</div>
-<div id="acresecentando-colunas-de-data" class="section level2">
-<h2>Acresecentando colunas de data</h2>
+<div id="acresecentando-colunas-derivadas-de-data" class="section level2">
+<h2>3.2) Acresecentando colunas derivadas de data</h2>
 <p>A partir das duas colunas que acabamos de fazer os ajustes, vamos criar duas novas colunas que indicam o tempo de recebimento da pensão e idade de beneficiário. Vamos ver como isso pode ser feito.</p>
 <pre class="r"><code># Para fazermos o cálculo das duas novas variáveis vamoos precisar usar mais duas  funções que estão no pacote lubridate que já foi carregado no bloco de códigos anterior. Essas funções são today e year
 # A função today informa a data de hoje
 # A função year informa o ano de uma determinada data
-
-
 df_pensionistas_07_2020&lt;- 
 df_pensionistas_07_2020 %&gt;%
   mutate(tempo_recebimento_pensao = year(today()) - year(`DATA INICIO DO BENEFICIO`)) %&gt;%
   mutate(idade_beneficario = year(today()) - year(`DATA DE NASCIMENTO`))
-
 df_pensionistas_07_2020 %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao, idade_beneficario)</code></pre>
-<pre><code>## # A tibble: 295,468 x 3
-##    `NOME DO BENEFICIARIO`           tempo_recebimento_pensao idade_beneficario
-##    &lt;chr&gt;                                               &lt;dbl&gt;             &lt;dbl&gt;
-##  1 CARMEN LUCINDA FARKAS DE ARAUJO                        22                69
-##  2 MARIA DE LOURDES DA SILVA                               4                72
-##  3 MARIZETE DIAS SOUZA                                     8                66
-##  4 MARGARIDA ALEXANDRIA                                    8                77
-##  5 MARIA JOSE PINTO LIMA                                   2                85
-##  6 MARIA AMELIA DE ARAUJO LIMA                            20                95
-##  7 ELI DA SILVA JORGE                                      2                85
-##  8 MARIA DO SOCORRO PESSOA DE SOUSA                        3                44
-##  9 DEIVID PEREIRA DE SOUSA                                 3                19
-## 10 GABRIEL PEREIRA DE SOUSA                                3                15
-## # ... with 295,458 more rows</code></pre>
+<pre><code>##                    NOME DO BENEFICIARIO tempo_recebimento_pensao
+##      1: CARMEN LUCINDA FARKAS DE ARAUJO                       22
+##      2:       MARIA DE LOURDES DA SILVA                        4
+##      3:             MARIZETE DIAS SOUZA                        8
+##      4:            MARGARIDA ALEXANDRIA                        8
+##      5:           MARIA JOSE PINTO LIMA                        2
+##     ---                                                         
+## 295464:    ALCIDINERIA DE ABREU MARQUES                        8
+## 295465:  SONIA MARIA ESTEVES DE ALMEIDA                       34
+## 295466:                 CELIA DE BARROS                       31
+## 295467:         ANDREA EMILIA DE BARROS                       31
+## 295468:               SOLANGE DE BARROS                       31
+##         idade_beneficario
+##      1:                69
+##      2:                72
+##      3:                66
+##      4:                77
+##      5:                85
+##     ---                  
+## 295464:                82
+## 295465:                68
+## 295466:                80
+## 295467:                54
+## 295468:                78</code></pre>
 <p>Aqui vale explorar um pouco mais o bloco de código logo acima. Começando pelo trecho abaixo</p>
 <pre><code>year(today())</code></pre>
 <p>Esse trecho vai trazer como resultado o ano <strong>[função year]</strong> referente à data de hoje <strong>[função today()]</strong></p>
 <p>Vamos analisar agora esse outro trecho de código</p>
 <pre><code>tempo_recebimento_pensao = year(today()) - year(`DATA INICIO DO BENEFICIO`)</code></pre>
-<p>aqui estamos calculando o intervalo em anos entre duas datas. No caso, a diferença entre o ano da data de hoje e a data do início do benefício</p>
-<p>Agora que ja temos a data de início do benefício podemos saber, por exemplo que são 10 beneficiários com os maiores tempos de benefício.</p>
+<p>Aqui estamos calculando o intervalo em anos entre duas datas. No caso, a diferença entre o ano da data de hoje e a data do início do benefício</p>
+<p>Agora que já temos a data de início do benefício, podemos saber, por exemplo, quem são os 10 beneficiários com os maiores tempos de benefício.</p>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(tempo_recebimento_pensao, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao)</code></pre>
-<pre><code>## # A tibble: 13 x 2
-##    `NOME DO BENEFICIARIO`            tempo_recebimento_pensao
-##    &lt;chr&gt;                                                &lt;dbl&gt;
-##  1 WANDA CARDOSO TOROK                                    107
-##  2 MARIA DE PAIVA GUSMAO                                  100
-##  3 ZILDA SAMPAIO ORSANO                                    99
-##  4 MARINA RITA ABRANCHES DE OLIVEIRA                       99
-##  5 ARMINDA SA STIEBLER                                     99
-##  6 OLINDA ROSA DE CARVALHO                                 98
-##  7 ISOLINA GONZAGA BENTES                                  97
-##  8 JURANDYR GOMES DA SILVA MELLO                           97
-##  9 LUIZA VASCONCELOS DE JESUS                              96
-## 10 CECILIA LINO MOREIRA                                    96
-## 11 LAURA MARIA BRANDAO                                     96
-## 12 MARIA CLEO VASCONCELOS SALEM                            96
-## 13 URBANA DOS PASSOS SOUZA                                 96</code></pre>
+<pre><code>##                  NOME DO BENEFICIARIO tempo_recebimento_pensao
+##  1:               WANDA CARDOSO TOROK                      107
+##  2:             MARIA DE PAIVA GUSMAO                      100
+##  3:              ZILDA SAMPAIO ORSANO                       99
+##  4: MARINA RITA ABRANCHES DE OLIVEIRA                       99
+##  5:               ARMINDA SA STIEBLER                       99
+##  6:           OLINDA ROSA DE CARVALHO                       98
+##  7:            ISOLINA GONZAGA BENTES                       97
+##  8:     JURANDYR GOMES DA SILVA MELLO                       97
+##  9:        LUIZA VASCONCELOS DE JESUS                       96
+## 10:              CECILIA LINO MOREIRA                       96
+## 11:               LAURA MARIA BRANDAO                       96
+## 12:      MARIA CLEO VASCONCELOS SALEM                       96
+## 13:           URBANA DOS PASSOS SOUZA                       96</code></pre>
 <p>Temos então a impressionante informação de que existem benefícios seculares. Se isso não for erro da base, dá uma boa dica de matéria, não é mesmo?</p>
 <p>E que tal agora descobrirmos os beneficiários mais velhos. Vamos seguir a mesma lógica do bloco de código anterior.</p>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(idade_beneficario, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, idade_beneficario)</code></pre>
-<pre><code>## # A tibble: 10 x 2
-##    `NOME DO BENEFICIARIO`        idade_beneficario
-##    &lt;chr&gt;                                     &lt;dbl&gt;
-##  1 DULCINA RIBEIRO                             120
-##  2 MERCEDES DA COSTA LOUREIRO                  118
-##  3 WILHERMINE LUEB HEIDEGGER                   117
-##  4 ALICE TAVARES DE OLIVEIRA                   117
-##  5 ANGELINA DINARDI                            116
-##  6 AMANDA GALVAO DE SA CAMPOS                  115
-##  7 ANNA DOS SANTOS DIAS                        115
-##  8 ALMERINDA FERRARI DE OLIVEIRA               115
-##  9 FRANCISCA LUIZA DE OLIVEIRA                 115
-## 10 LEONIRA FERREIRA DE MORAIS                  114</code></pre>
-<p>Novamente as informações que aparecem são de chamar muita atenção. a lista dos beneficários mais idosos são de super-centenários. De novo isso indica ou problema na base ou uma dica de matérias muito interessantes.</p>
+<pre><code>##              NOME DO BENEFICIARIO idade_beneficario
+##  1:               DULCINA RIBEIRO               120
+##  2:    MERCEDES DA COSTA LOUREIRO               118
+##  3:     WILHERMINE LUEB HEIDEGGER               117
+##  4:     ALICE TAVARES DE OLIVEIRA               117
+##  5:              ANGELINA DINARDI               116
+##  6:    AMANDA GALVAO DE SA CAMPOS               115
+##  7:          ANNA DOS SANTOS DIAS               115
+##  8: ALMERINDA FERRARI DE OLIVEIRA               115
+##  9:   FRANCISCA LUIZA DE OLIVEIRA               115
+## 10:    LEONIRA FERREIRA DE MORAIS               114</code></pre>
+<p>Novamente as informações que aparecem são de chamar muita atenção. A lista dos beneficários mais idosos são de super-centenários. De novo isso indica ou problema na base ou uma dica de matérias muito interessantes.</p>
 <p>Isso nos leva à curiosidade de fazer novas ordenações, levando agora em consideração as duas informações de tempo de benefício e idade do beneficiário no resultado da consulta.</p>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(idade_beneficario, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, idade_beneficario, tempo_recebimento_pensao)</code></pre>
-<pre><code>## # A tibble: 10 x 3
-##    `NOME DO BENEFICIARIO`        idade_beneficario tempo_recebimento_pensao
-##    &lt;chr&gt;                                     &lt;dbl&gt;                    &lt;dbl&gt;
-##  1 DULCINA RIBEIRO                             120                       53
-##  2 MERCEDES DA COSTA LOUREIRO                  118                       45
-##  3 WILHERMINE LUEB HEIDEGGER                   117                       NA
-##  4 ALICE TAVARES DE OLIVEIRA                   117                       73
-##  5 ANGELINA DINARDI                            116                       29
-##  6 AMANDA GALVAO DE SA CAMPOS                  115                       27
-##  7 ANNA DOS SANTOS DIAS                        115                       16
-##  8 ALMERINDA FERRARI DE OLIVEIRA               115                       NA
-##  9 FRANCISCA LUIZA DE OLIVEIRA                 115                       29
-## 10 LEONIRA FERREIRA DE MORAIS                  114                        7</code></pre>
+<pre><code>##              NOME DO BENEFICIARIO idade_beneficario tempo_recebimento_pensao
+##  1:               DULCINA RIBEIRO               120                       53
+##  2:    MERCEDES DA COSTA LOUREIRO               118                       45
+##  3:     WILHERMINE LUEB HEIDEGGER               117                       NA
+##  4:     ALICE TAVARES DE OLIVEIRA               117                       73
+##  5:              ANGELINA DINARDI               116                       29
+##  6:    AMANDA GALVAO DE SA CAMPOS               115                       27
+##  7:          ANNA DOS SANTOS DIAS               115                       16
+##  8: ALMERINDA FERRARI DE OLIVEIRA               115                       NA
+##  9:   FRANCISCA LUIZA DE OLIVEIRA               115                       29
+## 10:    LEONIRA FERREIRA DE MORAIS               114                        7</code></pre>
 <pre class="r"><code>#Aqui usamos novamente a função slice_mas para descobrir os N maiores valores de uma variável
 df_pensionistas_07_2020 %&gt;%
   slice_max(tempo_recebimento_pensao, n=10) %&gt;%
   select(`NOME DO BENEFICIARIO`, tempo_recebimento_pensao, idade_beneficario)</code></pre>
-<pre><code>## # A tibble: 13 x 3
-##    `NOME DO BENEFICIARIO`            tempo_recebimento_pensao idade_beneficario
-##    &lt;chr&gt;                                                &lt;dbl&gt;             &lt;dbl&gt;
-##  1 WANDA CARDOSO TOROK                                    107               107
-##  2 MARIA DE PAIVA GUSMAO                                  100               101
-##  3 ZILDA SAMPAIO ORSANO                                    99                98
-##  4 MARINA RITA ABRANCHES DE OLIVEIRA                       99               104
-##  5 ARMINDA SA STIEBLER                                     99               102
-##  6 OLINDA ROSA DE CARVALHO                                 98               101
-##  7 ISOLINA GONZAGA BENTES                                  97                99
-##  8 JURANDYR GOMES DA SILVA MELLO                           97               110
-##  9 LUIZA VASCONCELOS DE JESUS                              96               100
-## 10 CECILIA LINO MOREIRA                                    96                97
-## 11 LAURA MARIA BRANDAO                                     96                99
-## 12 MARIA CLEO VASCONCELOS SALEM                            96                96
-## 13 URBANA DOS PASSOS SOUZA                                 96                98</code></pre>
-<div id="acrescentando-colunas-resultadas-de-valores-numéricos" class="section level3">
-<h3>Acrescentando colunas resultadas de valores numéricos</h3>
-<p>Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescntar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.</p>
+<pre><code>##                  NOME DO BENEFICIARIO tempo_recebimento_pensao
+##  1:               WANDA CARDOSO TOROK                      107
+##  2:             MARIA DE PAIVA GUSMAO                      100
+##  3:              ZILDA SAMPAIO ORSANO                       99
+##  4: MARINA RITA ABRANCHES DE OLIVEIRA                       99
+##  5:               ARMINDA SA STIEBLER                       99
+##  6:           OLINDA ROSA DE CARVALHO                       98
+##  7:            ISOLINA GONZAGA BENTES                       97
+##  8:     JURANDYR GOMES DA SILVA MELLO                       97
+##  9:        LUIZA VASCONCELOS DE JESUS                       96
+## 10:              CECILIA LINO MOREIRA                       96
+## 11:               LAURA MARIA BRANDAO                       96
+## 12:      MARIA CLEO VASCONCELOS SALEM                       96
+## 13:           URBANA DOS PASSOS SOUZA                       96
+##     idade_beneficario
+##  1:               107
+##  2:               101
+##  3:                98
+##  4:               104
+##  5:               102
+##  6:               101
+##  7:                99
+##  8:               110
+##  9:               100
+## 10:                97
+## 11:                99
+## 12:                96
+## 13:                98</code></pre>
+</div>
+<div id="acrescentando-colunas-resultadas-de-valores-numéricos" class="section level2">
+<h2>3.3) Acrescentando colunas resultadas de valores numéricos</h2>
+<p>Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescentar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.</p>
 <pre class="r"><code>#para identificar as faixas salariais usamos duas funcões case_hwen e betewwem
 # a função case_when testa condições para identificar o valor que uma variável vai assumir.
 #No caso, a função case_when vai testar condições sobre a variável rendimento bruto para gerar o valor para a variável faixa_rendimento_bruto
@@ -1958,105 +2998,116 @@ df_pensionistas_07_2020 %&gt;%
   ) </code></pre>
 <p>Com a execução do bloco de código acima, a tabela já possui a informação da faixa de valores de rendimento bruto que será usada para tratamento de agrupamentos.</p>
 </div>
-<div id="acrescentando-colunas-de-outras-tabelas" class="section level3">
-<h3>Acrescentando colunas de outras tabelas</h3>
-<p>Uma das possiblidades interessantes de se trabalhar com linguagem de programação, especialmente o <strong>R </strong> é a facilidade de se fazer cruzamentos com outras tabelas.</p>
-<p>Vamos imaginar por exemplo que quermos identificar fenômenos que relacionem o recibimento de pensões a abertura de empresas. Paa isso vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas.</p>
+<div id="acrescentando-colunas-de-outras-tabelas" class="section level2">
+<h2>3.4) Acrescentando colunas de outras tabelas</h2>
+<p>Uma das possiblidades interessantes de se trabalhar com linguagem de programação, como o <strong>R</strong>, é a facilidade de se fazer cruzamentos com outras tabelas.</p>
+<p>Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no <a href="https://brasil.io/dataset/socios-brasil/socios/">Brasil.io</a>.</p>
+<pre class="r"><code>socio_amostra &lt;- readRDS(&quot;data/socio_amostra.rds&quot;)</code></pre>
 <pre class="r"><code>df_pensionistas_07_2020&lt;-
 df_pensionistas_07_2020 %&gt;%
   mutate( chave= str_c(`CPF DO BENEFICIARIO`, `NOME DO BENEFICIARIO`))
 
-
-
+df_Pensionista_socio&lt;-
 df_pensionistas_07_2020 %&gt;%
   inner_join(socio_amostra)</code></pre>
-<pre><code>## # A tibble: 339 x 43
-##    `NOME DO SERVID~ `CPF SERVIDOR I~ `DATA NASCIMENT~ `DATA FALECIMEN~
-##    &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
-##  1 PAULO DE ASSUNC~ ***756901**      13111953         29072011        
-##  2 JOSE DE FATIMA ~ ***978893**      14021944         19032010        
-##  3 THEREZINHA TOST~ ***257936**      13101937         14102012        
-##  4 VALTER SCHULZ    ***156509**      06111942         19102003        
-##  5 FLAVIO LHULLIER~ ***360750**      19091931         24082003        
-##  6 MARTHA LEMOS LE~ ***755417**      03031942         14042011        
-##  7 CYRO JUNQUEIRA ~ ***106936**      18031925         09032007        
-##  8 ROBERTO VELOCE   ***110868**      04051943         18012000        
-##  9 JOSE RODRIGUES ~ ***301425**      24121940         27112008        
-## 10 JURIMAR REBOUCA~ ***989186**      21081952         19082003        
-## # ... with 329 more rows, and 39 more variables: `MATRICULA SERVIDOR
-## #   INSTITUIDOR` &lt;dbl&gt;, `NOME DO ORGAO` &lt;chr&gt;, `SIGLA DO ORGAO` &lt;chr&gt;, `CODIGO
-## #   ORGAO SUPERIOR` &lt;dbl&gt;, `CARGO SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NIVEL
-## #   ESCOLARIDADE CARGO` &lt;chr&gt;, `CLASSE SERVIDOR INSTITUIDOR` &lt;chr&gt;, `PADRAO
-## #   SERVIDOR INSTITUIDOR` &lt;chr&gt;, `REFERENCIA SERVIDOR INSTITUIDOR` &lt;chr&gt;,
-## #   `NIVEL SERVIDOR INSTITUIDOR` &lt;chr&gt;, `OCORRENCIA DE INGRESSO NO SERVICO
-## #   PUBLICO SERVIDOR INSTITUIDOR` &lt;chr&gt;, `DATA DE OCORRENCIA DE INGRESSO NO
-## #   SERVICO PUBLICO SERVIDOR INSTITUIDOR` &lt;chr&gt;, `NOME DO BENEFICIARIO` &lt;chr&gt;,
-## #   `CPF DO BENEFICIARIO` &lt;chr&gt;, `DATA DE NASCIMENTO` &lt;date&gt;, `UF DA UPAG DE
-## #   VINCULACAO` &lt;chr&gt;, `TIPO DE BENEFICIARIO` &lt;chr&gt;, `TIPO PENSAO` &lt;chr&gt;,
-## #   `NATUREZA PENSAO` &lt;chr&gt;, `DATA INICIO DO BENEFICIO` &lt;date&gt;, `DATA FIM DO
-## #   BENEFICIO` &lt;chr&gt;, `RENDIMENTO BRUTO` &lt;dbl&gt;, `RENDIMENTO LIQUIDO` &lt;dbl&gt;,
-## #   `PAGAMENTO SUSPENSO` &lt;chr&gt;, X29 &lt;lgl&gt;, tempo_recebimento_pensao &lt;dbl&gt;,
-## #   idade_beneficario &lt;dbl&gt;, faixa_rendimento_bruto &lt;chr&gt;, chave &lt;chr&gt;,
-## #   cnpj &lt;chr&gt;, identificador_de_socio &lt;dbl&gt;, nome_socio &lt;chr&gt;,
-## #   cnpj_cpf_do_socio &lt;chr&gt;, codigo_qualificacao_socio &lt;chr&gt;,
-## #   percentual_capital_social &lt;dbl&gt;, data_entrada_sociedade &lt;date&gt;,
-## #   cpf_representante_legal &lt;lgl&gt;, nome_representante_legal &lt;lgl&gt;,
-## #   codigo_qualificacao_representante_legal &lt;lgl&gt;</code></pre>
+<p>Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensionistas que foram localizadas numa tabela que tem 300.000 CPFs ligados a alguma sociedade de empresa. Um exercício interessante a ser feito aqui é tentar diferenciar o grupo dos pensionistas sócios do conjunto total dos pensionistas em Julho de 2020. Vamos comparar, por exemplo, a média dos rendimentos brutos e líquidos</p>
+<pre class="r"><code>mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)</code></pre>
+<pre><code>## [1] 8136.315</code></pre>
+<pre class="r"><code>mean(df_Pensionista_socio$`RENDIMENTO BRUTO`)</code></pre>
+<pre><code>## [1] 11305.28</code></pre>
+<pre class="r"><code>mean(df_pensionistas_07_2020$idade_beneficario, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 69.21876</code></pre>
+<pre class="r"><code>mean(df_Pensionista_socio$idade_beneficario, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 69.87021</code></pre>
+<pre class="r"><code>mean(df_pensionistas_07_2020$tempo_recebimento_pensao, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 20.67559</code></pre>
+<pre class="r"><code>mean(df_Pensionista_socio$tempo_recebimento_pensao, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 16.32153</code></pre>
+<p>Observando o que sai nas nas seis linhas de código acima, parece que as médias de rendimento bruto de pensionistas que são sócios é bem maior do que a mesma média do conjunto total. Já quando se vê a comparação das idades dos beneficiários não há praticamente diferença nas médias. Por outro lado volta a ter diferença nas médias quando se compara o tempo de recebimento das pensões.</p>
 </div>
 </div>
-<div id="baixando-os-dados" class="section level2">
-<h2>Baixando os dados</h2>
-<p>Os arquivos são disponibilizados por mês no portal <a href="http://dados.gov.br/dataset/gestao-de-pessoas-executivo-federal-pensionistas">dados.gov.br</a> em formato CSV. Também há um dicionário de dados em formato PDF.</p>
-<p>Para esta análise, vamos usar os arquivos de <em>junho de 2019</em> e <em>junho de 2020</em>.</p>
-<p>No trecho de código abaixo vamos nos focar primeiramente em Junho/2019</p>
-<pre><code>library(readr)
-#na linguagem de programação R toda linha que começa com # é vista como comentário
-
-#primeiramente vamos fazer o download da base de dados de junho/2019
-
-a_ano&lt;- 2019    
-address&lt;- paste0(&quot;http://repositorio.dados.gov.br/segrt/pensionistas/&quot;, a_ano, &quot;.zip&quot;)
-
-download.file(address, destfile = paste0(&quot;data/&quot;, a_ano,&quot;.zip&quot;),   mode=&quot;wb&quot;)
-    
-    
-    
-unzip(paste0(&quot;data/&quot;, a_ano,&quot;.zip&quot;), exdir = &quot;data&quot;)
-
-
-a_ano&lt;- 2019    
-a_mes &lt;- &quot;06&quot;
-gz_gile&lt;-paste0(&quot;data/&quot;, a_ano, &quot;/PENSIONISTAS_&quot;, a_mes, a_ano, &quot;.csv.gz&quot;)
-    
-    
-df_pensionista&lt;- read_delim(gzfile(gz_gile), 
-                                &quot;;&quot;, escape_double = FALSE,  
-                                trim_ws = TRUE, locale = locale(encoding = &quot;LATIN1&quot;))
-</code></pre>
-<p>O endereço onde está o arquivo de junho de 2019 é o que segue logo abaixo</p>
-<p><a href="http://repositorio.dados.gov.br/segrt/pensionistas/2019.zip" class="uri">http://repositorio.dados.gov.br/segrt/pensionistas/2019.zip</a></p>
-<p>Veja que estamos na verdade querendo fazer download de um arquivo compactado para o ano de 2019. Nesse arquivo haverá os dados para todos os meses incluinod Junho de 2019.</p>
-<p>Veja agora o endereço para baixar, por exemplo, os dados de 2018.</p>
-<p><a href="http://repositorio.dados.gov.br/segrt/pensionistas/2018.zip" class="uri">http://repositorio.dados.gov.br/segrt/pensionistas/2018.zip</a></p>
-<p>Se compararmos os dois endereços veremos que a única coisa que os diferencia é a indicação do ano no endereço.</p>
-<p>Isso é bem importante já que muitas vezes os pesquisadores, jornalistas e outros pesquisadores vão querer baixar vários anos e para isso seria interessante o menor esforço humano/computacional possível. Veremos no código abaixo como podemos tirar proveito dessa formação do endereço.</p>
-<pre class="r"><code>#antes de tudo, sabia que toda linha que começa com # é entendido como comentário e não é executado pelo R
-
-#na linha abaixo estamos iniciando uma variável. através das variáveis fazemos operações em linguagens de programação
-#nesse caso a variável é ano e vou indicar um valor a ela, no caso, 2019, que é o ano que nos interessa fazer o download
-v_ano&lt;- &quot;2019&quot;
-#essa variável vai ser usada para formar o texto que define o endereço que vai ser feito o download.
-
-#no R as operaçoes são feitas através de função. A função abaixo, paste0, cola três textos em sequência.
-#O primeiro texto colado é o início comum do endereço para download de todas as bases que nos interessam: &quot;http://repositorio.dados.gov.br/segrt/pensionistas/&quot;
-#observe as aspas. No R os textos têm que estar entre aspas duplas (&quot;texto&quot;) ou aspas simples (&#39;texto&#39;).
-#o segundo texto que é colado na sequência é variável v_ano que contém o ano que vamos fazer o download, nesse caso, como já visto, 1999.
-#por fim o terceiro texto colado é &quot;.zip&quot; que termina assim o endereço do download
-#O texto concatenado é atribuído à variável address. 
-address&lt;- paste0(&quot;http://repositorio.dados.gov.br/segrt/pensionistas/&quot;, v_ano, &quot;.zip&quot;)</code></pre>
-<p>Agora que temos o endereço de onde baixar os dados, o próximo passo é fazer o download. O trecho de código abaixo vai fazer isso</p>
-<pre><code># a função abaixo faz o download. Usa o endereço que está na variável address para baixar o arquivo. Quando o arquivo for finalmente baixado, ele vai estar presente no endereço determinado na variável destifle que é passada na função download.file
-download.file(address, destfile = paste0(&quot;data/&quot;, v_ano,&quot;.zip&quot;),   mode=&quot;wb&quot;)</code></pre>
+<div id="agrupando-e-filtrando-dados" class="section level1">
+<h1>4. Agrupando e filtrando dados</h1>
+<div id="agrupar-por-órgão" class="section level2">
+<h2>4.1) Agrupar por órgão</h2>
+<p>Agora vamos fazer algo parecido com a tabela dinâmica do Excel / Google Spreadsheet. Para agrupar os dados usamos <code>group_by()</code> e informamos por qual coluna queremos agrupar.</p>
+<p>Em seguida, o <code>summarise()</code> - ou <code>summarize()</code> - vai contar o número de linhas, com <code>n()</code>. E também vai somar os valores da coluna “RENDIMENTO BRUTO”, com <code>sum()</code>.</p>
+<pre class="r"><code>pens_orgao &lt;- df_pensionistas_07_2020 %&gt;%
+  group_by(`NOME DO ORGAO`) %&gt;%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="agrupar-por-tipo-de-beneficiário" class="section level2">
+<h2>4.2) Agrupar por tipo de beneficiário</h2>
+<p>A única diferença em comparação com o código anterior é a coluna informada em <code>group_by()</code>.</p>
+<pre class="r"><code>pens_beneficiario &lt;- df_pensionistas_07_2020 %&gt;%
+  group_by(`TIPO DE BENEFICIARIO`) %&gt;%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="agrupar-por-tipo-de-pensão-vitalícia-temporária" class="section level2">
+<h2>4.3) Agrupar por tipo de pensão (vitalícia, temporária)</h2>
+<p>Novamente, só vamos mudar a coluna informada dentro de <code>group_by()</code>.</p>
+<pre class="r"><code>pens_tipo &lt;- df_pensionistas_07_2020 %&gt;%
+  group_by(`NATUREZA PENSAO`) %&gt;%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="agrupar-por-uf" class="section level2">
+<h2>4.4) Agrupar por UF</h2>
+<p>Mudamos apenas a coluna informada dentro de <code>group_by()</code>.</p>
+<pre class="r"><code>pens_uf &lt;- df_pensionistas_07_2020 %&gt;%
+  group_by(`UF DA UPAG DE VINCULACAO`) %&gt;%
+  summarise(contagem = n(),
+            soma = sum(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="filtrar-por-órgão-e-ver-quem-ganha-mais" class="section level2">
+<h2>4.5) Filtrar por órgão e ver quem ganha mais</h2>
+<pre class="r"><code>pens_orgao_MS &lt;- df_pensionistas_07_2020 %&gt;%
+  filter(`NOME DO ORGAO` == &quot;MINISTERIO DA SAUDE&quot;) %&gt;%
+  arrange(desc(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="filtrar-por-órgão-e-cargo-e-ver-quem-ganha-mais" class="section level2">
+<h2>4.6) Filtrar por órgão e cargo e ver quem ganha mais</h2>
+<pre class="r"><code>pens_cargo_MS_MEDICO &lt;- df_pensionistas_07_2020 %&gt;%
+  filter(`NOME DO ORGAO` == &quot;MINISTERIO DA SAUDE&quot; &amp;
+           `CARGO SERVIDOR INSTITUIDOR` == &quot;MEDICO&quot;) %&gt;%
+  arrange(desc(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+<div id="filtrar-por-três-órgãos-e-ver-quem-ganha-mais" class="section level2">
+<h2>4.7) Filtrar por três órgãos e ver quem ganha mais</h2>
+<pre class="r"><code>pens_cargo_MS_ME_MCTIC &lt;- df_pensionistas_07_2020 %&gt;%
+  filter(`SIGLA DO ORGAO` == &quot;MS&quot; |
+         `SIGLA DO ORGAO` == &quot;ME&quot; |
+         `SIGLA DO ORGAO` == &quot;MCTIC&quot;) %&gt;%
+  arrange(desc(`RENDIMENTO BRUTO`))</code></pre>
+</div>
+</div>
+<div id="baixando-e-salvandos-os-dados" class="section level1">
+<h1>5 Baixando e salvandos os dados</h1>
+<p>Conforme já dito logo no início, os dados que estamso trabalhando estão disponíveis na internet. Vamos ver como podemos usar o R para baixar esses dados para seu ambiente computacional. Também vamos ver como salvar o rabalho que você fez em arquivo csv para ser aproveitado em outros usos que não seja a partir da linguagem R e por fim você vai prender a ler vários arquivos CSVs.</p>
+<div id="download-do-dataframe" class="section level2">
+<h2>5.1) Download do dataframe</h2>
+<p>É muito simples fazer o download de um arquivo csv. Basta uma única instrução. Veja abaixo.</p>
+<pre class="r"><code># A função downloadfile vai fazer o download a partir de um endereço de internet especificado e acrescentar o arquivo numa pasta de destino informada
+download.file(&quot;http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip&quot;, destfile = &quot;data/PENSIONISTAS_072020.zip&quot;,   mode=&quot;wb&quot;)</code></pre>
+<p>Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato csv. Veja abaixo como fazer isso.</p>
+<pre class="r"><code>unzip(zipfile = &quot;data/PENSIONISTAS_072020.ZIP&quot;, exdir = &quot;data/csv&quot;)</code></pre>
+</div>
+<div id="salvando-o-trabalho" class="section level2">
+<h2>5.2) Salvando o trabalho</h2>
+<pre><code>write.csv(pens_cargo_MS_ME_MCTIC, &quot;pens_cargo_MS_ME_MCTIC.csv&quot;)</code></pre>
+</div>
+<div id="leitura-de-vários-csvs" class="section level2">
+<h2>5.3) Leitura de vários CSVs</h2>
+<p>Os arquivos CSVs de 2020 estão em pasta zipada: <a href="https://drive.google.com/file/d/1ix-VpE0aGmEOEZwN07VaXKs24AN5FMsn/view?usp=sharing" class="uri">https://drive.google.com/file/d/1ix-VpE0aGmEOEZwN07VaXKs24AN5FMsn/view?usp=sharing</a></p>
+<pre class="r"><code>list.files(&quot;data&quot;)</code></pre>
+<pre><code>## [1] &quot;2019&quot;                    &quot;2019.zip&quot;               
+## [3] &quot;csv&quot;                     &quot;julho2020.rds&quot;          
+## [5] &quot;PENSIONISTAS_072020.csv&quot; &quot;PENSIONISTAS_072020.zip&quot;
+## [7] &quot;socio.rds&quot;               &quot;socio_amostra.rds&quot;</code></pre>
+<pre class="r"><code>list.dirs(&quot;data&quot;)</code></pre>
+<pre><code>## [1] &quot;data&quot;      &quot;data/2019&quot; &quot;data/csv&quot;</code></pre>
 </div>
 </div>
 
