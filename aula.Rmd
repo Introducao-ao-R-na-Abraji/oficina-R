@@ -132,36 +132,29 @@ length(colnames(df_pensionistas_07_2020))
 
 ## 1.12) Renomeação de cabeçalho 
 
-A função `rename()` nos permite renomear o cabeçalho.
+A função `rename()` nos permite renomear alguma coluna do cabeçalho.
 Outra função interessante para isso é `clean_names()`, do pacote `janitor`.
 
 ```{r}
+df_pensionistas_07_2020_novo <- df_pensionistas_07_2020 %>%
+  rename("servidor_instituidor" = "NOME DO SERVIDOR INSTITUIDOR")
+
+df_pensionistas_07_2020_novo <- df_pensionistas_07_2020 %>%
+  janitor::clean_names()
 
 ```
 
-## 1.13) Caixas baixa e alta
+## 1.13) Outras funções úteis
 
-As funções `toupper()` e `tolower()` colocam o texto em letra maiúscula e minúscula.
+As funções `toupper()` e `tolower()` colocam o texto em letra maiúscula e minúscula. 
 
-```{r}
-
-```
-
-## 1.14) Remoção de acentos
-
-A função `rm_accent()` do pacote `abjutils` elimina o acento dos textos.
-
-```{r}
-
-```
-
-## 1.15) Remoção de sujeiras
+Já a função `rm_accent()` do pacote `abjutils` elimina o acento do texto.
 
 A função `str_trim()` elimina espaços excedentes antes e depois do texto.
 
-```{r}
+A função `distinct()` ajuda a eliminar e identificar duplicatas.
 
-```
+As funções `separate()` e `unite()` separam e unem colunas com base no separador indicado.
 
 # 2. Caracterização dos dados
 
@@ -177,12 +170,8 @@ Observa-se ainda que mesmo para essas operações mais simples é muito frequent
 
 Isso ocorre quando fazemos importações de dados e elementos como vírgula e ponto que são interpretados pelo R como parte de um texto e não de um número. Isso faz com que o dado não possa ser usado em operações aritméticas simples como soma, por exemplo.
 
-Veja abaixo as seis primeiras informações de rendimento bruto e rendimento líquido da tabela com os dados de pensionistas de julho de 2020
+Veja abaixo as seis primeiras informações de rendimento bruto e rendimento líquido da tabela com os dados de pensionistas de julho de 2020.
 ```{r}
-#para executar as linhas abaixo, é necessário carregar a library tidyverse. 
-# se houver erro ao executar a função library(tidyverse), instale o pacote, para isso descomente a linha logo abaixo e execute a instalação do pacote tidyverse
-#install.packages("tidyverse")
-library(tidyverse) 
 #a função head traz informações relacionadas às seis primeiras linhas de uma tabela
 #o símbolo pipe %>% indica ao r que desejamos fazer alguma operação sobre a tabela.
 #nesse caso a operação que desejamos fazer é a seleção das colunas Rendimento Bruto e Rendimento Líquido
@@ -204,7 +193,7 @@ Observe que o resultado do bloco de código anterior é uma tabela de seis linha
 
 ![](image/erro_sum.PNG)
 
-O R não permitiu fazer soma dos valores de uma coluna numérica. Precisamos então tratar essas duas colunas. Primeiramente precisamos retirar os pontOs e vírgulas para deixar num formato que seja possível indicar ao R que as duas colunas são numéricas. Veja abaixo:
+O R não permitiu fazer soma dos valores de uma coluna numérica. Precisamos então tratar essas duas colunas. Primeiramente precisamos retirar os pontos e vírgulas para deixar num formato que seja possível indicar ao R que as duas colunas são numéricas. Veja abaixo:
 
 ```{r}
 #install.packages("stringr")
@@ -225,7 +214,7 @@ head(df_pensionistas_07_2020 %>%
 
 ```
 
-Observe que agora a cluna Rendimento Bruo não está mais marcada como **chr** e sim como **dbl** que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamso então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo
+Observe que agora a coluna "Rendimento Bruto" não está mais marcada como **chr** e sim como **dbl**, que é um tipo numérico. Obseve ainda que se compararmos os valores de rendimento bruto antes e após a transformação veremos que o valor está 100 vezes maior. Isso decorre pelo fato de termos retirado a notação da vírgula. Precisamos então dividir a coluna por 100 para recuperarmos o valor correto. Veja abaixo:
 
 ```{r}
 #o novo valor da coluna rendimento bruto vai ser o valor que a coluna tem no momento divido por 100
@@ -238,7 +227,7 @@ head(df_pensionistas_07_2020 %>%
          select(`RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`))
 ```
 
-Perfeito. Agora temos o valor de rendimento bruto já transformado para numérico e está também com o valor correto. A coluna redimento líquido continua com problema. Temos que refazer todo o procedimento feiro em redimento bruto na coluna rendimento líquido. É isso o que é feito logo abaixo.
+Perfeito. Agora temos o valor de rendimento bruto já transformado para numérico e está também com o valor correto. A coluna redimento líquido continua com problema. Temos que refazer todo o procedimento feito em redimento bruto na coluna rendimento líquido. É isso o que é feito logo abaixo.
 
 ```{r}
 df_pensionistas_07_2020 <-
@@ -255,7 +244,7 @@ head(df_pensionistas_07_2020 %>%
 
 ```
 
-Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em Julho de 2020.
+Agora que as duas colunas já estão no formato correto, podemos calcular o total de rendimento bruto e de rendimento líquido pago processados em julho de 2020.
 
 ```{r}
 #somatório do rendimento bruto
@@ -265,7 +254,7 @@ sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 sum(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 ```
 
-Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas chaves para essa base.
+Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual é o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas para essa base.
 
 
 ## 2.2) Caracterização dos dados de pensionistas
@@ -276,7 +265,7 @@ Uma das melhores feramentas para descobrirmos o que caracteriza os dados que esp
 
 A base de dados de pensionista é do tipo tabular. As bases tabulares são aquelas que se estruturam em linhas e colunas. A contagem de ocorrências em dados tabulares, nada mais é do que a indicação do número de linhas de uma tabela que se enquadram dentro de um determinado parâmetro.
 
-A tabela que estamos trabalhando refere-se às pensões que foram pagas em Julho de 2020. Para sabermos o número de pensões que se enquadram nessa característica basta contar o número de linhas da tabela. Veja o bloco de código abaixo.
+A tabela que estamos trabalhando se refere às pensões que foram pagas em julho de 2020. Para sabermos o número de pensões que se enquadram nessa característica basta contar o número de linhas da tabela. Veja o bloco de código abaixo.
 
 ```{r}
 #a função que indica o número de linhas de uma tabela á NROW. 
@@ -285,7 +274,7 @@ NROW(df_pensionistas_07_2020)
 
 Utilizando o bloco de código acima descobrimos que 295.468 é o número de pensões pagas em Julho de 2020.
 
-Agora vamos ingainar que queremos saber se há mais pensionistas com pensõs temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é através do uso de filtros.
+Agora vamos imaginar que queremos saber se há mais pensionistas com pensõs temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é com o uso de filtros.
 
 ```{r}
 #A função filter indica ao R qual a condição de filtro que se deseja executar sobre a tabela.
@@ -294,26 +283,24 @@ Agora vamos ingainar que queremos saber se há mais pensionistas com pensõs tem
 NROW(df_pensionistas_07_2020%>%
   filter(`NATUREZA PENSAO` == "VITALICIA"))
 
-#FAzemos a mesma coisa agora com as pensões temporárias
+#Fazemos a mesma coisa agora com as pensões temporárias
 #Observe o operador ==  usado para fazer comparações de igualdade
 
 NROW(df_pensionistas_07_2020%>%
   filter(`NATUREZA PENSAO` == "TEMPORARIA"))
 
-
-
 ```
 
-Observe no código acima que a função de contagem de linhas NROW não é mais aplicada a tabela completa, mas apenas ao resultado dos dois filtros sobre a tabela. 
+Observe no código acima que a função de contagem de linhas NROW não é mais aplicada à tabela completa, mas apenas ao resultado dos dois filtros sobre a tabela. 
 
-Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobre das pensões temporárias.
+Com a contagem das linhas dos dois filtros temos que o número de pensões vitalícias corresponde a quase o dobro das pensões temporárias.
 
 #### 2.4) Valores máximos e mínimos
 
 É muito simples descobrir os valores máximos e mínimos de qualquer conjunto de dados usando o R. Veja o bloco de código abaixo para o caso do valor máximo.
 
 ```{r}
-# Max A função para descobrir o valor máximo é 
+# Max: a função para descobrir o valor máximo 
 
 #Logo abaixo temos o valor máximo de rendimento bruto
 max(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
@@ -327,7 +314,7 @@ E aqui abaixo veja como descobrimos o valor mínimo
 
 ```{r}
 
-# Max A função para descobrir o valor máximo é 
+# Min: a função para descobrir o valor mínimo 
 
 #Logo abaixo temos o valor mínimo de rendimento bruto
 min(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
@@ -337,7 +324,11 @@ min(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 
 ```
 
-Observe que aparecem valores estranhos ao que esperaríamos. No caso do valor máximo, os rendimentos bruto e líquido são iguais e esperaríamos o bruto > líquido. Já no caso de valor mínimo os valores estão zerados para ambas variáveis. Esse é um tipo de situação comum em ciência de dados: identificar ocorrência inesperadas que requerem maiores investigações e eventualmente faxina dos dados. Aqui vamos tentar ivestigar um pouco mais do que se tratam esses dados. Uma opcão interessante é usar o **ordenamento de valores** e descobrir mais informações que possam nos ajudar a tomar decisões sobre os dados.
+Observe que aparecem valores estranhos ao que esperaríamos. No caso do valor máximo, os rendimentos bruto e líquido são iguais e esperaríamos o bruto > líquido. 
+
+Já no caso de valor mínimo os valores estão zerados para ambas variáveis. 
+
+Esse é um tipo de situação comum em ciência de dados: identificar ocorrência inesperadas que requerem maiores investigações e eventualmente faxina dos dados. Aqui vamos tentar investigar um pouco mais do que se tratam esses dados. Uma opção interessante é usar o **ordenamento de valores** e descobrir mais informações que possam nos ajudar a tomar decisões sobre os dados.
 
 Vamos começar ordenando os valores em ordem decrescente e capturando apenas as 10 primeiras linhas
 
@@ -363,7 +354,7 @@ df_pensionistas_07_2020 %>%
   select(`NOME DO SERVIDOR INSTITUIDOR`, `RENDIMENTO BRUTO`, `RENDIMENTO LIQUIDO`)
 ```
 
-Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: **## # A tibble: 3,722 x 3**. São mais de 3700 linhas a mais do que esperávamos. Isso se deve porque existem 3722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.
+Observe que o R indica que o resultado do código é uma tabela com o número de linhas bem maior do que esperávamos: **## # A tibble: 3,722 x 3**. São mais de 3.700 linhas a mais do que esperávamos. Isso se deve porque existem 3.722 linhas em que o valor de rendimento bruto = 0. Esse achado sugere que o valor mínimo da base bruta não caracteriza por si só os menores valores de rendimento bruto ou de rendimento líquido. É preciso retirar da nossa análise essas linhas para chegarmos a valores mais apropriados. Vamos ver como se faz isso no bloco de código abaixo.
 
 ```{r}
 #nesse bloco de código, antes de descobrirmos os valores mínimos fazemos o filtro para que permaneçam na nossa análise apenas as linhas da tabela que tenham valor de rendimento bruto >= 0.01. Para isso usamos a função filter
@@ -378,7 +369,7 @@ Agora temos a informação no caminho que desejamos. Os dez menores  rendimentos
 
 ## 2.5) Médias e medianas
 
-A média e a mediana são conhecidas como medidas de centralidades na estatística. A funcão delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra. 
+A média e a mediana são conhecidas como medidas de centralidades na estatística. A função delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra.
 
 Vamos começar com o cálculo da média. Lembrando que essa medida é calculada pela somatória dos valores/número de valores. No bloco abaixo vamos conhecer o uso da média no R.
 
@@ -391,7 +382,9 @@ mean(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 
 Como era de se esperar a média dos valores de rendimento bruto é maior do que o rendimento líquido. 
 
-Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados. Se temos por exemplo 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.
+Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados. 
+
+Se temos, por exemplo, 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.
 
 ```{r}
 # a função median faz o cálculo da média
@@ -479,9 +472,9 @@ Vamos analisar agora esse outro trecho de código
 tempo_recebimento_pensao = year(today()) - year(`DATA INICIO DO BENEFICIO`)
 ```
 
-aqui estamos calculando o intervalo em anos entre duas datas. No caso, a diferença entre o ano da data de hoje e a data do início do benefício
+Aqui estamos calculando o intervalo em anos entre duas datas. No caso, a diferença entre o ano da data de hoje e a data do início do benefício
 
-Agora que ja temos a data de início do benefício podemos saber, por exemplo que são 10 beneficiários com os maiores tempos de benefício.
+Agora que já temos a data de início do benefício, podemos saber, por exemplo, quem são os 10 beneficiários com os maiores tempos de benefício.
 
 ```{r}
 
@@ -503,7 +496,7 @@ df_pensionistas_07_2020 %>%
   select(`NOME DO BENEFICIARIO`, idade_beneficario)
 ```
 
-Novamente  as informações que aparecem são de chamar muita atenção. a lista dos beneficários mais idosos são de super-centenários. De novo isso indica ou problema na base ou uma dica de matérias muito interessantes.
+Novamente  as informações que aparecem são de chamar muita atenção. A lista dos beneficários mais idosos são de super-centenários. De novo isso indica ou problema na base ou uma dica de matérias muito interessantes.
 
 Isso nos leva à curiosidade de fazer novas ordenações, levando agora em consideração as duas informações de tempo de benefício e idade do beneficiário no resultado da consulta.
 
@@ -524,7 +517,7 @@ df_pensionistas_07_2020 %>%
 
 ### 3.3) Acrescentando colunas resultadas de valores numéricos
 
-Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescntar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.
+Vimos o ganho de análises quando acrescentamos novas colunas a partir de infomações de data. Agora vamos acrescentar uma outra coluna, faixa de rendimento bruto, que no caso será de tratamento de coluna de valor numérico.
 
 ```{r}
 #para identificar as faixas salariais usamos duas funcões case_hwen e betewwem
@@ -547,14 +540,11 @@ df_pensionistas_07_2020 %>%
 
 Com a execução do bloco de código acima, a tabela já possui a informação da faixa de valores de rendimento bruto que será usada para tratamento de agrupamentos.
 
-
-
 ### 3.4) Acrescentando colunas de outras tabelas
 
-Uma das possiblidades interessantes de se trabalhar com linguagem de programação, especialmente o **R ** é a facilidade de se fazer cruzamentos com outras tabelas.
+Uma das possiblidades interessantes de se trabalhar com linguagem de programação, como o **R**, é a facilidade de se fazer cruzamentos com outras tabelas.
 
-Vamos imaginar por exemplo que quermos identificar fenômenos que relacionem o recibimento de pensões a abertura de empresas. Paa isso vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas.
-
+Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no [Brasil.io](https://brasil.io/dataset/socios-brasil/socios/).
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
@@ -577,13 +567,11 @@ df_pensionistas_07_2020 %>%
 
 ```
 
-
 # 4. Agrupando e filtrando dados
 
 ## 4.1) Agrupar por órgão
 
-Agora vamos fazer algo parecido com a tabela dinâmica do Excel / Google Spreadsheet.
-Para agrupar os dados usamos `group_by()` e informar por qual coluna queremos agrupar. 
+Agora vamos fazer algo parecido com a tabela dinâmica do Excel / Google Spreadsheet. Para agrupar os dados usamos `group_by()` e informamos por qual coluna queremos agrupar. 
 
 Em seguida, o `summarise()` - ou `summarize()` - vai contar o número de linhas, com `n()`. E também vai somar os valores da coluna "RENDIMENTO BRUTO", com `sum()`.
 
