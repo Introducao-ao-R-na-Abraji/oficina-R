@@ -12,7 +12,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message =  FALSE)
-
 ```
 
 
@@ -175,7 +174,7 @@ O uso da linguagem de programação R permite uma grande diversidade de análise
 
 É necessário destacar, no entanto, que no começo de tudo há a necessidade de se conhecer o melhor possível o dado que se tem em mão. Aí é comum o uso de operações de estatística descritiva como mínimo valor, máximo valor, média e mediana, por exemplo.
 
-Observa-se ainda que mesmo para essas operações mais simples é muito frequente a necessiddade de se fazer alguns ajustes para que os dados possam ser corretamente utilizados. Nessa seção vamos fazer alguns exercícios básicos de ajuste do dado e em seguida vamos usar alguns roteiros para caracterização básica dos dados de pensionsitas.
+Observa-se ainda que mesmo para essas operações mais simples é muito frequente a necessiddade de se fazer alguns ajustes para que os dados possam ser corretamente utilizados. Nessa seção vamos fazer alguns exercícios de ajuste do dado e em seguida vamos usar alguns roteiros para caracterização básica dos dados de pensionsitas.
 
 ## 2.1) Um primeiro ajuste nos dados
 
@@ -257,7 +256,7 @@ sum(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 sum(df_pensionistas_07_2020$`RENDIMENTO LIQUIDO`)
 ```
 
-Com isso já temos repostas a duas perguntas que podem ser interessantes de ser respondidas quando se trata dos dados de pensionistas. Considerando o último mês disponível qual é o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro. Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas para essa base.
+Com isso já temos repostas a uma pergunta que podem interessar quando se trata dos dados de pensionistas: **considerando o último mês disponível, qual é o total de rendimentos líquido e bruto pagos pelo governo federal brasileiro?** Vamos ver em seguida algumas funções de estatística descritiva que ajudam na formulação da resposta a outras perguntas para essa base.
 
 
 ## 2.2) Caracterização dos dados de pensionistas
@@ -277,7 +276,7 @@ NROW(df_pensionistas_07_2020)
 
 Utilizando o bloco de código acima descobrimos que 295.468 é o número de pensões pagas em Julho de 2020.
 
-Agora vamos imaginar que queremos saber se há mais pensionistas com pensõs temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é com o uso de filtros.
+Agora vamos imaginar que queremos saber se há mais pensionistas com pensões temporárias ou vitalícias. Existem algumas formas de se fazer isso. Por enquanto vamos explicar a mais simples que é com o uso de filtros.
 
 ```{r}
 #A função filter indica ao R qual a condição de filtro que se deseja executar sobre a tabela.
@@ -335,7 +334,7 @@ df_pensionistas_07_2020 %>%
 
 Como se vê, pode-se descartar problemas maiores na base já que da amostra dos 10 valores brutos mais elevados, apenas justamente o maior rendimento bruto tem valor igual ao maior rendimento líquido. Existem algumas possibilidades para que isso ocorra, mas pode ser um erro mesmo da base. O R nos ajudou aqui a descobrir com certa facilidade um ponto de investigação.
 
-Agora vamos tentar ver o que está por trás dos valor mínimo ser zerado. As próximas linhas de código tratam disso
+Agora vamos tentar ver o que está por trás dos valores mínimos zerados. As próximas linhas de código tratam disso
 
 ```{r}
 # a função slice_min vai nos trazer os n menores valores de um conjunto de dados de acordo com uma variável que indicarmos.
@@ -360,7 +359,7 @@ Agora temos a informação no caminho que desejamos. Muito embora os valores ain
 
 ## 2.5) Médias e medianas
 
-A média e a mediana são conhecidas como medidas de centralidades na estatística. A função delas é caracterizar um conjunto de dados a partir do que fosse mais comum do dado. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra.
+A média e a mediana são conhecidas como medidas de centralidade na estatística. A função delas é caracterizar um conjunto de dados. É importante conhecer as duas medidas já que em algumas situações uma pode ser mais recomendada que a outra.
 
 Vamos começar com o cálculo da média. Lembrando que essa medida é calculada pela somatória dos valores/número de valores. No bloco abaixo vamos conhecer o uso da média no R.
 
@@ -375,7 +374,7 @@ Como era de se esperar a média dos valores de rendimento bruto é maior do que 
 
 Agora vamos ver o cálculo da mediana. Antes, vale recordar que a mediana é uma medida de posição. É o valor que fica no meio de uma série de valores ordenados. 
 
-Se temos, por exemplo, 11 valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.
+Se temos, por exemplo, onze valores numéricos, ordenamos esses valores e a mediana será o valor que ficar na posição 6, já que teremos cinco valores maiores e cinco valores menores do que o que está na posição 6.
 
 ```{r}
 # a função median faz o cálculo da média
@@ -400,14 +399,14 @@ Usando as funções do pacote tidyverse fica muito fácil de se trabalhar com co
 
 Na seção anterior vimos como fazer modificações nas duas colunas relativas a valores numéricos. Outro tipo de variável que é bem comum fazermos modificações são as do tipo data. Na tabela que estamos trabalhando as datas estão em um formato pouco usual e que não é rapidamente reconhecida pelo R como data. Isso impede a possibilidade de se fazer operações de data que possam responder, por exemplo, qual a pensão mais antiga paga em Julho de 2020.
 
-Antes de prosseguirmos mostrando como se faz a transofrmação de variável tipo data, é interessante dar uma olhada em algumas amostras de datas para duas variáveis desse tipo.
+Antes de prosseguirmos mostrando como se faz a transformação de variável tipo data, é interessante dar uma olhada em algumas amostras de datas para duas variáveis desse tipo.
 
 ```{r}
 head(df_pensionistas_07_2020%>%
        select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO` ))
 ```
 
-Observe que as datas são formadas pela concatenação de dia, mês e ano. Por exemplo, na primeira linha a data 10021998 corresponde a 10/02/1998. O nosso objetivo é fazer uma transformação para que o R possa compreender que isso é uma data. Para o R uma data tem que estar no formato aaaa-mm-dd. No caso da data exemplificada essa data teria que ser representada como 1998-02-10.
+Observe que as datas são formadas pela concatenação de dia, mês e ano. Por exemplo, na primeira linha a data 10021998 corresponde a 10/02/1998. O nosso objetivo é fazer uma transformação para que o R possa compreender que isso é uma data. Para o R uma data tem que estar no formato **aaaa-mm-dd**. No caso da data exemplificada essa data teria que ser representada como 1998-02-10.
 
 No bloco de código logo abaixo vamos ver como fazemos modificações em colunas 
 
@@ -424,7 +423,7 @@ df_pensionistas_07_2020%>%
   select(`DATA INICIO DO BENEFICIO`, `DATA DE NASCIMENTO`))
 ```
 
-Observe agora que as duas datas que trabalhamos já estão no formato correto e  podem ser usadas em operações típicas de data.
+Observe agora que as duas datas que trabalhamos já estão no formato correto e podem ser usadas em operações típicas de data.
 
 ## 3.2) Acresecentando colunas derivadas de data
 
@@ -529,16 +528,22 @@ Uma das possiblidades interessantes de se trabalhar com linguagem de programaç�
 Vamos imaginar, por exemplo, que queremos identificar fenômenos que relacionem o recebimento de pensões à abertura de empresas. Para isso, vamos cruzar a tabela de pensionistas com a tabela de sócios de empresas, disponível no [Brasil.io](https://brasil.io/dataset/socios-brasil/socios/).
 
 ```{r}
-
+#A função ReadDS permite ao R trabalhar com objetos já trabalhados em outras sessões de uso da linguagem
 socio_amostra <- readRDS("data/socio_amostra.rds")
 ```
 
 
 ```{r}
+
+#Para que se possa trabalhar a junção de duas tabelas, é recomendável que ambas tabelas tenham uma coluna com o mesmo nome, tipo e significado. Nesse caso a tabela socio_amostra possui uma coluna chamada chave que é composta pela junção do CPF e do nome do beneficiário. Vamos então criar uma nova coluna na tabela de pensionistas que estamos trabalhando que vai ter exatamente essas mesmas características. Para isso, usamos a função mutate.
+
+
 df_pensionistas_07_2020<-
 df_pensionistas_07_2020 %>%
   mutate( chave= str_c(`CPF DO BENEFICIARIO`, `NOME DO BENEFICIARIO`))
 
+
+#Após garantirmos que as duas tabelas têm um campo em comum usamos a função inner_join que vai juntar a tabela df_pensionistas_07_2020 com a tabela socio_amostra. O resultado dessa junção é armazenado numa nova tabela: df_Pensionista_socio
 df_Pensionista_socio<-
 df_pensionistas_07_2020 %>%
   inner_join(socio_amostra)
@@ -547,17 +552,19 @@ df_pensionistas_07_2020 %>%
 
 Acabamos de criar uma outra tabela com 300 linhas que apresentam todas os pensionistas que foram localizadas numa tabela que tem 300.000 CPFs ligados a alguma sociedade de empresa. Um exercício interessante a ser feito aqui é tentar diferenciar o grupo dos pensionistas sócios do conjunto total dos pensionistas em julho de 2020. Vamos comparar, por exemplo, a média dos rendimentos brutos e líquidos.
 
+
 ```{r}
+#Comparação de médias de rencimentos bruntos
 mean(df_pensionistas_07_2020$`RENDIMENTO BRUTO`)
 mean(df_Pensionista_socio$`RENDIMENTO BRUTO`)
 
+#Comparação de médias de idade de beneficiário
 mean(df_pensionistas_07_2020$idade_beneficario, na.rm = TRUE)
 mean(df_Pensionista_socio$idade_beneficario, na.rm = TRUE)
 
+#Comparação de médias de tempo de rendimento de pensão
 mean(df_pensionistas_07_2020$tempo_recebimento_pensao, na.rm = TRUE)
 mean(df_Pensionista_socio$tempo_recebimento_pensao, na.rm = TRUE)
-
-
 ```
 
 Observando o que sai nas nas seis linhas de código acima, parece que as médias de rendimento bruto de pensionistas que são sócios é bem maior do que a mesma média do conjunto total. Já quando se vê a comparação das idades dos beneficiários não há praticamente diferença nas médias. Por outro lado volta a ter diferença nas médias quando se compara o tempo de recebimento das pensões.
@@ -660,7 +667,6 @@ Conforme já dito logo no início, os dados com que estamos trabalhando estão d
 ```{r}
 # A função downloadfile vai fazer o download a partir de um endereço de internet especificado e acrescentar o arquivo numa pasta de destino informada
 download.file("http://repositorio.dados.gov.br/segrt/pensionistas/PENSIONISTAS_072020.zip", destfile = "data/PENSIONISTAS_072020.zip", mode="wb")
-
 ```
 
 Você vai observar na pasta destino que esse arquivo veio zipado. Isso vai dificultar a maior parte dos trabalhos que queiramos fazer com o arquivo. O mais interessnate é descompactá-lo e em seguida trabalhar com o formato CSV. Veja abaixo como fazer isso.
@@ -712,5 +718,4 @@ Caso queira entrar em contato, nós estamos disponíveis aqui:
 
 Gabriela Caesar - [Twitter](https://twitter.com/gabrielacaesar) / [Site](https://www.gabrielacaesar.com/)                           
 Fernando Barbalho - [Twitter](https://twitter.com/barbalhofernand)                
-
 
