@@ -1553,7 +1553,8 @@ library(abjutils)</code></pre>
 </div>
 <div id="importar-o-arquivo-manualmente" class="section level2">
 <h2>1.7) Importar o arquivo manualmente</h2>
-<p>Há diversas formas de importar um arquivo para o RStudio. Uma das formas mais simples é: - Clique em “File”<br />
+<p>Há diversas formas de importar um arquivo para o RStudio. Uma das formas mais simples é: <br />
+- Clique em “File”<br />
 - Clique em “Import Dataset”<br />
 - Clique em “From text (base)”<br />
 - Selecione o arquivo<br />
@@ -1565,7 +1566,8 @@ library(abjutils)</code></pre>
 <p>Agora, vamos importar o arquivo apenas informar onde ele está e qual é o nome dele. Neste caso, optamos por usar a função <code>fread()</code> do pacote <code>data.table</code>.</p>
 <pre class="r"><code># df_pensionistas_07_2020 &lt;- fread(&quot;data/PENSIONISTAS_072020.csv&quot;)
 df_pensionistas_07_2020 &lt;- readRDS(&quot;data/julho2020.rds&quot;)</code></pre>
-<p>Se quisermos, podemos tambem informar ainda: - a codificação do arquivo (encoding)<br />
+<p>Se quisermos, podemos tambem informar ainda: <br />
+- a codificação do arquivo (encoding)<br />
 - o separador das colunas (sep)<br />
 - o número de linhas que queremos ler (nrows)<br />
 - quais colunas queremos ler (colnames)<br />
