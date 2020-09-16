@@ -2,7 +2,7 @@
 
 ##### Este repositório reúne os códigos da oficina 'Introdução ao R', preparada para o [2º Domingo com Dados](https://www.abraji.org.br/noticias/abraji-abre-inscricoes-para-2o-domingo-de-dados), organizado pela Associação Brasileira de Jornalismo Investigativo (Abraji). Os códigos foram criados por Gabriela Caesar, jornalista de dados no G1, e Fernando Barbalho, cientista de dados no Tesouro Nacional.  
 
-##### O evento é online e gratuito e ocorrerá em 13 de setembro de 2020. A inscrição pode ser feita [neste link](https://congresse.me/eventos/ddadosabraji).
+##### O evento foi online e gratuito e ocorreu em 13 de setembro de 2020. O vídeo fica disponível na plataforma até 12 de outubro, e a inscrição pode ser feita [neste link](https://congresse.me/eventos/ddadosabraji).
 
 ##### LINK da oficina: [https://introducao-ao-r-na-abraji.github.io/oficina-R/](https://introducao-ao-r-na-abraji.github.io/oficina-R/)
 
